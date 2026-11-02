@@ -1,15 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useMotionValueEvent, useReducedMotion } from 'framer-motion';
-import { List, X, CalendarCheck, ArrowUpRight } from '@phosphor-icons/react';
+import { List, X, ArrowUpRight } from './icons';
 import Logo from './Logo';
 import siteData from '../data/site.json';
 
 const NAV_LINKS = [
   { label: 'Home', href: '#home' },
-  { label: 'Why Us', href: '#about-page' },
-  { label: 'Our Services', href: '#services-page' },
-  { label: 'Success Stories', href: '#blog-page' },
-  { label: 'Gallery', href: '#gallery-page' },
+  { label: 'Why AI Tutor', href: '#about' },
+  { label: 'Subjects', href: '#services' },
 ];
 
 export default function Navbar() {
@@ -24,20 +22,13 @@ export default function Navbar() {
     setScrolled(latest > 32);
   });
 
-  // Sync active nav item with URL hash and page location
   useEffect(() => {
     const updateActiveItem = () => {
       const hash = window.location.hash;
-      const path = window.location.pathname;
-
-      if (hash === '#about-page' || hash === '#/about' || path === '/about' || hash === '#about') {
-        setActive('Why Us');
-      } else if (hash === '#gallery-page' || hash === '#/gallery' || path === '/gallery') {
-        setActive('Gallery');
-      } else if (hash === '#blog-page' || hash === '#/blog' || path === '/blog' || hash === '#blog') {
-        setActive('Success Stories');
-      } else if (hash === '#services' || hash === '#services-page' || hash === '#/services' || path === '/services') {
-        setActive('Our Services');
+      if (hash === '#about') {
+        setActive('Why AI Tutor');
+      } else if (hash === '#services') {
+        setActive('Subjects');
       } else {
         setActive('Home');
       }
@@ -52,7 +43,7 @@ export default function Navbar() {
     };
   }, []);
 
-  // Lock body scroll while the mobile menu is open
+  // Lock body scroll while mobile menu is open
   useEffect(() => {
     document.body.classList.toggle('no-scroll', menuOpen);
     return () => document.body.classList.remove('no-scroll');
@@ -65,7 +56,7 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color,padding] duration-500 ease-premium ${scrolled
-        ? 'bg-ink/80 backdrop-blur-xl border-b border-white/[0.07] py-3'
+        ? 'bg-[#0A0A0B]/85 backdrop-blur-xl border-b border-white/[0.08] py-3'
         : 'bg-transparent border-b border-transparent py-5'
         }`}
     >
@@ -74,8 +65,8 @@ export default function Navbar() {
         <a href="#home" className="group flex items-center gap-2.5 sm:gap-3" aria-label={`${siteData.name} — home`}>
           <Logo className="h-9 w-9 text-chalk transition-transform duration-500 ease-premium group-hover:scale-105 sm:h-10 sm:w-10" />
           <span className="flex flex-col leading-none">
-            <span className="font-display text-[15px] font-semibold tracking-tight text-chalk sm:text-base">Dr. Anubhuti</span>
-            <span className="mt-1 font-sans text-[9px] font-medium uppercase tracking-[0.22em] text-ash sm:text-[10px]">Advanced Dental Care</span>
+            <span className="font-display text-[15px] font-semibold tracking-tight text-chalk sm:text-base">AI Tutor</span>
+            <span className="mt-1 font-sans text-[9px] font-medium uppercase tracking-[0.22em] text-ash sm:text-[10px]">Intelligent Learning</span>
           </span>
         </a>
 
@@ -91,7 +82,7 @@ export default function Navbar() {
               >
                 {link.label}
                 <span
-                  className={`absolute -bottom-2 left-0 h-px w-full origin-left bg-chalk/70 transition-transform duration-300 ease-premium ${active === link.label ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                  className={`absolute -bottom-2 left-0 h-px w-full origin-left bg-indigo-500 transition-transform duration-300 ease-premium ${active === link.label ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                 />
               </a>
@@ -99,14 +90,14 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Right cluster */}
+        {/* Right CTA */}
         <div className="flex items-center gap-2 sm:gap-3">
           <a
-            href="#contact"
-            className="group hidden h-10 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light border border-gold-light/60 px-3.5 font-sans shadow-[0_6px_24px_rgba(255,255,255,0.2)] transition-all duration-300 ease-premium hover:scale-[1.03] hover:shadow-[0_10px_30px_rgba(255,255,255,0.35)] hover:from-gold-light hover:to-gold-dark active:scale-95 cursor-pointer sm:inline-flex"
+            href="#about"
+            className="group hidden h-10 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 px-4 font-sans text-white shadow-[0_4px_20px_rgba(99,102,241,0.3)] transition-all duration-300 ease-premium hover:scale-[1.03] hover:shadow-[0_8px_30px_rgba(99,102,241,0.45)] active:scale-95 cursor-pointer sm:inline-flex"
           >
-            <span className="whitespace-nowrap text-[11px] font-extrabold uppercase tracking-[0.06em] text-forest-dark">{siteData.bookButtonLabel || 'Book Appointment'}</span>
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-forest-dark/20 text-forest-dark transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+            <span className="whitespace-nowrap text-[12px] font-semibold tracking-wide">{siteData.bookButtonLabel || 'Start Learning Free'}</span>
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
               <ArrowUpRight size={13} weight="bold" />
             </span>
           </a>
@@ -131,7 +122,7 @@ export default function Navbar() {
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         className="overflow-hidden lg:hidden"
       >
-        <ul className="flex flex-col gap-1 border-t border-white/[0.07] bg-ink/95 px-6 pb-6 pt-4 backdrop-blur-xl">
+        <ul className="flex flex-col gap-1 border-t border-white/[0.07] bg-[#0A0A0B]/95 px-6 pb-6 pt-4 backdrop-blur-xl">
           {NAV_LINKS.map((link, i) => (
             <li key={link.label}>
               <a
@@ -151,12 +142,12 @@ export default function Navbar() {
           ))}
           <li className="pt-5">
             <a
-              href="#contact"
+              href="#about"
               onClick={() => setMenuOpen(false)}
-              className="group flex w-full h-12 items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light border border-gold-light/60 px-6 font-sans shadow-[0_8px_32px_rgba(255,255,255,0.2)] transition-all duration-300 ease-premium hover:scale-105 hover:shadow-[0_12px_40px_rgba(255,255,255,0.35)] hover:from-gold-light hover:to-gold-dark active:scale-95 cursor-pointer"
+              className="group flex w-full h-12 items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 px-6 font-sans text-white shadow-[0_8px_32px_rgba(99,102,241,0.3)] transition-all duration-300 ease-premium hover:scale-105 active:scale-95 cursor-pointer"
             >
-              <span className="whitespace-nowrap text-xs font-extrabold uppercase tracking-[0.12em] text-forest-dark">{siteData.bookButtonLabel || 'Book Appointment'}</span>
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-forest-dark/20 text-forest-dark transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+              <span className="whitespace-nowrap text-xs font-semibold tracking-wide">{siteData.bookButtonLabel || 'Start Learning Free'}</span>
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 <ArrowUpRight size={14} weight="bold" />
               </span>
             </a>
@@ -164,7 +155,7 @@ export default function Navbar() {
         </ul>
       </motion.div>
 
-      {/* Backdrop for outside-click dismissal on mobile */}
+      {/* Backdrop */}
       {menuOpen && (
         <div
           onClick={() => setMenuOpen(false)}

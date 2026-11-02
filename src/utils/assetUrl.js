@@ -1,4 +1,4 @@
-// Build version timestamp for cache-busting CMS static assets
+// Build version timestamp for cache-busting static assets
 export const BUILD_VERSION = "1.0.1";
 
 /**

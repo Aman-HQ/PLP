@@ -1,34 +1,10 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { WhatsappLogo, InstagramLogo, FacebookLogo, ArrowRight } from '@phosphor-icons/react';
+import { ArrowRight } from './icons';
 import Logo from './Logo';
-import Img from './Img';
 import footerData from '../data/footer.json';
 import siteData from '../data/site.json';
 
 const EASE = [0.16, 1, 0.3, 1];
-
-// Background for the CTA band.
-const CTA_BG = '/footer/dental.png';
-const CTA_FALLBACK =
-  'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1600&q=80';
-
-function JustdialIcon({ size = 20, className = "" }) {
-  return (
-    <span
-      className={`font-sans font-black tracking-tight leading-none uppercase ${className}`}
-      style={{ fontSize: `${Math.max(10, size * 0.55)}px` }}
-    >
-      JD
-    </span>
-  );
-}
-
-const SOCIALS = [
-  { label: 'WhatsApp', icon: WhatsappLogo, href: `https://wa.me/${siteData.whatsappPhone || '918076601314'}` },
-  { label: 'Instagram', icon: InstagramLogo, href: siteData.socialLinks?.instagram || 'https://www.instagram.com/dr.anubhutig' },
-  { label: 'Facebook', icon: FacebookLogo, href: siteData.socialLinks?.facebook || 'https://www.facebook.com/dranubhutiguptamds' },
-  { label: 'Justdial', icon: JustdialIcon, href: siteData.socialLinks?.justdial || 'https://www.justdial.com/Bareilly/Dr--Anubhuti-Advanced-Dental-Care/9999PX581-X581-210419162518-Y3K4_BZDET' },
-];
 
 export default function Footer() {
   const reduceMotion = useReducedMotion();
@@ -41,174 +17,98 @@ export default function Footer() {
   const quickLinks = footerData.quickLinks || [];
 
   return (
-    <footer className="relative w-full">
-      {/* CTA band */}
-      <div className="relative flex min-h-[36vh] sm:min-h-[52vh] items-center overflow-hidden bg-black">
-        <Img
-          src={CTA_BG}
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          onError={(e) => {
-            if (e.currentTarget.src !== CTA_FALLBACK) e.currentTarget.src = CTA_FALLBACK;
-          }}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-        {/* Black gradient: darker at top, image visible in the middle, fading to pure black at the bottom */}
-        <div className="absolute inset-0 bg-black/35" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/20 to-black" />
+    <footer className="relative w-full border-t border-white/[0.08] bg-[#0A0A0B]">
+      {/* CTA Band */}
+      <div className="relative flex min-h-[30vh] sm:min-h-[38vh] items-center overflow-hidden bg-gradient-to-b from-[#0E0E12] via-[#0A0A0B] to-[#0A0A0B]">
+        {/* Glow */}
+        <div className="absolute left-1/2 top-0 h-48 w-96 -translate-x-1/2 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none" />
 
         <motion.div
           variants={fade}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.05 }}
-          className="relative z-10 mx-auto max-w-3xl px-5 py-14 text-center sm:px-8 sm:py-20"
+          className="relative z-10 mx-auto max-w-3xl px-5 py-14 text-center sm:px-8 sm:py-16"
         >
-          <h2 className="font-serif text-2xl font-medium leading-snug text-white sm:text-4xl md:text-5xl">
+          <h2 className="font-display text-2xl font-bold leading-snug text-white sm:text-4xl">
             {footerData.ctaTitle}
           </h2>
-          <p className="mx-auto mt-4 max-w-xl font-sans text-sm font-light leading-relaxed text-white/80 sm:mt-6 sm:text-base">
+          <p className="mx-auto mt-3 max-w-xl font-sans text-sm font-light leading-relaxed text-chalk/75 sm:mt-4 sm:text-base">
             {footerData.ctaSubtitle}
           </p>
-          <div className="mt-7 sm:mt-9 flex justify-center">
+          <div className="mt-6 flex justify-center">
             <a
-              href={footerData.ctaButtonLink || '#contact'}
-              className="group inline-flex items-center gap-2.5 rounded-full border border-white/40 px-7 py-3 sm:px-8 sm:py-3.5 font-sans text-xs sm:text-[12px] font-semibold uppercase tracking-[0.18em] text-white transition-all duration-500 ease-premium hover:border-gold hover:bg-gold hover:text-forest-dark active:scale-[0.98]"
+              href={footerData.ctaButtonLink || '#about'}
+              className="group inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 px-7 py-3 font-sans text-xs font-semibold tracking-wide text-white shadow-[0_4px_24px_rgba(99,102,241,0.3)] transition-all duration-300 ease-premium hover:scale-[1.03] hover:shadow-[0_8px_32px_rgba(99,102,241,0.45)] active:scale-[0.98]"
             >
-              {footerData.ctaButtonLabel || 'Contact Us'}
+              <span>{footerData.ctaButtonLabel || 'Start Learning Free'}</span>
               <ArrowRight
                 size={14}
                 weight="bold"
-                className="transition-transform duration-500 ease-premium group-hover:translate-x-1"
+                className="transition-transform duration-300 group-hover:translate-x-1"
               />
             </a>
           </div>
         </motion.div>
       </div>
 
-      {/* Footer body */}
-      <div className="bg-black">
-        <div className="mx-auto max-w-[1400px] px-5 pb-16 pt-10 sm:px-8">
-          {/* Desktop Layout (md+) */}
-          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-3 lg:gap-12 gap-12">
-            {/* Brand */}
+      {/* Footer Body */}
+      <div className="border-t border-white/[0.06] bg-[#070709]">
+        <div className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12">
+            {/* Brand column */}
             <div>
-              <a href="#home" className="flex items-center gap-3" aria-label="Dr. Anubhuti's Advanced Dental Care">
-                <Logo className="h-12 w-12 text-gold" />
-                <span className="flex flex-col leading-none">
-                  <span className="font-serif text-[18px] text-white">{siteData.name || "Dr. Anubhuti's Advanced Dental Care"}</span>
+              <a href="#home" className="flex items-center gap-3" aria-label="AI Tutor Platform">
+                <Logo className="h-9 w-9 text-indigo-400" />
+                <span className="font-display text-base font-semibold tracking-tight text-white">
+                  {siteData.name || 'AI Tutor'}
                 </span>
               </a>
-              <p className="mt-5 max-w-xs font-sans text-[13px] font-light leading-relaxed text-white/50">
+              <p className="mt-4 max-w-xs font-sans text-xs font-light leading-relaxed text-chalk/60">
                 {footerData.brandTagline}
               </p>
-              <p className="mt-6 font-sans text-[12px] font-light text-white/40">
+              <p className="mt-5 font-mono text-[11px] text-chalk/40">
                 &copy; {new Date().getFullYear()} {footerData.copyrightText}
               </p>
-              <p className="mt-1 font-sans text-[12px] font-light text-white/40">
-                {footerData.craftedText}
-              </p>
             </div>
 
-            {/* Contact info */}
+            {/* Quick Links */}
             <div>
-              <h3 className="font-serif text-lg text-white">Contact Information</h3>
-              <div className="mt-5 space-y-4 font-sans text-[14px] font-light text-white/60">
-                <p className="max-w-xs leading-relaxed">{siteData.address}</p>
-                <p>
-                  <a href={`tel:${siteData.phone}`} className="transition-colors hover:text-gold">
-                    {siteData.phone}
-                  </a>
-                </p>
-                <p>
-                  <a href={`mailto:${siteData.email}`} className="transition-colors hover:text-gold">
+              <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-chalk">
+                Explore
+              </h3>
+              <ul className="mt-4 space-y-2.5 font-sans text-xs text-chalk/70">
+                <li>
+                  <a href="#home" className="transition-colors hover:text-white">Home</a>
+                </li>
+                <li>
+                  <a href="#about" className="transition-colors hover:text-white">Why AI Tutor</a>
+                </li>
+                <li>
+                  <a href="#services" className="transition-colors hover:text-white">Subject Tracks</a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Governance & Contact */}
+            <div>
+              <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-chalk">
+                Platform & Privacy
+              </h3>
+              <ul className="mt-4 space-y-2.5 font-sans text-xs text-chalk/70">
+                {quickLinks.map((ql, idx) => (
+                  <li key={idx}>
+                    <a href={ql.href} className="transition-colors hover:text-white">
+                      {ql.label}
+                    </a>
+                  </li>
+                ))}
+                <li>
+                  <a href={`mailto:${siteData.email}`} className="text-indigo-400 hover:text-indigo-300">
                     {siteData.email}
                   </a>
-                </p>
-              </div>
-            </div>
-
-            {/* Socials */}
-            <div>
-              <h3 className="font-serif text-lg text-white">Connect with Us</h3>
-              <div className="mt-5 flex gap-3 flex-wrap">
-                {SOCIALS.map(({ label, icon: Icon, href }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/80 transition-all duration-500 ease-premium hover:border-gold hover:bg-gold hover:text-forest-dark"
-                  >
-                    <Icon size={24} weight="fill" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile Specific Layout (<md) */}
-          <div className="flex flex-col gap-9 md:hidden">
-            {/* 1. Brand Header */}
-            <div>
-              <a href="#home" className="flex items-center gap-3" aria-label="Dr. Anubhuti's Advanced Dental Care">
-                <Logo className="h-11 w-11 text-gold" />
-                <span className="flex flex-col leading-none">
-                  <span className="font-serif text-[15px] text-white">{siteData.name || "Dr. Anubhuti's Advanced Dental Care"}</span>
-                </span>
-              </a>
-              <p className="mt-4 font-sans text-[13px] font-light leading-relaxed text-white/50">
-                {footerData.brandTagline}
-              </p>
-            </div>
-
-            {/* 2. Contact Information */}
-            <div>
-              <h3 className="font-serif text-base text-white">Contact Information</h3>
-              <div className="mt-4 space-y-3 font-sans text-[14px] font-light text-white/60">
-                <p className="leading-relaxed">{siteData.address}</p>
-                <p>
-                  <a href={`tel:${siteData.phone}`} className="transition-colors hover:text-gold">
-                    {siteData.phone}
-                  </a>
-                </p>
-                <p>
-                  <a href={`mailto:${siteData.email}`} className="transition-colors hover:text-gold">
-                    {siteData.email}
-                  </a>
-                </p>
-              </div>
-            </div>
-
-            {/* 3. Connect with Us */}
-            <div>
-              <h3 className="font-serif text-base text-white">Connect with Us</h3>
-              <div className="mt-4 flex flex-wrap gap-3">
-                {SOCIALS.map(({ label, icon: Icon, href }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/80 transition-all duration-500 ease-premium hover:border-gold hover:bg-gold hover:text-forest-dark"
-                  >
-                    <Icon size={24} weight="fill" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {/* 4. Copyright line at the very bottom */}
-            <div className="border-t border-white/10 pt-6">
-              <p className="font-sans text-[12px] font-light text-white/40">
-                &copy; {new Date().getFullYear()} {footerData.copyrightText}
-              </p>
-              <p className="mt-1 font-sans text-[12px] font-light text-white/40">
-                {footerData.craftedText}
-              </p>
+                </li>
+              </ul>
             </div>
           </div>
         </div>

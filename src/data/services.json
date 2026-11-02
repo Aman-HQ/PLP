@@ -1,140 +1,80 @@
 {
-  "badge": "OUR CLINICAL SERVICES & TREATMENTS",
-  "titlePrefix": "Advanced Care,",
-  "titleHighlight": "Delivered Simply",
-  "subtitle": "Led by Dr. Anubhuti Gupta (BDS, MDS). From precision implants and clear aligners to pain-free single-visit root canals, every treatment is tailored to your comfort and honest pricing.",
+  "badge": "INTELLIGENT LEARNING TRACKS",
+  "titlePrefix": "Personalized Mentorship,",
+  "titleHighlight": "Across Any Subject",
+  "subtitle": "From rigorous STEM topics to humanities and technical interview prep, AI Tutor provides tailored curriculum, real-time feedback, and step-by-step guidance.",
   "heroSpecialty": {
-    "badge": "Specialist Expertise — Prosthodontics & Implants",
-    "title": "Dental Implants & Full Smile Rehabilitation",
-    "desc": "Replace missing teeth permanently with biocompatible implants that feel, function, and look like natural teeth. Dr. Anubhuti Gupta combines digital treatment planning with gentle surgical execution for seamless results.",
+    "badge": "Flagship Track — STEM & Computer Science",
+    "title": "Interactive STEM Problem Solving & Code Mentorship",
+    "desc": "Break down complex algorithms, calculus problems, and physics models with conversational step-by-step derivation. AI Tutor diagnoses where your logic deviates and steers you back on track.",
     "highlights": [
-      "Computer-guided implant placement",
-      "Natural shade & translucency matching",
-      "Preserves surrounding healthy teeth",
-      "12+ years specialist clinical mastery"
+      "Step-by-step mathematical derivations",
+      "Interactive code debugging and complexity analysis",
+      "Instant practice problem generation",
+      "Socratic hints when you get stuck"
     ],
-    "ctaText": "Book Implant Consultation"
+    "ctaText": "Explore STEM Track"
   },
   "treatments": [
     {
-      "id": "single-visit-rct",
-      "title": "Painless Single Visit Root Canal Therapy (RCT)",
-      "category": "Endodontics & RCT",
-      "badge": "Single Sitting",
-      "image": "/experiences/1.avif",
-      "icon": "Drop",
-      "desc": "Traditionally, complete sterility of the root canal required RCT to take place in multiple sittings. We, at Dr. Anubhuti's Advanced Dental Care, aim to bust another common myth about RCTs. With advancements in dental material and technique and with proper case selection by a specialist Endodontist, a Single Visit is enough to achieve the desired result, painlessly.",
-      "fullDetail": "Efficient and effective outcomes can be obtained with Rotary instrumentation, reliable and accurate Apex Locators, Microscopic and Laser endodontics, Digital radiography, and biocompatible sealing systems; all available under one roof, at our clinic."
+      "id": "mathematics-calculus",
+      "title": "Mathematics & Advanced Calculus",
+      "category": "STEM & Quant",
+      "badge": "Core Track",
+      "image": "/images/math-track.webp",
+      "icon": "Hash",
+      "desc": "Master algebra, multivariable calculus, linear algebra, and probability through visual intuition and step-by-step problem sets.",
+      "fullDetail": "Solve complex differential equations and matrix transformations with clear visual derivations. The AI Tutor explains the underlying intuition before diving into formulas, ensuring lasting mastery."
     },
     {
-      "id": "wisdom-tooth-rct",
-      "title": "Wisdom Tooth RCT",
-      "category": "Specialist Endodontics",
-      "badge": "Tooth Preservation",
-      "image": "/experiences/2.avif",
-      "icon": "Tooth",
-      "desc": "Wisdom teeth (or third molar teeth) are the 'wild cards' of the mouth. They look like regular teeth, but their anatomy is quite different. They can develop in many different sizes, shapes, orientations, and eruption patterns. Some people may even have more than the normal four wisdom teeth.",
-      "fullDetail": "In instances where the wisdom tooth is deemed to be functional and restorable, or when its extraction is to be avoided, RCT can be done and the tooth can enjoy a long life and provide many years of painless function. An Endodontist, or a RCT Specialist, is trained and experienced to handle such complicated cases."
+      "id": "computer-science-algorithms",
+      "title": "Computer Science & Data Structures",
+      "category": "Software Engineering",
+      "badge": "Hands-On",
+      "image": "/images/cs-track.webp",
+      "icon": "FileText",
+      "desc": "Deep-dive into arrays, trees, dynamic programming, and systems design with interactive code critique and complexity analysis.",
+      "fullDetail": "Write code directly in the session or paste tricky problems. AI Tutor analyzes your time and space complexity, spots edge-case failures, and guides you toward optimal patterns."
     },
     {
-      "id": "composite-veneer",
-      "title": "Composite Veneer",
-      "category": "Cosmetic Dentistry",
-      "badge": "Single Visit Smile",
-      "image": "/experiences/3.avif",
-      "icon": "Sparkle",
-      "desc": "Dental veneers are cosmetic restorations which can be used to mask discoloration, close small gaps, restore cracks and chipping and change the shape or size of your teeth.",
-      "fullDetail": "Composite veneers can be done chairside, in a single appointment with newer, more advanced resin materials. We will match the resin to the shade of your surrounding teeth for the most natural look. The resin is added to your teeth, cured and then polished. You can walk out the same day with a new smile!"
+      "id": "physics-engineering",
+      "title": "Physics & Engineering Principles",
+      "category": "Physical Sciences",
+      "badge": "First-Principles",
+      "image": "/images/physics-track.webp",
+      "icon": "Compass",
+      "desc": "Explore mechanics, electromagnetism, thermodynamics, and quantum fundamentals through interactive simulations and real-world models.",
+      "fullDetail": "Connect abstract equations to real physical phenomena. Perfect for high school, university AP/IB curricula, and engineering coursework."
     },
     {
-      "id": "porcelain-veneer",
-      "title": "Porcelain Veneer",
-      "category": "Aesthetic Restorations",
-      "badge": "High Translucency",
-      "image": "/experiences/4.avif",
-      "icon": "Sparkle",
-      "desc": "Ceramic is a non-metal material possessing glass-like properties and resembling tooth enamel. Ceramic veneers are extremely esthetic, relatively non-invasive and exhibit best tolerance in the oral environment.",
-      "fullDetail": "They fit accurately onto the faces of prepared teeth. Though the procedure for ceramic veneers is longer and requires more clinic visits than a composite veneer, they are stronger and longer lasting than the former."
+      "id": "exam-prep-interviews",
+      "title": "Exam Prep & Adaptive Mock Tests",
+      "category": "Assessment & Mastery",
+      "badge": "Adaptive Testing",
+      "image": "/images/exam-track.webp",
+      "icon": "Certificate",
+      "desc": "Practice under timed conditions with dynamically adjusted difficulty, instant scoring rubrics, and detailed explanation breakdowns.",
+      "fullDetail": "Whether preparing for standardized tests (SAT, GRE, MCAT) or technical coding interviews, receive targeted problem banks aimed squarely at your weakest topics."
     },
     {
-      "id": "cosmetic-tooth-reshaping",
-      "title": "Cosmetic Tooth Reshaping",
-      "category": "Smile Contouring",
-      "badge": "Quick Harmony",
-      "image": "/experiences/5.avif",
-      "icon": "Smiley",
-      "desc": "Tooth Recontouring or Reshaping is a procedure in which small amounts of tooth enamel are removed, and the remaining structure protected, to change a tooth's length, shape, or surface.",
-      "fullDetail": "The procedure is usually done to improve one's appearance by creating more harmony and balance in their smile."
+      "id": "language-humanities",
+      "title": "Writing, Logic & Humanities",
+      "category": "Humanities & Logic",
+      "badge": "Critical Thinking",
+      "image": "/images/writing-track.webp",
+      "icon": "ChatCircleDots",
+      "desc": "Refine thesis statements, analyze literature, structure persuasive arguments, and receive line-by-line stylistic prose feedback.",
+      "fullDetail": "Submit essays and thesis outlines for comprehensive analysis of rhetoric, argument coherence, evidence quality, and syntactic variety."
     },
     {
-      "id": "tooth-whitening",
-      "title": "Tooth Whitening (Bleaching)",
-      "category": "Smile Brightening",
-      "badge": "Instant Glow",
-      "image": "/experiences/6.avif",
-      "icon": "Sparkle",
-      "desc": "Teeth Whitening is a procedure that is fast and convenient, with visible long lasting cosmetic results. Dental bleaching is proven to be safe and effective when performed by a Dental Professional.",
-      "fullDetail": "Attractive 'Whitening and Brightening' Packages for In-office and Supervised Home Bleaching services are available at our clinic."
-    },
-    {
-      "id": "zirconia-emax-crowns",
-      "title": "Metal-Free, Zirconia, eMax Crown & Bridge",
-      "category": "Prosthodontics",
-      "badge": "Biocompatible Ceramic",
-      "image": "/experiences/7.avif",
-      "icon": "ShieldCheck",
-      "desc": "Metal-Free Crowns (Procera, CERCON, IPS, LAVA, ZIRCON) – We offer the most biologically compatible Porcelain crowns at our clinic. Research shows that along with lifelike esthetics, these crowns have minimal allergy problem as they are 99% biologically compatible.",
-      "fullDetail": "Zirconia combines the esthetics of our patients demand with the strength and affordable prices they desire. IPS e.max® offers a single layering ceramic that is compatible with all substructure materials for an outstanding smile design."
-    },
-    {
-      "id": "laser-dentistry",
-      "title": "Laser Dentistry",
-      "category": "Advanced Technology",
-      "badge": "Pain-Free & No Stitches",
-      "image": "/experiences/8.avif",
-      "icon": "Scan",
-      "desc": "Oral and gum surgery may be needed as an addition to traditional scaling and root planing treatment, to remove an overgrowth/swelling, for cosmetic reshaping to address a 'gummy smile', for crown lengthening to fit crowns better, and for frenulum or tongue tie release.",
-      "fullDetail": "At our clinic, LASER dentistry is offered, which has several advantages: No painful and noisy drilling procedures. Since there's no scalpel or cutting, it eliminates the need for stitches. Bleeding is minimized in treated soft tissues, as the laser promotes blood clotting and faster healing."
-    },
-    {
-      "id": "dental-jewellery",
-      "title": "Dental Jewellery",
-      "category": "Aesthetic Trends",
-      "badge": "Style & Sparkle",
-      "image": "/experiences/9.avif",
-      "icon": "Sparkle",
-      "desc": "The field of dentistry has not escaped fashion trends from time to time.",
-      "fullDetail": "A desire for flawlessly aligned dazzling white teeth may also extend to tooth jewellery, which is offered safely and professionally at our clinic."
-    },
-    {
-      "id": "pre-wedding-smile-makeover",
-      "title": "Pre-Wedding Smile Makeover Packages",
-      "category": "Special Packages",
-      "badge": "Bridal & Groom Care",
-      "image": "/experiences/11.avif",
-      "icon": "Heart",
-      "desc": "In your wedding festivities, YOU - the bride or groom are the stars of the show. Everyone's attention is on you. Clothes, makeup matter but the smile is the most important thing adorning your face.",
-      "fullDetail": "A brighter and whiter smile makes you feel more confident for the day and makes a sparkling impression on others. We provide specially designed packages to support you. It's recommended that you visit our clinic about 5 to 7 weeks in advance to the occasion for a comprehensive smile evaluation."
-    },
-    {
-      "id": "wisdom-tooth-removal",
-      "title": "Wisdom Tooth Removal",
-      "category": "Oral Surgery",
-      "badge": "Painless Extraction",
-      "image": "/experiences/12.acif.avif",
-      "icon": "Tooth",
-      "desc": "Swelling and infection of the gum tissue and bone around a wisdom tooth, especially if impacted or partially erupted, can cause severe pain, swelling, pus discharge, bad taste in the mouth, and difficulty in chewing or opening the mouth wide.",
-      "fullDetail": "With thorough examination, Surgical extraction of such complicated cases is managed painlessly, with minimal trauma and post-operative complications, at our clinic."
-    },
-    {
-      "id": "braces-and-aligners",
-      "title": "Braces and Aligners",
-      "category": "Orthodontics",
-      "badge": "Invisible Straightening",
-      "image": "/experiences/13.avif",
-      "icon": "Smiley",
-      "desc": "Invisible Braces or Aligners are the newest, most convenient and cosmetically acceptable treatment for teeth straightening.",
-      "fullDetail": "For more complicated cases, fixed Metal/Ceramic braces are recommended. All teeth straightening and alignment services are provided at our clinic by our dedicated team of specialists."
+      "id": "data-science-ai",
+      "title": "Data Science & Machine Learning",
+      "category": "Modern Tech",
+      "badge": "Industry Skills",
+      "image": "/images/ai-track.webp",
+      "icon": "Briefcase",
+      "desc": "Understand regression, neural network architectures, data wrangling in Python/SQL, and model evaluation metrics.",
+      "fullDetail": "Learn the mathematics behind neural networks, build intuition for gradient descent, and get guidance implementing machine learning pipelines."
     }
   ]
 }

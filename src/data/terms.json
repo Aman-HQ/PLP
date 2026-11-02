@@ -1,56 +1,57 @@
 {
-  "badge": "Patient Guidelines & Terms",
+  "badge": "Platform Guidelines & Terms",
   "title": "Terms & Conditions",
-  "subtitle": "General terms, appointment booking guidelines, and clinic protocols governing patient care at Dr. Anubhuti Dental Studio.",
+  "subtitle": "Guidelines and fair usage policies governing your access to AI Tutor services, study sessions, and interactive content.",
   "backButtonLabel": "Back to Home",
   "sections": [
     {
       "icon": "Handshake",
       "title": "1. Acceptance of Terms",
       "content": [
-        "By accessing our website, scheduling consultations, or receiving dental treatment at Dr. Anubhuti Dental Studio, you agree to comply with and be bound by these Terms & Conditions.",
-        "These terms apply to all patients, visitors, guardians, and individuals utilizing our clinical services or website facilities."
+        "By creating an account, engaging in AI tutoring sessions, or browsing the platform, you agree to comply with and be bound by these Terms & Conditions.",
+        "These terms apply to all learners, educators, and visitors utilizing our web platform or API endpoints."
       ]
     },
     {
       "icon": "CalendarCheck",
-      "title": "2. Appointments & Scheduling",
+      "title": "2. Educational Use & AI Disclaimer",
       "content": [
-        "Appointments can be booked online, over the phone, or in person at our Bareilly studio. We request patients to arrive 10 minutes prior to scheduled appointments.",
-        "If you need to reschedule or cancel your appointment, please notify our reception team at least 24 hours in advance to allow another patient in need to utilize the time slot.",
-        "Treatment estimates and consultation fees are communicated clearly prior to beginning any procedure."
+        "AI Tutor is an adaptive educational companion designed to assist your comprehension, practice, and study efforts.",
+        "While our AI models strive for pedagogical rigor, outputs should be used for learning and study assistance rather than definitive professional, legal, or medical advice.",
+        "Users are encouraged to verify critical factual information and use the platform to deepen their own problem-solving skills."
       ]
     },
     {
       "icon": "Scales",
-      "title": "3. Payment & Billing Policies",
+      "title": "3. Fair Use & Academic Integrity",
       "content": [
-        "Payment for consultations and dental procedures is due at the time of service, unless installment plans (such as for clear aligners or full-mouth rehab) have been agreed upon in writing.",
-        "We accept major payment methods including cash, UPI, debit cards, credit cards, and bank transfers."
+        "AI Tutor promotes active learning and authentic student comprehension.",
+        "Users must not use the platform to commit academic fraud, violate institution honor codes, or submit automated work as their own original creation where forbidden.",
+        "We reserve the right to restrict accounts that abuse automated query limits or engage in prompt injection."
       ]
     },
     {
       "icon": "CheckCircle",
-      "title": "4. Patient Care & Clinic Hygiene Guidelines",
+      "title": "4. Account Security & Responsibilities",
       "content": [
-        "We maintain international-grade autoclave sterilization and single-use protocol standards to ensure patient safety.",
-        "Patients are expected to provide complete and accurate medical history (including allergies, ongoing medications, and pre-existing health conditions) prior to undergoing procedures."
+        "You are responsible for safeguarding your authentication credentials and for all activities that occur under your account.",
+        "You agree to notify us immediately if you suspect any unauthorized access to your account."
       ]
     },
     {
       "icon": "ShieldWarning",
-      "title": "5. Emergency Care & Liability",
+      "title": "5. Service Availability & Modifications",
       "content": [
-        "We provide dedicated emergency care for severe dental pain and trauma. For life-threatening medical emergencies, patients should visit the nearest general hospital emergency department.",
-        "Dr. Anubhuti Dental Studio is committed to delivering evidence-based clinical care; outcome success relies on adherence to post-treatment care instructions provided by our dental team."
+        "We strive to maintain continuous platform availability, though service may occasionally be interrupted for scheduled maintenance or upgrades.",
+        "We continuously update and refine our tutoring models and platform features to optimize the learning experience."
       ]
     },
     {
       "icon": "Gavel",
-      "title": "6. Governing Law & Jurisdiction",
+      "title": "6. Governing Law & Dispute Resolution",
       "content": [
-        "These Terms & Conditions are governed by and construed in accordance with the laws of Uttar Pradesh, India.",
-        "Any legal claims or disputes arising out of clinic services shall be subject to the exclusive jurisdiction of the competent courts in Bareilly, Uttar Pradesh."
+        "These Terms & Conditions are governed by applicable internet regulations and international intellectual property standards.",
+        "Any disputes shall be resolved primarily through good-faith mutual mediation."
       ]
     }
   ]

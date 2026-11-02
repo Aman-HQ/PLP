@@ -1,7 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, CalendarCheck, CheckCircle } from '@phosphor-icons/react';
-import Img from './Img';
-import siteData from '../data/site.json';
+import { ArrowUpRight, CheckCircle } from './icons';
 import aboutData from '../data/about.json';
 
 const EASE = [0.16, 1, 0.3, 1];
@@ -15,49 +13,81 @@ export default function About() {
   };
   const container = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.04 } },
+    show: { transition: { staggerChildren: 0.05 } },
   };
 
   const stats = aboutData.stats || [];
-  const bullets = aboutData.doctorBioBullets || aboutData.healthCardBullets || [];
+  const bullets = aboutData.doctorBioBullets || [];
 
   return (
-    <section id="about" className="relative w-full overflow-x-clip bg-ink py-24 md:py-32">
-      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-12 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-        {/* Left: portrait with hairline frame */}
+    <section id="about" className="relative w-full overflow-x-clip bg-[#0A0A0B] py-24 md:py-32 border-t border-white/[0.06]">
+      <div className="mx-auto grid max-w-[1400px] grid-cols-1 items-center gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1fr] lg:gap-16">
+        
+        {/* Left: Interactive Simulated AI Tutoring Console */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.05 }}
-          transition={{ duration: 0.4, ease: EASE }}
-          className="relative mx-auto w-full max-w-md lg:max-w-none"
+          transition={{ duration: 0.5, ease: EASE }}
+          className="relative mx-auto w-full max-w-lg lg:max-w-none"
         >
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.03] p-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-sm">
-            <picture>
-              <source srcSet="/images/dr-anubhuti-gupta.webp" type="image/webp" />
-              <img
-                src="/images/dr-anubhuti-gupta.jpg"
-                alt={aboutData.imageAlt || 'Dr. Anubhuti Gupta'}
-                loading="lazy"
-                decoding="async"
-                className="aspect-[4/5] w-full rounded-[1.5rem] object-cover object-top"
-              />
-            </picture>
-          </div>
+          {/* Outer glow */}
+          <div className="absolute -top-6 -left-6 -z-10 h-72 w-72 rounded-full bg-indigo-500/15 blur-3xl pointer-events-none" />
 
-          {/* Doctor caption chip */}
-          <div className="absolute -bottom-6 left-4 right-4 sm:left-6 sm:right-auto rounded-2xl border border-white/15 bg-ink/90 p-4 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-            <div className="font-display text-[16px] font-bold tracking-tight text-chalk">{aboutData.doctorName}</div>
-            <div className="mt-0.5 font-sans text-[10px] sm:text-[11px] font-semibold text-gold-light">
-              {aboutData.doctorSpeciality || siteData.credentials}
+          {/* Code/Chat Mock Console */}
+          <div className="rounded-2xl border border-white/10 bg-[#121215]/90 p-5 shadow-2xl backdrop-blur-xl">
+            {/* Header pill */}
+            <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+                <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+                <span className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
+                <span className="ml-2 font-mono text-[11px] text-chalk/50">ai_tutor_session.py</span>
+              </div>
+              <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[10px] font-semibold text-emerald-400">
+                Live Session
+              </span>
+            </div>
+
+            {/* Conversation Flow */}
+            <div className="mt-4 space-y-3.5 text-xs">
+              {/* Student Query */}
+              <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 text-chalk/90">
+                <div className="font-semibold text-indigo-300">You</div>
+                <div className="mt-1 font-mono text-[11px] text-chalk/80">
+                  "I'm struggling to understand why quicksort runs in O(n²) worst-case time. Can you explain?"
+                </div>
+              </div>
+
+              {/* AI Socratic Response */}
+              <div className="rounded-xl border border-indigo-500/20 bg-indigo-950/20 p-3 text-chalk/90">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-indigo-400">AI Tutor</span>
+                  <span className="font-mono text-[9px] text-indigo-300/60">Reasoning calibrated</span>
+                </div>
+                <div className="mt-1.5 space-y-1.5 text-[11.5px] leading-relaxed text-chalk/85">
+                  <p>
+                    Great question! Let’s think about how Quicksort partitions an array.
+                  </p>
+                  <div className="rounded-lg bg-black/40 p-2 font-mono text-[10.5px] text-amber-300/90 border border-white/[0.05]">
+                    Partition: Pick Pivot → Left (&lt; Pivot) | Right (&gt; Pivot)
+                  </div>
+                  <p>
+                    What happens if your pivot is repeatedly the absolute smallest element in an already-sorted array? How balanced would your two sub-arrays be?
+                  </p>
+                </div>
+              </div>
+
+              {/* Live adaptive feedback badge */}
+              <div className="flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-[10.5px] text-emerald-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
+                <span>Adaptive prompt: Guiding toward sub-problem balance intuition</span>
+              </div>
             </div>
           </div>
-
-          {/* Soft gold ambient glow */}
-          <div className="absolute -top-8 -right-8 -z-10 h-56 w-56 rounded-full bg-gold/15 blur-3xl pointer-events-none" />
         </motion.div>
 
-        {/* Right: content */}
+        {/* Right: Content & Stats */}
         <motion.div
           variants={container}
           initial="hidden"
@@ -67,15 +97,15 @@ export default function About() {
         >
           {/* Eyebrow */}
           <motion.div variants={rise} className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-            <span className="font-sans text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] text-gold-light">
-              Founder & Principal Dentist
+            <span className="h-2 w-2 rounded-full bg-indigo-500 animate-pulse" />
+            <span className="font-sans text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] text-indigo-400">
+              Cognitive Architecture
             </span>
           </motion.div>
 
           <motion.h2
             variants={rise}
-            className="mt-3.5 max-w-xl font-display text-[27px] font-semibold leading-[1.12] tracking-tight text-chalk sm:text-4xl lg:text-4xl"
+            className="mt-3.5 max-w-xl font-display text-[26px] font-semibold leading-[1.12] tracking-tight text-chalk sm:text-3xl lg:text-4xl"
           >
             {aboutData.title}
           </motion.h2>
@@ -90,12 +120,12 @@ export default function About() {
               return (
                 <div
                   key={idx}
-                  className="flex items-start gap-3 rounded-xl border border-white/20 bg-white/[0.16] p-3.5 sm:p-4 shadow-md backdrop-blur-md transition-all duration-300 hover:border-gold-light/60 hover:bg-white/[0.22]"
+                  className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-3.5 sm:p-4 shadow-sm backdrop-blur-md transition-all duration-300 hover:border-indigo-500/30 hover:bg-white/[0.05]"
                 >
-                  <CheckCircle size={19} weight="fill" className="text-gold-light shrink-0 mt-0.5" />
+                  <CheckCircle size={18} weight="fill" className="text-indigo-400 shrink-0 mt-0.5" />
                   <div className="font-sans text-[12px] sm:text-[13px] leading-relaxed">
-                    {title && <span className="font-bold text-white">{title}: </span>}
-                    <span className="font-light text-white/90">{desc}</span>
+                    {title && <span className="font-semibold text-white">{title}: </span>}
+                    <span className="font-light text-chalk/80">{desc}</span>
                   </div>
                 </div>
               );
@@ -103,38 +133,27 @@ export default function About() {
           </motion.div>
 
           {/* Stats Grid */}
-          <motion.div variants={rise} className="mt-6 sm:mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 bg-white/[0.06] sm:max-w-[570px]">
+          <motion.div variants={rise} className="mt-6 sm:mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/[0.06] sm:max-w-[570px]">
             {stats.map((stat) => (
-              <div key={stat.label} className="bg-ink px-3 py-3.5 sm:px-5 sm:py-6 flex flex-col items-center justify-center text-center sm:items-start sm:text-left">
-                <div className="font-display text-lg sm:text-2xl md:text-3xl font-bold text-chalk">{stat.value}</div>
-                <div className="mt-0.5 sm:mt-1 font-sans text-[9.5px] sm:text-[11px] font-semibold uppercase tracking-[0.08em] sm:tracking-[0.14em] leading-tight text-ash">
+              <div key={stat.label} className="bg-[#0A0A0B] px-3.5 py-4 sm:px-5 sm:py-5 flex flex-col items-center justify-center text-center sm:items-start sm:text-left">
+                <div className="font-display text-xl sm:text-2xl font-bold text-chalk">{stat.value}</div>
+                <div className="mt-1 font-sans text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.1em] text-ash">
                   {stat.label}
                 </div>
               </div>
             ))}
           </motion.div>
 
-          {/* CTAs */}
-          <motion.div variants={rise} className="mt-14 flex flex-row items-center gap-2 sm:gap-4 w-full max-w-xl">
+          {/* CTA */}
+          <motion.div variants={rise} className="mt-8 flex items-center gap-3">
             <a
-              href="#contact"
-              className="group flex-1 sm:flex-initial flex h-11 sm:h-14 items-center justify-center gap-2 sm:gap-3 rounded-full bg-gradient-to-r from-gold-dark via-gold to-gold-light border border-gold-light/60 px-3 sm:px-8 font-sans shadow-[0_8px_32px_rgba(255,255,255,0.2)] transition-all duration-300 ease-premium hover:scale-105 hover:shadow-[0_12px_40px_rgba(255,255,255,0.35)] hover:from-gold-light hover:to-gold-dark active:scale-95 cursor-pointer text-center"
+              href="#services"
+              className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 px-6 font-sans text-xs font-semibold tracking-wide text-white shadow-[0_4px_20px_rgba(99,102,241,0.3)] transition-all duration-300 ease-premium hover:scale-[1.03] hover:shadow-[0_8px_30px_rgba(99,102,241,0.45)] active:scale-95 cursor-pointer"
             >
-              <span className="whitespace-nowrap text-[12px] sm:text-sm font-extrabold uppercase tracking-[0.04em] sm:tracking-[0.12em] text-forest-dark">
-                {aboutData.ctaLabel || 'Book Appointment'}
+              <span>{aboutData.ctaLabel || 'Start Learning Free'}</span>
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <ArrowUpRight size={13} weight="bold" />
               </span>
-              <span className="flex h-5 w-5 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-full bg-forest-dark/20 text-forest-dark transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                <ArrowUpRight size={14} weight="bold" className="sm:w-[16px] sm:h-[16px]" />
-              </span>
-            </a>
-
-            <a
-              href="#about-page"
-              className="group relative flex-1 sm:flex-initial flex h-11 sm:h-14 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-gradient-to-b from-zinc-800/90 via-neutral-900/90 to-black/95 px-3 sm:px-8 font-sans text-[12px] sm:text-sm font-semibold tracking-tight text-chalk shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),0_10px_25px_rgba(0,0,0,0.6)] backdrop-blur-md transition-all duration-300 ease-premium hover:border-white/40 hover:from-zinc-700/90 hover:via-neutral-800/90 hover:to-zinc-950/95 hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.5),0_12px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(255,255,255,0.08)] active:scale-[0.97] text-center"
-            >
-              {/* Top Gloss Specular Reflection */}
-              <span className="pointer-events-none absolute inset-x-0 top-0 h-1/2 rounded-t-full bg-gradient-to-b from-white/15 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
-              <span className="relative z-10 whitespace-nowrap">Read Full Profile</span>
             </a>
           </motion.div>
         </motion.div>
