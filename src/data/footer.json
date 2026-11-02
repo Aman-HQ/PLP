@@ -7,7 +7,7 @@
   "copyrightText": "AI Tutor. All rights reserved.",
   "craftedText": "Empowering learners worldwide with intelligent, compassionate education.",
   "quickLinks": [
-    { "label": "Privacy Policy", "href": "#privacy-policy" },
-    { "label": "Terms & Conditions", "href": "#terms-and-conditions" }
+    { "label": "Privacy Policy", "href": "/privacy" },
+    { "label": "Terms & Conditions", "href": "/terms" }
   ]
 }

@@ -6,44 +6,69 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import Footer from './components/Footer';
-import privacyData from './data/privacyPolicy.json';
-import termsData from './data/terms.json';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsPage from './pages/TermsPage';
+import NotFoundPage from './pages/NotFoundPage';
+
+// Resolves current page route and section from window location
+function resolveRoute() {
+  if (typeof window === 'undefined') return { page: 'home', section: null };
+
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+  const hash = window.location.hash;
+
+  // Privacy Policy route
+  if (pathname === '/privacy' || pathname === '/privacy-policy' || hash === '#privacy' || hash === '#privacy-policy') {
+    return { page: 'privacy', section: null };
+  }
+
+  // Terms and Conditions route
+  if (pathname === '/terms' || pathname === '/terms-and-conditions' || hash === '#terms' || hash === '#terms-and-conditions') {
+    return { page: 'terms', section: null };
+  }
+
+  // Root Homepage
+  if (pathname === '/') {
+    if (hash === '#404') {
+      return { page: 'not-found', section: null };
+    }
+    if (hash === '#about' || hash === '#services') {
+      return { page: 'home', section: hash };
+    }
+    // Pure home root: no section anchor
+    return { page: 'home', section: null };
+  }
+
+  // Any unrecognized path -> 404 Not Found
+  return { page: 'not-found', section: null };
+}
 
 export default function App() {
   const lenisRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const hash = window.location.hash;
-      const path = window.location.pathname;
-      if (hash === '#privacy-policy' || hash === '#privacy' || path === '/privacy') {
-        return 'privacy-policy';
-      }
-      if (hash === '#terms-and-conditions' || hash === '#terms' || path === '/terms') {
-        return 'terms-and-conditions';
-      }
-    }
-    return 'home';
-  });
+  const [route, setRoute] = useState(resolveRoute);
 
-  // Listen for hash changes
+  // Sync route on browser popstate and hashchange
   useEffect(() => {
-    const handleRouteChange = () => {
-      const hash = window.location.hash;
-      const path = window.location.pathname;
-      if (hash === '#privacy-policy' || hash === '#privacy' || path === '/privacy') {
-        setCurrentPage('privacy-policy');
-        window.scrollTo(0, 0);
-      } else if (hash === '#terms-and-conditions' || hash === '#terms' || path === '/terms') {
-        setCurrentPage('terms-and-conditions');
-        window.scrollTo(0, 0);
-      } else {
-        if (window.location.pathname !== '/') {
-          window.history.pushState(null, '', '/' + (hash || ''));
+    const handleNavigation = () => {
+      const current = resolveRoute();
+      setRoute(current);
+
+      // Normalize URL in address bar
+      if (current.page === 'home' && !current.section) {
+        if (window.location.hash || window.location.pathname !== '/') {
+          window.history.replaceState(null, '', '/');
         }
-        setCurrentPage('home');
-        if (hash) {
+      } else if (current.page === 'privacy' && window.location.pathname !== '/privacy') {
+        window.history.replaceState(null, '', '/privacy');
+      } else if (current.page === 'terms' && window.location.pathname !== '/terms') {
+        window.history.replaceState(null, '', '/terms');
+      }
+
+      // Scroll handling
+      if (current.page === 'home') {
+        if (current.section) {
           setTimeout(() => {
-            const el = document.querySelector(hash);
+            const el = document.querySelector(current.section);
             if (el) {
               if (lenisRef.current) {
                 lenisRef.current.scrollTo(el);
@@ -52,21 +77,34 @@ export default function App() {
               }
             }
           }, 60);
+        } else {
+          window.scrollTo(0, 0);
         }
+      } else {
+        window.scrollTo(0, 0);
       }
     };
 
-    window.addEventListener('hashchange', handleRouteChange);
-    window.addEventListener('popstate', handleRouteChange);
+    // Run initial URL normalization
+    handleNavigation();
+
+    window.addEventListener('hashchange', handleNavigation);
+    window.addEventListener('popstate', handleNavigation);
     return () => {
-      window.removeEventListener('hashchange', handleRouteChange);
-      window.removeEventListener('popstate', handleRouteChange);
+      window.removeEventListener('hashchange', handleNavigation);
+      window.removeEventListener('popstate', handleNavigation);
     };
   }, []);
 
-  // Lenis smooth scroll
+  // Lenis smooth scroll for Homepage
   useEffect(() => {
-    if (currentPage !== 'home') return;
+    if (route.page !== 'home') {
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
+      return;
+    }
 
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let lenis = null;
@@ -91,25 +129,55 @@ export default function App() {
       rafId = requestAnimationFrame(raf);
     }
 
+    // Intercept clicks on links for smooth navigation
     const handleAnchorClick = (e) => {
-      const target = e.target.closest('a');
-      if (!target) return;
-      const href = target.getAttribute('href');
+      const anchor = e.target.closest('a');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
       if (!href) return;
 
-      if (href.startsWith('#') && href.length > 1) {
-        if (href === '#privacy-policy' || href === '#terms-and-conditions') {
-          return;
+      // Clean path navigation for pages
+      if (href === '/privacy' || href === '/privacy-policy') {
+        e.preventDefault();
+        window.history.pushState(null, '', '/privacy');
+        setRoute({ page: 'privacy', section: null });
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      if (href === '/terms' || href === '/terms-and-conditions') {
+        e.preventDefault();
+        window.history.pushState(null, '', '/terms');
+        setRoute({ page: 'terms', section: null });
+        window.scrollTo(0, 0);
+        return;
+      }
+
+      // Home link: reset URL to '/' (no '#')
+      if (href === '#home' || href === '/') {
+        e.preventDefault();
+        window.history.pushState(null, '', '/');
+        setRoute({ page: 'home', section: null });
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(0, { duration: 1.0 });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        const element = document.querySelector(href);
-        if (element) {
+        return;
+      }
+
+      // Homepage section anchors: only use /#section
+      if (href.startsWith('#') && href.length > 1) {
+        const targetElement = document.querySelector(href);
+        if (targetElement) {
           e.preventDefault();
+          window.history.pushState(null, '', `/${href}`);
+          setRoute({ page: 'home', section: href });
           if (lenisRef.current) {
-            lenisRef.current.scrollTo(element, { offset: 0, duration: 1.2 });
+            lenisRef.current.scrollTo(targetElement, { offset: 0, duration: 1.2 });
           } else {
-            element.scrollIntoView({ behavior: 'smooth' });
+            targetElement.scrollIntoView({ behavior: 'smooth' });
           }
-          window.history.pushState(null, '', href);
         }
       }
     };
@@ -122,18 +190,19 @@ export default function App() {
       if (lenis) lenis.destroy();
       lenisRef.current = null;
     };
-  }, [currentPage]);
+  }, [route.page]);
 
-  const goHome = () => {
-    window.location.hash = '';
-    setCurrentPage('home');
+  // Navigate back to homepage root '/' with no hash
+  const navigateToHome = () => {
+    window.history.pushState(null, '', '/');
+    setRoute({ page: 'home', section: null });
     window.scrollTo(0, 0);
   };
 
   return (
     <div className="app-container min-h-screen bg-[#0A0A0B] text-[#F5F5F7]">
-      {/* Home Landing View */}
-      {currentPage === 'home' && (
+      {/* 1. Main Homepage */}
+      {route.page === 'home' && (
         <>
           <Navbar />
           <main>
@@ -145,58 +214,19 @@ export default function App() {
         </>
       )}
 
-      {/* Privacy Policy View */}
-      {currentPage === 'privacy-policy' && (
-        <div className="mx-auto max-w-4xl px-6 py-20">
-          <button
-            onClick={goHome}
-            className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-chalk hover:bg-white/10"
-          >
-            ← {privacyData.backButtonLabel || 'Back to Home'}
-          </button>
-          <h1 className="font-display text-4xl font-bold tracking-tight text-chalk">{privacyData.title}</h1>
-          <p className="mt-3 text-sm text-chalk/70">{privacyData.subtitle}</p>
-
-          <div className="mt-10 space-y-8">
-            {privacyData.sections?.map((sec, idx) => (
-              <div key={idx} className="rounded-2xl border border-white/10 bg-[#121215] p-6">
-                <h2 className="font-display text-lg font-semibold text-indigo-300">{sec.title}</h2>
-                <div className="mt-3 space-y-2 text-xs leading-relaxed text-chalk/80">
-                  {sec.content?.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* 2. Privacy Policy Page */}
+      {route.page === 'privacy' && (
+        <PrivacyPolicyPage onBack={navigateToHome} />
       )}
 
-      {/* Terms & Conditions View */}
-      {currentPage === 'terms-and-conditions' && (
-        <div className="mx-auto max-w-4xl px-6 py-20">
-          <button
-            onClick={goHome}
-            className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-4 py-2 text-xs font-semibold text-chalk hover:bg-white/10"
-          >
-            ← {termsData.backButtonLabel || 'Back to Home'}
-          </button>
-          <h1 className="font-display text-4xl font-bold tracking-tight text-chalk">{termsData.title}</h1>
-          <p className="mt-3 text-sm text-chalk/70">{termsData.subtitle}</p>
+      {/* 3. Terms & Conditions Page */}
+      {route.page === 'terms' && (
+        <TermsPage onBack={navigateToHome} />
+      )}
 
-          <div className="mt-10 space-y-8">
-            {termsData.sections?.map((sec, idx) => (
-              <div key={idx} className="rounded-2xl border border-white/10 bg-[#121215] p-6">
-                <h2 className="font-display text-lg font-semibold text-indigo-300">{sec.title}</h2>
-                <div className="mt-3 space-y-2 text-xs leading-relaxed text-chalk/80">
-                  {sec.content?.map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* 4. 404 Page Not Found */}
+      {route.page === 'not-found' && (
+        <NotFoundPage onGoHome={navigateToHome} />
       )}
     </div>
   );
