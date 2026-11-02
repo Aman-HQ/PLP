@@ -1,33 +1,44 @@
+@import '@fontsource-variable/plus-jakarta-sans';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ==========================================================================
-   BASE DESIGN SYSTEM — Dr. Anubhuti Dental (monochrome dark)
+   BASE DESIGN SYSTEM — AI Tutor Application
    ========================================================================== */
 
 /* 1. Global Variables */
 :root {
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --font-display: 'Sora', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, sans-serif;
 
-  /* Monochrome palette */
-  --ink: #0a0a0b;
-  --ink-800: #101012;
-  --ink-700: #18181b;
-  --chalk: #f5f5f7;
-  --ash: #8a8a93;
+  /* Surfaces & Ink */
+  --ink: #0A0A0B;
+  --ink-900: #0D0D10;
+  --ink-800: #121215;
+  --ink-700: #1A1A1F;
+  --ink-600: #26262D;
+
+  /* Typography */
+  --chalk: #F5F5F7;
+  --chalk-dim: #C8C8CE;
+  --ash: #8A8A93;
+
+  /* Accent */
+  --accent: #6366F1;
+  --accent-light: #818CF8;
+  --accent-glow: rgba(99, 102, 241, 0.15);
 
   /* Radius */
   --radius-sm: 8px;
   --radius-md: 14px;
-  --radius-lg: 22px;
+  --radius-lg: 20px;
   --radius-full: 9999px;
 
-  /* Transition Curves */
+  /* High-End Motion & Easing */
   --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+  --transition-slow: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* 2. Base Resets */
@@ -38,11 +49,6 @@
 }
 
 html {
-  /* Must stay `auto`. Lenis sets the scroll position every frame; a `smooth`
-     value makes the browser re-animate toward each write, which fights Lenis
-     and causes laggy scrolling + drift/overshoot when momentum stops
-     (most visible on touch devices). Smooth anchor jumps are handled in JS
-     via Lenis `scrollTo` / `scrollIntoView`. */
   scroll-behavior: auto;
 }
 
@@ -74,8 +80,8 @@ a {
 
 /* Text selection */
 ::selection {
-  background: rgba(245, 245, 247, 0.85);
-  color: #0a0a0b;
+  background: rgba(99, 102, 241, 0.35);
+  color: #FFFFFF;
 }
 
 /* 3. Layout Shell */
@@ -89,23 +95,24 @@ a {
 
 /* 4. Scrollbar Styling (dark) */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0b;
+  background: #0A0A0B;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2e2e33;
+  background: #26262D;
   border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: #3A3A44;
 }
 
-/* Hide scrollbar for Chrome, Safari, Opera, Edge, Firefox */
+/* Hide scrollbar utility */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -137,10 +144,9 @@ html.lenis body {
   pointer-events: none;
 }
 
-/* 6. Utilities */
-/* Fine-grain film texture for dark surfaces (apply to fixed pointer-events-none layers only) */
+/* 6. Subtle subtle background noise texture */
 .bg-grain {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
 }
 
 @media (prefers-reduced-motion: reduce) {
