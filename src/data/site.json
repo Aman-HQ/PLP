@@ -1,0 +1,26 @@
+{
+  "name": "Dr. Anubhuti's Advanced Dental Care",
+  "shortName": "Dr. Anubhuti Dental",
+  "doctor": "Dr. Anubhuti Gupta",
+  "credentials": "BDS, MDS (Prosthodontics & Implantology)",
+  "tagline": "Precise, gentle dentistry for a healthier smile",
+  "bookButtonLabel": "Book Appointment",
+  "whatsappPhone": "918076601314",
+  "whatsappMessage": "Hello Dr. Anubhuti's Advanced Dental Care, I would like to book a dental appointment. Could you share your available slots?",
+  "email": "dr.anubhutig@gmail.com",
+  "phone": "+91 81263 99924",
+  "phoneSecondary": "+91 80766 01314",
+  "phoneEmergency": "+91 74174 99433",
+  "address": "Dr. Shirish Gupta Nursing Home, 116, Civil Lines, Bareilly, Uttar Pradesh (Main Road, Near ICICI Bank & Circuit House Crossing)",
+  "hours": "Mon – Sat: 10:30 AM – 2:00 PM & 7:00 PM – 8:30 PM",
+  "hoursMorning": "Morning: Mon – Sat (10:30am to 2:00pm)",
+  "hoursEvening": "Evening: Mon – Sat (7:00pm to 8:30pm)",
+  "hoursSunday": "Sunday: Emergency only",
+  "appointmentNote": "(Appointment available on request)",
+  "emergencyNote": "Sunday: Emergency only (Appointment available on request)",
+  "socialLinks": {
+    "instagram": "https://www.instagram.com/dr.anubhutig",
+    "facebook": "https://www.facebook.com/dranubhutiguptamds",
+    "justdial": "https://www.justdial.com/Bareilly/Dr--Anubhuti-Advanced-Dental-Care/9999PX581-X581-210419162518-Y3K4_BZDET"
+  }
+}

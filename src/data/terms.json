@@ -1,0 +1,57 @@
+{
+  "badge": "Patient Guidelines & Terms",
+  "title": "Terms & Conditions",
+  "subtitle": "General terms, appointment booking guidelines, and clinic protocols governing patient care at Dr. Anubhuti Dental Studio.",
+  "backButtonLabel": "Back to Home",
+  "sections": [
+    {
+      "icon": "Handshake",
+      "title": "1. Acceptance of Terms",
+      "content": [
+        "By accessing our website, scheduling consultations, or receiving dental treatment at Dr. Anubhuti Dental Studio, you agree to comply with and be bound by these Terms & Conditions.",
+        "These terms apply to all patients, visitors, guardians, and individuals utilizing our clinical services or website facilities."
+      ]
+    },
+    {
+      "icon": "CalendarCheck",
+      "title": "2. Appointments & Scheduling",
+      "content": [
+        "Appointments can be booked online, over the phone, or in person at our Bareilly studio. We request patients to arrive 10 minutes prior to scheduled appointments.",
+        "If you need to reschedule or cancel your appointment, please notify our reception team at least 24 hours in advance to allow another patient in need to utilize the time slot.",
+        "Treatment estimates and consultation fees are communicated clearly prior to beginning any procedure."
+      ]
+    },
+    {
+      "icon": "Scales",
+      "title": "3. Payment & Billing Policies",
+      "content": [
+        "Payment for consultations and dental procedures is due at the time of service, unless installment plans (such as for clear aligners or full-mouth rehab) have been agreed upon in writing.",
+        "We accept major payment methods including cash, UPI, debit cards, credit cards, and bank transfers."
+      ]
+    },
+    {
+      "icon": "CheckCircle",
+      "title": "4. Patient Care & Clinic Hygiene Guidelines",
+      "content": [
+        "We maintain international-grade autoclave sterilization and single-use protocol standards to ensure patient safety.",
+        "Patients are expected to provide complete and accurate medical history (including allergies, ongoing medications, and pre-existing health conditions) prior to undergoing procedures."
+      ]
+    },
+    {
+      "icon": "ShieldWarning",
+      "title": "5. Emergency Care & Liability",
+      "content": [
+        "We provide dedicated emergency care for severe dental pain and trauma. For life-threatening medical emergencies, patients should visit the nearest general hospital emergency department.",
+        "Dr. Anubhuti Dental Studio is committed to delivering evidence-based clinical care; outcome success relies on adherence to post-treatment care instructions provided by our dental team."
+      ]
+    },
+    {
+      "icon": "Gavel",
+      "title": "6. Governing Law & Jurisdiction",
+      "content": [
+        "These Terms & Conditions are governed by and construed in accordance with the laws of Uttar Pradesh, India.",
+        "Any legal claims or disputes arising out of clinic services shall be subject to the exclusive jurisdiction of the competent courts in Bareilly, Uttar Pradesh."
+      ]
+    }
+  ]
+}

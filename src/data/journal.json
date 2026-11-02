@@ -1,0 +1,136 @@
+{
+  "badge": "Success Stories",
+  "title": "Patient Stories & Testimonials",
+  "viewAllLabel": "View all success stories",
+  "posts": [
+    {
+      "id": "patient-story-1",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Patient Review",
+      "title": "Painless Root Canal & Smile Restoration",
+      "excerpt": "Real patient feedback sharing their seamless experience during root canal treatment and smile restoration under Dr. Anubhuti Gupta.",
+      "content": "### Patient Experience\n\nReal patient feedback shared after treatment at Anubhuti Dental Studio.\n\n- **Treatment**: Root Canal & Aesthetic Restorative Care\n- **Key Highlights**: Gentle procedure, zero anxiety, completely painless experience, and warm patient care.",
+      "img": "/testimonials/1.png"
+    },
+    {
+      "id": "patient-story-2",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Patient Review",
+      "title": "Transformation & Patient Gratitude",
+      "excerpt": "Heartfelt review praising Dr. Anubhuti's meticulous attention to detail and unhurried care.",
+      "content": "### Patient Experience\n\nReal patient testimonial appreciating the transparent communication, warmth, and precision clinical treatment.",
+      "img": "/testimonials/2.png"
+    },
+    {
+      "id": "patient-story-3",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Verified Experience",
+      "title": "Patient Appreciation Note",
+      "excerpt": "Personal thank-you note from a satisfied patient after completing their dental treatment journey.",
+      "content": "### Patient Feedback\n\nDirect feedback highlighting the clean environment, modern equipment, and smooth treatment protocols at Anubhuti Dental Studio.",
+      "img": "/testimonials/3.jpg"
+    },
+    {
+      "id": "patient-story-4",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Smile Transformation",
+      "title": "Cosmetic & Laser Dentistry Success",
+      "excerpt": "Successful cosmetic laser procedure resulting in a natural, bright, and confident smile.",
+      "content": "### Clinical Result & Patient Satisfaction\n\nDetailed feedback on cosmetic enhancement and gentle laser treatment procedures.",
+      "img": "/testimonials/4.png"
+    },
+    {
+      "id": "patient-story-5",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Family Care",
+      "title": "Family Dental Care & Loyalty Experience",
+      "excerpt": "Review from a multi-generational family trusting Dr. Anubhuti for long-term dental health.",
+      "content": "### Family Testimonial\n\nHighlighting compassionate care for both young patients and senior family members.",
+      "img": "/testimonials/5.png"
+    },
+    {
+      "id": "patient-story-6",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Endodontic Care",
+      "title": "Single-Visit Precision Root Canal",
+      "excerpt": "Smooth single-visit root canal procedure with rapid recovery and total comfort.",
+      "content": "### Patient Feedback\n\nFast, precise rotary endodontic treatment executed with modern technology and gentle numbing.",
+      "img": "/testimonials/6.png"
+    },
+    {
+      "id": "patient-story-7",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Emergency Care",
+      "title": "Comfortable Emergency Dental Care",
+      "excerpt": "Timely relief and supportive care provided during an acute dental issue.",
+      "content": "### Emergency Care Review\n\nImmediate attention and pain relief provided with 24/7 dedicated clinical care.",
+      "img": "/testimonials/7.png"
+    },
+    {
+      "id": "patient-story-8",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Cosmetic Dentistry",
+      "title": "Aesthetic Smile Enhancement",
+      "excerpt": "Customized smile design creating natural aesthetics and functional perfection.",
+      "content": "### Patient Review\n\nCustomized restorative treatment delivered using top-quality international dental materials.",
+      "img": "/testimonials/8.png"
+    },
+    {
+      "id": "patient-story-9",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Preventive Care",
+      "title": "Gentle Hygiene & Preventive Cleaning",
+      "excerpt": "Thorough, comfortable ultrasonic scaling and preventive advice.",
+      "content": "### Preventive Care Experience\n\nGentle dental cleaning and personalized oral hygiene guidance for long-term gum health.",
+      "img": "/testimonials/9.png"
+    },
+    {
+      "id": "patient-story-10",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Patient Comfort",
+      "title": "Anxiety-Free Dental Visit",
+      "excerpt": "Overcoming dental fear with unhurried appointments and clear, supportive communication.",
+      "content": "### Patient Story\n\nHow a relaxed atmosphere and transparent explanation helped eliminate fear of dental procedures.",
+      "img": "/testimonials/10.png"
+    },
+    {
+      "id": "patient-story-11",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Restorative Care",
+      "title": "High-Precision Ceramic Restoration",
+      "excerpt": "Durable ceramic crown placement with perfect bite alignment and aesthetic harmony.",
+      "content": "### Restorative Care Feedback\n\nLong-lasting restoration using digital diagnostic scanning and durable ceramic materials.",
+      "img": "/testimonials/11.png"
+    },
+    {
+      "id": "patient-story-12",
+      "date": "Bareilly Clinic",
+      "readTime": "Patient Experience",
+      "category": "Patient Review",
+      "title": "5-Star Patient Recommendation",
+      "excerpt": "Overall 5-star rating praising clinic hygiene, friendly staff, and clinical excellence.",
+      "content": "### Patient Testimonial\n\nComprehensive review endorsing Dr. Anubhuti Gupta as Bareilly's premier dental specialist.",
+      "img": "/testimonials/12.png"
+    }
+  ],
+  "journalPage": {
+    "backButtonLabel": "Back to home",
+    "titlePrefix": "Patient",
+    "titleHighlight": "Success Stories",
+    "subtitle": "Real experiences, verified reviews, and heartfelt feedback from patients treated by Dr. Anubhuti Gupta.",
+    "ctaTitle": "Ready to Experience Gentle Dental Care?",
+    "ctaSubtitle": "Book a consultation with Dr. Anubhuti Gupta today and experience gentle care, advanced diagnostics, and a radiant smile.",
+    "ctaButtonLabel": "Book Appointment"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "badge": "Legal & Privacy Governance",
+  "title": "Privacy Policy",
+  "subtitle": "At Dr. Anubhuti Dental Studio, protecting your privacy and personal health data is central to our commitment to patient-first care.",
+  "backButtonLabel": "Back to Home",
+  "sections": [
+    {
+      "icon": "Eye",
+      "title": "1. Information We Collect",
+      "content": [
+        "At Dr. Anubhuti Dental Studio, we collect personal information necessary to deliver seamless dental care and appointment management services. This includes details provided during appointment requests, contact form submissions, or patient registration.",
+        "The information collected may include your full name, email address, contact phone number, postal address, preferred treatment dates, and relevant clinical history.",
+        "We also automatically gather non-personal analytics data such as browser type, IP address, and page interaction patterns to improve website performance and user experience."
+      ]
+    },
+    {
+      "icon": "Lock",
+      "title": "2. How We Use Your Information",
+      "content": [
+        "Your information is used exclusively to facilitate your appointments, customize dental treatment plans, process billing transactions, and communicate essential clinical reminders regarding your care.",
+        "We may use your contact details to send appointment confirmations, treatment follow-ups, and dental care guidelines via SMS, WhatsApp, or email.",
+        "We do not sell, rent, or lease your personal data to any third-party marketing entities under any circumstances."
+      ]
+    },
+    {
+      "icon": "ShieldCheck",
+      "title": "3. Data Security & Clinical Privacy",
+      "content": [
+        "Dr. Anubhuti Dental Studio implements strict administrative, technical, and physical security measures to safeguard your personal health data against unauthorized access, loss, or disclosure.",
+        "Online communications and appointment data transfers are encrypted using Secure Socket Layer (SSL) protocols.",
+        "Access to patient records is strictly restricted to authorized clinic staff on a need-to-know basis."
+      ]
+    },
+    {
+      "icon": "FileText",
+      "title": "4. Cookies & Web Tracking",
+      "content": [
+        "Our website utilizes essential session cookies and performance tracking scripts to enhance navigation, retain user preferences, and analyze site traffic.",
+        "You can choose to disable non-essential cookies through your browser settings; however, certain interactive features of our website may have reduced functionality."
+      ]
+    },
+    {
+      "icon": "EnvelopeSimple",
+      "title": "5. Your Rights & Contact Details",
+      "content": [
+        "You have the right to request access to, correction of, or deletion of your personal contact data stored with Dr. Anubhuti Dental Studio.",
+        "For privacy concerns, record update requests, or policy inquiries, please contact our clinic administration:"
+      ]
+    }
+  ],
+  "contactBox": {
+    "show": true,
+    "companyName": "Dr. Anubhuti Dental Studio",
+    "email": "dr.anubhutig@gmail.com",
+    "phone": "+91 8126399924"
+  }
+}

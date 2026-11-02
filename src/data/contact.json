@@ -1,0 +1,31 @@
+{
+  "badge": "Appointments",
+  "title": "Book your appointment",
+  "subtitle": "Please Share a few details...",
+  "submitButtonText": "Request appointment",
+  "thankYouTitle": "Thanks",
+  "thankYouMessage": "Your request has reached us. Our front desk will confirm your appointment shortly.",
+  "defaultTemplate": "Hello Dr. Anubhuti's Dental Studio, I would like to book an appointment. Please share your available slots.",
+  "templates": [
+    {
+      "icon": "Tooth",
+      "label": "Check-up & cleaning",
+      "text": "Hello Dr. Anubhuti's Dental Studio, I would like to book a routine check-up and cleaning. Please share your available slots."
+    },
+    {
+      "icon": "Sparkle",
+      "label": "Teeth whitening",
+      "text": "Hello Dr. Anubhuti's Dental Studio, I am interested in teeth whitening and would like to know more about the options and pricing."
+    },
+    {
+      "icon": "Smiley",
+      "label": "Aligners consult",
+      "text": "Hello Dr. Anubhuti's Dental Studio, I would like a consultation about clear aligners to straighten my teeth."
+    },
+    {
+      "icon": "FirstAid",
+      "label": "Dental emergency",
+      "text": "Hello Dr. Anubhuti's Dental Studio, I have dental pain and would like the earliest possible emergency appointment."
+    }
+  ]
+}

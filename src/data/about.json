@@ -1,0 +1,149 @@
+{
+  "title": "Meet Dr. Anubhuti Gupta",
+  "doctorName": "Dr. Anubhuti Gupta",
+  "image": "/images/dr-anubhuti-gupta.webp",
+  "imageAlt": "Dr. Anubhuti Gupta — Lead Prosthodontist & Implantologist",
+  "doctorRole": "Director-Consultant",
+  "doctorSpeciality": "Endodontist, Cosmetic & Laser Dentistry Specialist",
+  "doctorBioBullets": [
+    "Academic Excellence: BDS from MAIDS (Delhi, ranked #1 Dental College in India) & MDS from KLE VKIDS with numerous certificates of honour.",
+    "10+ Years Specialist Practice: Extensive experience as a Root Canal, Cosmetic & Laser Dentistry Specialist across top New Delhi & Bareilly clinics.",
+    "Academic & Professional Leadership: Active IDA member & Life Member of Indian Endodontic Society; conducts hands-on workshops in Rotary Endodontics.",
+    "Customized Patient-First Care: International-grade equipment, premium durable materials, and a long-running Loyalty Program for Bareilly families."
+  ],
+  "stats": [
+    {
+      "value": "12+",
+      "label": "Years Clinical Excellence"
+    },
+    {
+      "value": "9,000+",
+      "label": "Smiles Transformed"
+    },
+    {
+      "value": "4.9★",
+      "label": "Patient Care Rating"
+    },
+    {
+      "value": "100%",
+      "label": "Painless Protocol"
+    }
+  ],
+  "ctaLabel": "Book Appointment",
+  "aboutPage": {
+    "badge": "OUR HERITAGE & PHILOSOPHY",
+    "titlePrefix": "Meet Dr. Anubhuti Gupta",
+    "subtitle": "Combining 12+ years of specialist clinical expertise with compassionate, unhurried patient care at Anubhuti Dental Studio.",
+    "backButtonLabel": "Back to home",
+    "mainImage": "/images/dr-anubhuti-gupta.webp",
+    "mainImageAlt": "Dr. Anubhuti Gupta at Anubhuti Dental Studio",
+    "doctorRole": "Director-Consultant",
+    "doctorSpeciality": "Endodontist, Cosmetic & Laser Dentistry Specialist",
+    "doctorExperience": "10+ Years Specialist Practice",
+    "doctorDegree": "Postgraduate Masters (MDS), BDS (MAIDS Delhi)",
+    "storyBadge": "CLINICAL BACKGROUND & CREDENTIALS",
+    "storyTitle": "Professional Journey & Specialist Expertise",
+    "story1Bullets": [
+      "Completed BDS from Maulana Azad Institute of Dental Sciences (MAIDS), at MAMC Delhi — ranked 'Best Dental College in India' for consecutive years.",
+      "Completed Postgraduate Masters (MDS) and research theses at the renowned KLE VKIDS, Belgaum, Karnataka.",
+      "Awarded numerous certificates of honour during both graduation and post-graduation."
+    ],
+    "story2Bullets": [
+      "Worked across New Delhi as a visiting consultant Root Canal, Cosmetic, and Laser Dentistry Specialist.",
+      "Active academically and stays updated on global trends through national and international CDE workshops.",
+      "Member of the Indian Dental Association (IDA) and Life Member of the Indian Endodontic Society (IES).",
+      "Conducted classes and hands-on workshops teaching dental students Cosmetic Dentistry and Rotary Endodontics."
+    ],
+    "story3Bullets": [
+      "Established Anubhuti Dental Studio in Bareilly, UP, with a commitment to individualized, compassionate patient care.",
+      "Operates with internationally recognized advanced equipment and high-quality, durable materials.",
+      "Delivers dental treatments customized precisely to suit every patient's requirements and aesthetic desires.",
+      "Maintains a long-running Loyalty Program — a strong community of satisfied patients and families across India."
+    ],
+    "features": [
+      {
+        "title": "Advanced Technology",
+        "desc": "Internationally acclaimed & certified equipment and materials, assuring dental services at par with the best in the world."
+      },
+      {
+        "title": "Triple-Treatment Sterilization",
+        "desc": "100% sterile instruments via Chemical Disinfection, Class B Autoclaving, and sealed Sterile Chamber storage."
+      },
+      {
+        "title": "Comfortable Clinic & Staff",
+        "desc": "State-of-the-art clinic with a friendly, experienced team ensuring every visit is customized, calm, and memorable."
+      },
+      {
+        "title": "24/7 Emergency & Surgical OT",
+        "desc": "24-Hour emergency & in-patient facilities with fully equipped dedicated operatories for minor & major procedures."
+      }
+    ],
+    "pillarsBadge": "OUR ETHOS & CARE COMMITMENT",
+    "pillarsTitle": "Guided by Ethics, Safety & World-Class Standards",
+    "pillars": [
+      {
+        "title": "Honest & Ethical Philosophy",
+        "desc": "Treating every patient with complete honesty, transparency, and gentle care to ensure every visit to the dentist is memorable."
+      },
+      {
+        "title": "World-Class Bareilly Care",
+        "desc": "Bringing top-tier professional dental care to Bareilly using proven, safe techniques and internationally certified materials."
+      },
+      {
+        "title": "Continuous Excellence",
+        "desc": "Continuously updating clinical protocols with the latest dental technology and materials to deliver treatment excellence."
+      },
+      {
+        "title": "Patient Safety & Digital X-Rays",
+        "desc": "Uncompromising sterilization standards with in-house digital X-rays engineered for minimum radiation exposure and fast results."
+      }
+    ],
+    "ctaTitle": "Ready to see us?",
+    "ctaSubtitle": "Book a consultation at Anubhuti Dental Studio and we will walk you through your options, calmly and clearly.",
+    "ctaButtonLabel": "Book Appointment",
+    "facilitiesTitle": "Comfort and care in every detail",
+    "facilitiesSubtitle": "Small touches across the clinic that make appointments easier for every patient.",
+    "clinicFacilities": [
+      {
+        "title": "Digital X-rays",
+        "desc": "Low-radiation imaging with instant on-screen results.",
+        "icon": "XCircle"
+      },
+      {
+        "title": "Intraoral scanning",
+        "desc": "No messy impressions for crowns, aligners, or guards.",
+        "icon": "Scan"
+      },
+      {
+        "title": "Sterilisation suite",
+        "desc": "Class-B autoclave and tracked instrument cycles.",
+        "icon": "ShieldCheck"
+      },
+      {
+        "title": "Painless anaesthesia",
+        "desc": "Topical numbing and gentle delivery for comfort.",
+        "icon": "Drop"
+      },
+      {
+        "title": "Wheelchair access",
+        "desc": "Step-free entry and an accessible treatment room.",
+        "icon": "Wheelchair"
+      },
+      {
+        "title": "Family friendly",
+        "desc": "Calm care for children and nervous patients alike.",
+        "icon": "Heart"
+      },
+      {
+        "title": "Same-day emergencies",
+        "desc": "Slots kept open daily for pain and urgent care.",
+        "icon": "Lightning"
+      },
+      {
+        "title": "Free Wi-Fi & parking",
+        "desc": "Complimentary Wi-Fi and easy parking on site.",
+        "icon": "WifiHigh"
+      }
+    ]
+  }
+}

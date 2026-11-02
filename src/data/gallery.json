@@ -1,0 +1,23 @@
+{
+  "badge": "Gallery",
+  "titlePrefix": "A look inside",
+  "titleSuffix": "the studio",
+  "subtitle": "Real results and the calm, modern space where we care for your smile.",
+  "ctaLabel": "View full gallery",
+  "galleryPage": {
+    "titlePrefix": "The",
+    "titleHighlight": "Gallery",
+    "badge": "Visual Tour & Clinic Showcase",
+    "subtitle": "Explore our state-of-the-art facility, clinical precision, and warm patient atmosphere at Dr. Anubhuti's Advanced Dental Care.",
+    "backButtonLabel": "Back to home",
+    "emptyStateMessage": "No photos available yet."
+  },
+  "images": [
+    { "name": "/gallery/dental/image.png", "alt": "Advanced Dental Care Treatment Chair", "caption": "State-of-the-Art Treatment Suite", "seed": "dental-1" },
+    { "name": "/gallery/dental/image copy.png", "alt": "Precision Dental Equipment", "caption": "Modern Clinical Precision", "seed": "dental-2" },
+    { "name": "/gallery/dental/image copy 2.png", "alt": "Sterilised Operatory Setup", "caption": "Sterilised Operatory Setup", "seed": "dental-3" },
+    { "name": "/gallery/dental/image copy 3.png", "alt": "Clinic Consultation Area", "caption": "Patient Consultation & Comfort", "seed": "dental-4" },
+    { "name": "/gallery/dental/image copy 4.png", "alt": "Comprehensive Dental Suite", "caption": "Comprehensive Studio Suite", "seed": "dental-5" },
+    { "name": "/gallery/dental/image copy 5.png", "alt": "Dental Studio Reception & Ambient Space", "caption": "Warm Studio Ambience", "seed": "dental-6" }
+  ]
+}
