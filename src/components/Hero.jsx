@@ -97,7 +97,7 @@ export default function Hero() {
           className="mt-8 flex w-full flex-col items-center justify-center gap-3.5 sm:w-auto sm:flex-row sm:gap-4"
         >
           <a
-            href="#about"
+            href="/dashboard"
             className="group flex h-13 w-full items-center justify-center gap-2.5 rounded-full bg-white px-7 font-sans text-black font-semibold border border-white/20 shadow-[0_2px_16px_rgba(255,255,255,0.12)] transition-all duration-300 ease-premium hover:bg-neutral-200 active:scale-95 cursor-pointer sm:w-auto"
           >
             <span className="whitespace-nowrap text-sm tracking-wide">{heroData.ctaPrimaryLabel}</span>

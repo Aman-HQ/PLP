@@ -147,7 +147,7 @@ export default function About() {
           {/* CTA */}
           <motion.div variants={rise} className="mt-8 flex items-center gap-3">
             <a
-              href="#services"
+              href="/dashboard"
               className="group inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-white px-6 font-sans text-xs font-semibold tracking-wide text-black border border-white/20 shadow-[0_2px_12px_rgba(255,255,255,0.08)] transition-all duration-300 ease-premium hover:bg-neutral-200 active:scale-95 cursor-pointer"
             >
               <span>{aboutData.ctaLabel || 'Start Learning Free'}</span>

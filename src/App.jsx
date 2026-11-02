@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import Footer from './components/Footer';
+import DashboardApp from './components/dashboard/DashboardApp';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -16,6 +17,19 @@ function resolveRoute() {
 
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
   const hash = window.location.hash;
+
+  // Dashboard route
+  if (
+    pathname === '/dashboard' ||
+    pathname.startsWith('/dashboard/') ||
+    hash === '#dashboard' ||
+    hash.startsWith('#dashboard') ||
+    hash === '#new-patient' ||
+    hash.startsWith('#existing-patient') ||
+    hash.startsWith('#notifications')
+  ) {
+    return { page: 'dashboard', section: null };
+  }
 
   // Privacy Policy route
   if (pathname === '/privacy' || pathname === '/privacy-policy' || hash === '#privacy' || hash === '#privacy-policy') {
@@ -58,6 +72,8 @@ export default function App() {
         if (window.location.hash || window.location.pathname !== '/') {
           window.history.replaceState(null, '', '/');
         }
+      } else if (current.page === 'dashboard' && window.location.pathname !== '/dashboard' && !window.location.hash) {
+        window.history.replaceState(null, '', '/dashboard');
       } else if (current.page === 'privacy' && window.location.pathname !== '/privacy') {
         window.history.replaceState(null, '', '/privacy');
       } else if (current.page === 'terms' && window.location.pathname !== '/terms') {
@@ -96,7 +112,7 @@ export default function App() {
     };
   }, []);
 
-  // Lenis smooth scroll for Homepage
+  // Lenis smooth scroll for Homepage only
   useEffect(() => {
     if (route.page !== 'home') {
       if (lenisRef.current) {
@@ -135,6 +151,15 @@ export default function App() {
       if (!anchor) return;
       const href = anchor.getAttribute('href');
       if (!href) return;
+
+      // Dashboard navigation
+      if (href === '/dashboard' || href.startsWith('/dashboard') || href === '#dashboard' || href.startsWith('#dashboard')) {
+        e.preventDefault();
+        window.history.pushState(null, '', '/dashboard');
+        setRoute({ page: 'dashboard', section: null });
+        window.scrollTo(0, 0);
+        return;
+      }
 
       // Clean path navigation for pages
       if (href === '/privacy' || href === '/privacy-policy') {
@@ -214,17 +239,22 @@ export default function App() {
         </>
       )}
 
-      {/* 2. Privacy Policy Page */}
+      {/* 2. Dashboard App */}
+      {route.page === 'dashboard' && (
+        <DashboardApp />
+      )}
+
+      {/* 3. Privacy Policy Page */}
       {route.page === 'privacy' && (
         <PrivacyPolicyPage onBack={navigateToHome} />
       )}
 
-      {/* 3. Terms & Conditions Page */}
+      {/* 4. Terms & Conditions Page */}
       {route.page === 'terms' && (
         <TermsPage onBack={navigateToHome} />
       )}
 
-      {/* 4. 404 Page Not Found */}
+      {/* 5. 404 Page Not Found */}
       {route.page === 'not-found' && (
         <NotFoundPage onGoHome={navigateToHome} />
       )}
