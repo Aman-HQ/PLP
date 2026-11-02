@@ -200,7 +200,7 @@ export default function App() {
   };
 
   return (
-    <div className="app-container min-h-screen bg-[#0A0A0B] text-[#F5F5F7]">
+    <div className="app-container min-h-screen bg-[#09090B] text-[#FAFAFA]">
       {/* 1. Main Homepage */}
       {route.page === 'home' && (
         <>

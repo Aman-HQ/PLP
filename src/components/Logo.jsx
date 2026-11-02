@@ -1,15 +1,15 @@
-// AI Tutor brand logo mark
+// AI Tutor brand logo mark — Premium Monochrome
 export default function Logo({ className = 'w-8 h-8' }) {
   return (
-    <div className={`relative flex items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/25 ${className}`}>
+    <div className={`relative flex items-center justify-center rounded-xl bg-white text-black border border-white/20 shadow-[0_2px_12px_rgba(255,255,255,0.12)] ${className}`}>
       <svg
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="2.2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="w-5 h-5"
+        className="w-4 h-4"
         aria-label="AI Tutor Logo"
       >
         <path d="M12 2v4" />
@@ -20,7 +20,7 @@ export default function Logo({ className = 'w-8 h-8' }) {
         <path d="m19.07 19.07-2.83-2.83" />
         <path d="M20 12h-4" />
         <path d="m19.07 4.93-2.83 2.83" />
-        <circle cx="12" cy="12" r="3" fill="currentColor" fillOpacity="0.3" />
+        <circle cx="12" cy="12" r="3" fill="currentColor" fillOpacity="0.2" />
       </svg>
     </div>
   );

@@ -56,17 +56,17 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color,padding] duration-500 ease-premium ${scrolled
-        ? 'bg-[#0A0A0B]/85 backdrop-blur-xl border-b border-white/[0.08] py-3'
+        ? 'bg-[#09090B]/85 backdrop-blur-xl border-b border-white/[0.08] py-3'
         : 'bg-transparent border-b border-transparent py-5'
         }`}
     >
       <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-4 sm:px-8">
         {/* Brand */}
         <a href="#home" className="group flex items-center gap-2.5 sm:gap-3" aria-label={`${siteData.name} — home`}>
-          <Logo className="h-9 w-9 text-chalk transition-transform duration-500 ease-premium group-hover:scale-105 sm:h-10 sm:w-10" />
+          <Logo className="h-9 w-9 transition-transform duration-500 ease-premium group-hover:scale-105 sm:h-10 sm:w-10" />
           <span className="flex flex-col leading-none">
-            <span className="font-display text-[15px] font-semibold tracking-tight text-chalk sm:text-base">AI Tutor</span>
-            <span className="mt-1 font-sans text-[9px] font-medium uppercase tracking-[0.22em] text-ash sm:text-[10px]">Intelligent Learning</span>
+            <span className="font-display text-[15px] font-semibold tracking-tight text-white sm:text-base">AI Tutor</span>
+            <span className="mt-1 font-sans text-[9px] font-medium uppercase tracking-[0.22em] text-zinc-400 sm:text-[10px]">Intelligent Learning</span>
           </span>
         </a>
 
@@ -77,12 +77,12 @@ export default function Navbar() {
               <a
                 href={link.href}
                 onClick={() => setActive(link.label)}
-                className={`group relative font-sans text-[13px] lg:text-[15px] font-medium tracking-tight transition-colors duration-300 ${active === link.label ? 'text-chalk' : 'text-ash hover:text-chalk'
+                className={`group relative font-sans text-[13px] lg:text-[15px] font-medium tracking-tight transition-colors duration-300 ${active === link.label ? 'text-white' : 'text-zinc-400 hover:text-white'
                   }`}
               >
                 {link.label}
                 <span
-                  className={`absolute -bottom-2 left-0 h-px w-full origin-left bg-indigo-500 transition-transform duration-300 ease-premium ${active === link.label ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                  className={`absolute -bottom-2 left-0 h-px w-full origin-left bg-white transition-transform duration-300 ease-premium ${active === link.label ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
                     }`}
                 />
               </a>
@@ -94,10 +94,10 @@ export default function Navbar() {
         <div className="flex items-center gap-2 sm:gap-3">
           <a
             href="#about"
-            className="group hidden h-10 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 px-4 font-sans text-white shadow-[0_4px_20px_rgba(99,102,241,0.3)] transition-all duration-300 ease-premium hover:scale-[1.03] hover:shadow-[0_8px_30px_rgba(99,102,241,0.45)] active:scale-95 cursor-pointer sm:inline-flex"
+            className="group hidden h-10 items-center justify-center gap-2 rounded-full bg-white px-4 font-sans text-black border border-white/20 shadow-[0_2px_12px_rgba(255,255,255,0.08)] transition-all duration-300 ease-premium hover:bg-neutral-200 active:scale-95 cursor-pointer sm:inline-flex"
           >
             <span className="whitespace-nowrap text-[12px] font-semibold tracking-wide">{siteData.bookButtonLabel || 'Start Learning Free'}</span>
-            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-black/10 text-black transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
               <ArrowUpRight size={13} weight="bold" />
             </span>
           </a>
@@ -108,7 +108,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen((v) => !v)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
-            className="flex h-10 w-10 items-center justify-center rounded-full text-chalk ring-1 ring-inset ring-white/15 transition-colors duration-300 hover:bg-white/10 lg:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-white ring-1 ring-inset ring-white/15 transition-colors duration-300 hover:bg-white/10 lg:hidden"
           >
             {menuOpen ? <X size={18} weight="bold" /> : <List size={18} weight="bold" />}
           </button>
@@ -122,7 +122,7 @@ export default function Navbar() {
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         className="overflow-hidden lg:hidden"
       >
-        <ul className="flex flex-col gap-1 border-t border-white/[0.07] bg-[#0A0A0B]/95 px-6 pb-6 pt-4 backdrop-blur-xl">
+        <ul className="flex flex-col gap-1 border-t border-white/[0.08] bg-[#09090B]/95 px-6 pb-6 pt-4 backdrop-blur-xl">
           {NAV_LINKS.map((link, i) => (
             <li key={link.label}>
               <a
@@ -132,11 +132,11 @@ export default function Navbar() {
                   setMenuOpen(false);
                 }}
                 style={reduceMotion ? undefined : { transitionDelay: `${menuOpen ? i * 40 : 0}ms` }}
-                className={`flex items-center justify-between border-b border-white/[0.05] py-3.5 font-display text-lg font-medium tracking-tight transition-colors ${active === link.label ? 'text-chalk' : 'text-chalk/70 hover:text-chalk'
+                className={`flex items-center justify-between border-b border-white/[0.05] py-3.5 font-display text-lg font-medium tracking-tight transition-colors ${active === link.label ? 'text-white' : 'text-zinc-400 hover:text-white'
                   }`}
               >
                 {link.label}
-                <ArrowUpRight size={16} weight="bold" className="text-ash" />
+                <ArrowUpRight size={16} weight="bold" className="text-zinc-500" />
               </a>
             </li>
           ))}
@@ -144,10 +144,10 @@ export default function Navbar() {
             <a
               href="#about"
               onClick={() => setMenuOpen(false)}
-              className="group flex w-full h-12 items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-indigo-500 to-violet-600 px-6 font-sans text-white shadow-[0_8px_32px_rgba(99,102,241,0.3)] transition-all duration-300 ease-premium hover:scale-105 active:scale-95 cursor-pointer"
+              className="group flex w-full h-12 items-center justify-center gap-2.5 rounded-full bg-white px-6 font-sans text-black font-semibold shadow-[0_4px_16px_rgba(255,255,255,0.1)] transition-all duration-300 ease-premium hover:bg-neutral-200 active:scale-95 cursor-pointer"
             >
               <span className="whitespace-nowrap text-xs font-semibold tracking-wide">{siteData.bookButtonLabel || 'Start Learning Free'}</span>
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-white transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-black/10 text-black transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 <ArrowUpRight size={14} weight="bold" />
               </span>
             </a>
@@ -159,7 +159,7 @@ export default function Navbar() {
       {menuOpen && (
         <div
           onClick={() => setMenuOpen(false)}
-          className="fixed inset-0 -z-10 bg-black/60 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 -z-10 bg-black/70 backdrop-blur-sm lg:hidden"
           aria-hidden="true"
         />
       )}
