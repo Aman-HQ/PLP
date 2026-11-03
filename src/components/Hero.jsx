@@ -379,7 +379,7 @@ export default function Hero() {
           <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.65rem] text-zinc-200">
             {heroData.headlinePre}
           </span>
-          <span className="mt-1.5 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.35rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+          <span className="mt-0.5 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.35rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
             {heroData.headlineEmphasis}
           </span>
         </motion.h1>
@@ -387,7 +387,7 @@ export default function Hero() {
         {/* Subtitle */}
         <motion.p
           variants={itemVariants}
-          className="mt-6 max-w-2xl font-sans text-base font-normal leading-relaxed text-zinc-400 sm:text-[18px]"
+          className="mt-6 max-w-2xl font-sans text-base font-normal leading-relaxed text-zinc-400 sm:text-[17.5px]"
         >
           {heroData.subtitle}
         </motion.p>
@@ -395,7 +395,7 @@ export default function Hero() {
         {/* Button-in-Button CTA Action Row */}
         <motion.div
           variants={itemVariants}
-          className="mt-10 mb-8 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
+          className="mt-7 mb-8 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
         >
           {/* Primary CTA */}
           <a
@@ -485,10 +485,10 @@ export default function Hero() {
         />
 
         {/* Outer Frame Glow / Ambient Bezel */}
-        <div className="relative rounded-[26px] sm:rounded-[30px] p-2 sm:p-2.5 border border-white/20 bg-gradient-to-b from-white/[0.14] via-white/[0.04] to-transparent shadow-[0_-20px_70px_rgba(255,255,255,0.16),0_24px_90px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
+        <div className="relative rounded-[22px] sm:rounded-[30px] p-1.5 sm:p-2.5 border border-white/20 bg-gradient-to-b from-white/[0.14] via-white/[0.04] to-transparent shadow-[0_-20px_70px_rgba(255,255,255,0.16),0_24px_90px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
           
           {/* Pristine App Window (Image 2 Architecture) */}
-          <div className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] bg-white text-zinc-900 border border-zinc-200/80 shadow-2xl flex flex-col md:flex-row min-h-[590px]">
+          <div className="relative overflow-hidden rounded-[18px] sm:rounded-[24px] bg-white text-zinc-900 border border-zinc-200/80 shadow-2xl flex flex-col md:flex-row min-h-[480px] sm:min-h-[590px]">
             
             {/* ── LEFT SIDEBAR (Desktop) ── */}
             <div className="hidden md:flex w-60 shrink-0 flex-col justify-between border-r border-zinc-200/70 bg-[#FAFAFA] p-4 text-left select-none">
@@ -590,43 +590,43 @@ export default function Hero() {
             <div className="flex flex-1 flex-col justify-between bg-white text-left">
               
               {/* Top Navigation & Breadcrumb Header */}
-              <div className="flex items-center justify-between border-b border-zinc-200/70 px-5 py-3.5 sm:px-6">
+              <div className="flex items-center justify-between border-b border-zinc-200/70 px-4 py-3 sm:px-6 sm:py-3.5">
                 
                 {/* Left Breadcrumb */}
-                <div className="flex items-center gap-2 text-xs sm:text-sm">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-zinc-100 text-zinc-700">
-                    <Stack size={16} weight="bold" />
+                <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm min-w-0">
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-zinc-100 text-zinc-700">
+                    <Stack size={15} weight="bold" />
                   </div>
-                  <span className="font-semibold text-zinc-900 ml-1">{currentChat.subject}</span>
-                  <span className="text-zinc-400">›</span>
-                  <span className="font-medium text-zinc-500">{currentChat.topic}</span>
+                  <span className="font-semibold text-zinc-900 ml-0.5 sm:ml-1 truncate">{currentChat.subject}</span>
+                  <span className="text-zinc-400 select-none">›</span>
+                  <span className="font-medium text-zinc-500 truncate">{currentChat.topic}</span>
                 </div>
 
                 {/* Right Utility Actions */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 sm:gap-2 shrink-0">
                   <button
                     type="button"
                     title="Light Mode"
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
+                    className="flex h-7.5 w-7.5 sm:h-8 sm:w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
                   >
-                    <Sun size={18} weight="bold" />
+                    <Sun size={17} weight="bold" />
                   </button>
                   <button
                     type="button"
                     title="Export"
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
+                    className="flex h-7.5 w-7.5 sm:h-8 sm:w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
                   >
-                    <Export size={17} weight="bold" />
+                    <Export size={16} weight="bold" />
                   </button>
                   <button
                     type="button"
                     onClick={() => setBookmarked((v) => !v)}
                     title="Bookmark"
-                    className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+                    className={`flex h-7.5 w-7.5 sm:h-8 sm:w-8 items-center justify-center rounded-full transition-colors ${
                       bookmarked ? 'text-black bg-zinc-100' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
                     }`}
                   >
-                    <BookmarkSimple size={17} weight={bookmarked ? 'fill' : 'regular'} />
+                    <BookmarkSimple size={16} weight={bookmarked ? 'fill' : 'regular'} />
                   </button>
                   <button
                     type="button"
@@ -640,18 +640,18 @@ export default function Hero() {
               </div>
 
               {/* Chat Conversation Scroll Area */}
-              <div className="space-y-5 p-5 sm:p-7 overflow-y-auto max-h-[520px]">
+              <div className="space-y-4 sm:space-y-5 p-3.5 sm:p-7 overflow-y-auto max-h-[480px] sm:max-h-[520px]">
                 
                 {/* 1. Student Message */}
-                <div className="flex items-start gap-3 text-left">
+                <div className="flex items-start gap-2.5 sm:gap-3 text-left">
                   <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-100 border border-zinc-200 text-zinc-600">
-                    <User size={15} weight="bold" />
+                    <User size={14} weight="bold" />
                   </div>
-                  <div className="flex flex-1 items-center justify-between gap-4 rounded-xl border border-zinc-200/80 bg-zinc-100 px-3 py-1.5">
+                  <div className="flex flex-1 flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-4 rounded-xl border border-zinc-200/80 bg-zinc-100 px-3 py-2 sm:py-1.5">
                     <p className="font-sans text-xs sm:text-[12.5px] font-medium leading-relaxed text-zinc-800">
                       {currentChat.userQuery}
                     </p>
-                    <span className="shrink-0 text-[10.5px] text-zinc-500">
+                    <span className="shrink-0 text-[10px] sm:text-[10.5px] text-zinc-500 self-end sm:self-auto">
                       {currentChat.userTime}
                     </span>
                   </div>
@@ -660,24 +660,24 @@ export default function Hero() {
                 {/* 2. AI Tutor Message */}
                 <div className="space-y-3">
                   {/* Tutor Avatar & Identity Badge */}
-                  <div className="flex items-center gap-2.5">
-                    <Logo dark className="h-7 w-7 !rounded-lg shrink-0" />
+                  <div className="flex items-center gap-2 sm:gap-2.5">
+                    <Logo dark className="h-6 w-6 sm:h-7 sm:w-7 !rounded-lg shrink-0" />
                     <span className="font-bold text-xs sm:text-sm text-zinc-900">AI Tutor</span>
-                    <span className="rounded-full bg-zinc-100 border border-zinc-200/80 px-2.5 py-0.5 text-[10px] font-medium text-zinc-600">
+                    <span className="rounded-full bg-zinc-100 border border-zinc-200/80 px-2 sm:px-2.5 py-0.5 text-[9.5px] sm:text-[10px] font-medium text-zinc-600">
                       Concept Explanation
                     </span>
                   </div>
 
                   {/* Intro Synthesis */}
-                  <p className="pl-9 font-sans text-xs sm:text-[13px] leading-relaxed text-zinc-700">
+                  <p className="pl-0 sm:pl-9 font-sans text-xs sm:text-[13px] leading-relaxed text-zinc-700">
                     {currentChat.introText}
                   </p>
 
                   {/* Two Side-by-Side Math/Concept Comparison Cards */}
-                  <div className="pl-0 sm:pl-9 grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                  <div className="pl-0 sm:pl-9 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-3.5">
                     
                     {/* Card 1: 1D */}
-                    <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm hover:border-zinc-300 transition-colors">
+                    <div className="rounded-2xl border border-zinc-200/80 bg-white p-3.5 sm:p-4 shadow-sm hover:border-zinc-300 transition-colors">
                       <div className="flex items-center gap-2">
                         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 text-zinc-700">
                           <TrendUp size={15} weight="bold" />
@@ -686,7 +686,7 @@ export default function Hero() {
                       </div>
 
                       {/* Formula Box */}
-                      <div className="my-3 rounded-xl border border-zinc-200/60 bg-zinc-50/80 px-3 py-3.5 text-center">
+                      <div className="my-2.5 sm:my-3 rounded-xl border border-zinc-200/60 bg-zinc-50/80 px-2 sm:px-3 py-2.5 sm:py-3.5 text-center overflow-x-auto">
                         {currentChat.card1.formula}
                       </div>
 
@@ -696,7 +696,7 @@ export default function Hero() {
                     </div>
 
                     {/* Card 2: 3D */}
-                    <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm hover:border-zinc-300 transition-colors">
+                    <div className="rounded-2xl border border-zinc-200/80 bg-white p-3.5 sm:p-4 shadow-sm hover:border-zinc-300 transition-colors">
                       <div className="flex items-center gap-2">
                         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 text-zinc-700">
                           <Stack size={15} weight="bold" />
@@ -705,7 +705,7 @@ export default function Hero() {
                       </div>
 
                       {/* Formula Box */}
-                      <div className="my-3 rounded-xl border border-zinc-200/60 bg-zinc-50/80 px-3 py-3.5 text-center">
+                      <div className="my-2.5 sm:my-3 rounded-xl border border-zinc-200/60 bg-zinc-50/80 px-2 sm:px-3 py-2.5 sm:py-3.5 text-center overflow-x-auto">
                         {currentChat.card2.formula}
                       </div>
 
@@ -717,20 +717,20 @@ export default function Hero() {
                   </div>
 
                   {/* Key Insight Callout Card */}
-                  <div className="ml-0 sm:ml-9 rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-2">
+                  <div className="ml-0 sm:ml-9 rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-2.5 sm:p-2">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-200/70 text-zinc-700">
                         <Lightbulb size={14} weight="bold" />
                       </span>
                       <span className="font-bold text-xs text-zinc-900">Key Insight</span>
                     </div>
-                    <p className="text-[11.5px] leading-relaxed text-zinc-600 pl-8">
+                    <p className="text-[11px] sm:text-[11.5px] leading-relaxed text-zinc-600 pl-6 sm:pl-8">
                       {currentChat.keyInsight}
                     </p>
                   </div>
 
                   {/* Tutor Feedback & Utility Row */}
-                  <div className="pl-0 sm:pl-9 flex items-center gap-2.5 pt-1 text-zinc-400">
+                  <div className="pl-0 sm:pl-9 flex items-center gap-2 sm:gap-2.5 pt-1 text-zinc-400">
                     <button
                       type="button"
                       onClick={() => setLiked((v) => (v === 'up' ? null : 'up'))}
@@ -773,18 +773,18 @@ export default function Hero() {
               </div>
 
               {/* Bottom Input Box (Ask a follow-up question...) */}
-              <div className="p-4 sm:p-5 pt-0">
+              <div className="p-3 sm:p-5 pt-0">
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
                     if (inputVal.trim()) setInputVal('');
                   }}
-                  className="relative flex items-center justify-between rounded-full border border-zinc-200/90 bg-white p-1.5 pl-3.5 shadow-sm transition-all focus-within:border-zinc-400 focus-within:ring-2 focus-within:ring-zinc-950/5"
+                  className="relative flex items-center justify-between rounded-full border border-zinc-200/90 bg-white p-1 sm:p-1.5 pl-2.5 sm:pl-3.5 shadow-sm transition-all focus-within:border-zinc-400 focus-within:ring-2 focus-within:ring-zinc-950/5"
                 >
                   <button
                     type="button"
                     title="Add attachment"
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 transition-colors"
+                    className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 transition-colors"
                   >
                     <Plus size={14} weight="bold" />
                   </button>
@@ -794,15 +794,15 @@ export default function Hero() {
                     value={inputVal}
                     onChange={(e) => setInputVal(e.target.value)}
                     placeholder="Ask a follow-up question..."
-                    className="w-full bg-transparent px-3 text-xs sm:text-sm text-zinc-800 placeholder-zinc-400 outline-none"
+                    className="w-full bg-transparent px-2 sm:px-3 text-xs sm:text-sm text-zinc-800 placeholder-zinc-400 outline-none min-w-0"
                   />
 
                   <button
                     type="submit"
                     title="Send message"
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white hover:bg-zinc-800 active:scale-95 shadow-sm transition-all"
+                    className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full bg-black text-white hover:bg-zinc-800 active:scale-95 shadow-sm transition-all"
                   >
-                    <PaperPlaneTilt size={15} weight="bold" />
+                    <PaperPlaneTilt size={14} weight="bold" />
                   </button>
                 </form>
               </div>

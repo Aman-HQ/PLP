@@ -19,10 +19,10 @@ export default function Footer() {
 
   return (
     <footer className="relative w-full border-t border-white/10 bg-[#000000]">
-      <div className="mx-auto max-w-[1180px] px-4 sm:px-6 pt-12 sm:pt-14 pb-8 sm:pb-10">
+      <div className="mx-auto max-w-[1180px] px-4 sm:px-6 pt-10 sm:pt-14 pb-8 sm:pb-10">
         
         {/* Main Content Row matching reference image */}
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.6fr] lg:gap-10 items-start">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.6fr] lg:gap-10 items-start">
           
           {/* Column 1: Brand & Socials */}
           <div className="flex flex-col items-start pr-0 lg:pr-6">
@@ -121,7 +121,7 @@ export default function Footer() {
           </div>
 
           {/* Column 4: Stay in the loop with vertical border */}
-          <div className="lg:border-l lg:border-white/10 lg:pl-10">
+          <div className="border-t border-white/10 pt-8 sm:border-t-0 sm:pt-0 lg:border-l lg:border-white/10 lg:pl-10">
             <h3 className="font-sans font-semibold text-base sm:text-[17px] text-white tracking-tight">
               Stay in the loop
             </h3>
@@ -157,7 +157,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Row: Divider + Copyright + Legal Links */}
-        <div className="mt-12 sm:mt-4 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div className="mt-8 sm:mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <p className="font-sans text-xs sm:text-[13px] text-zinc-400">
             &copy; {currentYear} AI Tutor. All rights reserved.
           </p>

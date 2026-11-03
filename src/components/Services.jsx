@@ -172,19 +172,19 @@ export default function Services() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.05 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-3.5"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-3.5"
         >
           {SUBJECTS.map((subject) => (
             <motion.a
               key={subject.id}
               href={subject.href}
               variants={itemVariants}
-              className="group relative flex flex-col items-center justify-center h-[100px] sm:h-[110px] md:h-[116px] px-3.5 py-4 rounded-2xl border border-white/[0.08] bg-[#111113] hover:bg-[#18181c] hover:border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.5)] transition-all duration-200 ease-out cursor-pointer active:scale-[0.98]"
+              className="group relative flex flex-col items-center justify-center h-[96px] sm:h-[110px] md:h-[116px] px-2.5 py-3 sm:px-3.5 sm:py-4 rounded-2xl border border-white/[0.08] bg-[#111113] hover:bg-[#18181c] hover:border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.5)] transition-all duration-200 ease-out cursor-pointer active:scale-[0.98]"
             >
               <div className="h-9 sm:h-10 flex items-center justify-center text-zinc-300 group-hover:text-white transition-colors duration-200">
                 {subject.icon}
               </div>
-              <span className="font-sans text-xs sm:text-[13px] font-medium text-zinc-300 group-hover:text-white mt-2 text-center tracking-tight transition-colors duration-200 select-none">
+              <span className="font-sans text-[11.5px] sm:text-[13px] font-medium text-zinc-300 group-hover:text-white mt-1.5 sm:mt-2 text-center tracking-tight transition-colors duration-200 select-none">
                 {subject.name}
               </span>
             </motion.a>
@@ -197,7 +197,7 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.7, ease: EASE_PREMIUM }}
-          className="relative mt-10 sm:mt-16 overflow-hidden rounded-[24px] sm:rounded-[30px] border border-white/15 border-t-white/30 bg-gradient-to-b from-[#131316] via-[#0d0d10] to-[#070708] px-6 py-10 sm:px-12 sm:py-12 md:py-14 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),0_24px_80px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
+          className="relative mt-10 sm:mt-16 overflow-hidden rounded-[20px] sm:rounded-[30px] border border-white/15 border-t-white/30 bg-gradient-to-b from-[#131316] via-[#0d0d10] to-[#070708] px-5 py-8 sm:px-12 sm:py-12 md:py-14 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),0_24px_80px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
         >
           {/* Top ambient radial spotlight */}
           <div
@@ -268,7 +268,7 @@ export default function Services() {
 
           {/* Banner Content */}
           <div className="relative z-10 mx-auto max-w-2xl">
-            <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-[2.25rem] leading-tight text-white tracking-tight">
+            <h3 className="font-display font-bold text-xl sm:text-3xl md:text-[2.25rem] leading-tight text-white tracking-tight">
               Unlock Your Full Academic Potential
             </h3>
             
