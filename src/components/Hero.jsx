@@ -24,6 +24,7 @@ import {
   ThumbsUp,
   ThumbsDown,
   PaperPlaneTilt,
+  Play,
   TrendUp,
   User,
   Users,
@@ -274,33 +275,91 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-hidden bg-[#09090B] px-4 pb-28 pt-32 sm:px-6 md:pt-36 lg:px-8 lg:pb-36"
     >
-      {/* 1. Cinematic Background Surfaces & Lighting (Monochrome) */}
+      {/* 1. Cinematic Background Surfaces & Lighting (Monochrome matching Image 2) */}
       <div
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           background:
-            'radial-gradient(120% 80% at 50% 8%, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 35%, rgba(9,9,11,0) 70%), linear-gradient(180deg, #000000 0%, #09090B 50%, #0c0c0e 100%)',
+            'radial-gradient(120% 80% at 50% 5%, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.02) 40%, rgba(5,5,7,0) 75%), linear-gradient(180deg, #050507 0%, #09090B 50%, #060608 100%)',
         }}
       />
 
-      {/* Subtle specular spotlight bloom behind app mockup */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-[32%] h-[600px] w-[1000px] -translate-x-1/2 rounded-full opacity-40 blur-[130px] z-0"
-        style={{
-          background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%)',
-        }}
-      />
+      {/* 2. Symmetrical Ambient Curved Light Arcs (Left & Right) from Image 2 */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[850px] overflow-hidden z-0 select-none">
+        {/* Left Curved Ambient Arc */}
+        <svg
+          className="absolute -left-28 sm:-left-12 lg:left-0 top-0 h-[750px] w-[500px] sm:w-[650px] opacity-45"
+          viewBox="0 0 650 800"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M -120 60 C 220 180, 440 380, 260 760"
+            stroke="url(#leftArcGlow)"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M -120 60 C 220 180, 440 380, 260 760"
+            stroke="url(#leftArcGlow)"
+            strokeWidth="8"
+            strokeOpacity="0.25"
+            filter="blur(8px)"
+          />
+          <defs>
+            <linearGradient id="leftArcGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+              <stop offset="35%" stopColor="#FFFFFF" stopOpacity="0.5" />
+              <stop offset="75%" stopColor="#FFFFFF" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
 
-      {/* Technical architectural grid */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-[0.025]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-        }}
-      />
+        {/* Soft diffused radial glow behind left arc */}
+        <div
+          className="absolute -left-[160px] top-[140px] h-[500px] w-[500px] rounded-full opacity-30 blur-[110px]"
+          style={{
+            background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.02) 50%, transparent 70%)',
+          }}
+        />
+
+        {/* Right Curved Ambient Arc */}
+        <svg
+          className="absolute -right-28 sm:-right-12 lg:right-0 top-0 h-[750px] w-[500px] sm:w-[650px] opacity-45"
+          viewBox="0 0 650 800"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M 770 60 C 430 180, 210 380, 390 760"
+            stroke="url(#rightArcGlow)"
+            strokeWidth="1.5"
+          />
+          <path
+            d="M 770 60 C 430 180, 210 380, 390 760"
+            stroke="url(#rightArcGlow)"
+            strokeWidth="8"
+            strokeOpacity="0.25"
+            filter="blur(8px)"
+          />
+          <defs>
+            <linearGradient id="rightArcGlow" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
+              <stop offset="35%" stopColor="#FFFFFF" stopOpacity="0.5" />
+              <stop offset="75%" stopColor="#FFFFFF" stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Soft diffused radial glow behind right arc */}
+        <div
+          className="absolute -right-[160px] top-[140px] h-[500px] w-[500px] rounded-full opacity-30 blur-[110px]"
+          style={{
+            background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.02) 50%, transparent 70%)',
+          }}
+        />
+      </div>
 
       {/* Noise grain texture overlay */}
       <div className="bg-grain pointer-events-none absolute inset-0 opacity-[0.035]" aria-hidden />
@@ -315,7 +374,7 @@ export default function Hero() {
         {/* Display Typography */}
         <motion.h1
           variants={itemVariants}
-          className="font-display font-bold leading-[1.06] tracking-tight sm:tracking-[-0.03em] text-white mt-8"
+          className="font-display font-bold leading-[1.06] tracking-tight sm:tracking-[-0.03em] text-white"
         >
           <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] text-zinc-200">
             {heroData.headlinePre}
@@ -349,19 +408,16 @@ export default function Hero() {
             </span>
           </a>
 
-          {/* Secondary CTA */}
+          {/* Secondary CTA: Explore Demo with circular Play icon on left matching Image 2 */}
           <button
             type="button"
             onClick={scrollToWorkbench}
-            className="group relative flex h-14 w-full items-center justify-between gap-4 rounded-full border border-white/15 bg-white/[0.04] pl-6 pr-3.5 font-sans text-[15px] font-medium text-zinc-200 backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.3)] transition-all duration-300 ease-premium hover:border-white/30 hover:bg-white/[0.06] hover:text-white hover:shadow-[inset_0_3px_8px_rgba(0,0,0,0.7),inset_0_1px_2px_rgba(255,255,255,0.12)] active:scale-[0.98] active:shadow-[inset_0_5px_12px_rgba(0,0,0,0.85)] cursor-pointer sm:w-auto"
+            className="group relative flex h-14 w-full items-center justify-center gap-3 rounded-full border border-white/15 bg-white/[0.04] px-7 font-sans text-[15px] font-medium text-zinc-200 backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.3)] transition-all duration-300 ease-premium hover:border-white/30 hover:bg-white/[0.06] hover:text-white hover:shadow-[inset_0_3px_8px_rgba(0,0,0,0.7),inset_0_1px_2px_rgba(255,255,255,0.12)] active:scale-[0.98] active:shadow-[inset_0_5px_12px_rgba(0,0,0,0.85)] cursor-pointer sm:w-auto"
           >
-            <span className="flex items-center gap-2.5">
-              <Compass size={22} weight="bold" className="text-zinc-400 group-hover:text-white transition-colors" />
-              <span className="whitespace-nowrap tracking-tight">{heroData.ctaSecondaryLabel || 'Explore Demo Below'}</span>
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white transition-transform duration-300 ease-premium group-hover:scale-105">
+              <Play size={11} weight="fill" className="ml-0.5 text-white" />
             </span>
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-300 ease-premium group-hover:translate-y-1 group-hover:bg-white/15">
-              <ArrowDown size={15} weight="bold" />
-            </span>
+            <span className="whitespace-nowrap tracking-tight">{heroData.ctaSecondaryLabel || 'Explore Demo Below'}</span>
           </button>
         </motion.div>
 
@@ -417,10 +473,19 @@ export default function Hero() {
         initial={reduceMotion ? false : { y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.25, ease: EASE_PREMIUM }}
-        className="relative z-10 mt-14 w-full max-w-[1040px]"
+        className="relative z-10 mt-12 sm:mt-14 w-full max-w-[1040px]"
       >
+        {/* Specular Ambient Halo Crown above the App Window matching Image 2 */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 -top-24 h-[320px] w-[850px] -translate-x-1/2 rounded-full opacity-60 blur-[90px] z-0"
+          style={{
+            background: 'radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.03) 50%, transparent 75%)',
+          }}
+        />
+
         {/* Outer Frame Glow / Ambient Bezel */}
-        <div className="relative rounded-[26px] sm:rounded-[30px] p-2 sm:p-2.5 border border-white/10 bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent shadow-[0_24px_90px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
+        <div className="relative rounded-[26px] sm:rounded-[30px] p-2 sm:p-2.5 border border-white/20 bg-gradient-to-b from-white/[0.14] via-white/[0.04] to-transparent shadow-[0_-20px_70px_rgba(255,255,255,0.16),0_24px_90px_rgba(0,0,0,0.95)] backdrop-blur-2xl">
           
           {/* Pristine App Window (Image 2 Architecture) */}
           <div className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] bg-white text-zinc-900 border border-zinc-200/80 shadow-2xl flex flex-col md:flex-row min-h-[590px]">
