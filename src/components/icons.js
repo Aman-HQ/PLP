@@ -5,6 +5,7 @@
  */
 
 export { ArrowClockwise } from '@phosphor-icons/react/dist/icons/ArrowClockwise';
+export { ArrowDown } from '@phosphor-icons/react/dist/icons/ArrowDown';
 export { ArrowLeft } from '@phosphor-icons/react/dist/icons/ArrowLeft';
 export { ArrowRight } from '@phosphor-icons/react/dist/icons/ArrowRight';
 export { ArrowUpRight } from '@phosphor-icons/react/dist/icons/ArrowUpRight';
@@ -64,6 +65,7 @@ export { MapPin } from '@phosphor-icons/react/dist/icons/MapPin';
 export { PaperPlaneTilt } from '@phosphor-icons/react/dist/icons/PaperPlaneTilt';
 export { Phone } from '@phosphor-icons/react/dist/icons/Phone';
 export { PhoneCall } from '@phosphor-icons/react/dist/icons/PhoneCall';
+export { Play } from '@phosphor-icons/react/dist/icons/Play';
 export { Plus } from '@phosphor-icons/react/dist/icons/Plus';
 export { Printer } from '@phosphor-icons/react/dist/icons/Printer';
 export { Queue } from '@phosphor-icons/react/dist/icons/Queue';

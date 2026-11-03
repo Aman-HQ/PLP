@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import {
   ArrowUpRight,
+  ArrowDown,
+  Compass,
   Sparkle,
-  Star,
   CheckCircle,
   Copy,
   Check,
@@ -124,7 +125,7 @@ export default function Hero() {
           <span className="block text-3xl font-sans sm:text-5xl md:text-6xl lg:text-[4.55rem] text-zinc-200">
             {heroData.headlinePre}
           </span>
-          <span className="mt-1.5 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.55rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+          <span className="mt-1.5 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.25rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
             {heroData.headlineEmphasis}
           </span>
         </motion.h1>
@@ -140,66 +141,33 @@ export default function Hero() {
         {/* Button-in-Button CTA Action Row */}
         <motion.div
           variants={itemVariants}
-          className="mt-9 flex w-full flex-col items-center justify-center gap-3.5 sm:w-auto sm:flex-row sm:gap-4"
+          className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
         >
-          {/* Primary CTA with nested trailing icon circle */}
+          {/* Primary CTA: Substantial pill with tactile inward shadow on hover */}
           <a
             href="/dashboard"
-            className="group relative flex h-13 w-full items-center justify-between gap-3 rounded-full bg-white pl-7 pr-3 font-sans text-sm font-semibold text-black shadow-[0_0_24px_rgba(255,255,255,0.18)] transition-all duration-300 ease-premium hover:bg-neutral-200 active:scale-[0.98] sm:w-auto"
+            className="group relative flex h-14 w-full items-center justify-between gap-4 rounded-full bg-white pl-8 pr-3.5 font-sans text-[15px] font-semibold text-black shadow-[0_4px_24px_rgba(255,255,255,0.14)] transition-all duration-300 ease-premium hover:bg-neutral-100 hover:shadow-[inset_0_3px_8px_rgba(0,0,0,0.32),inset_0_-1px_2px_rgba(255,255,255,0.9)] active:scale-[0.98] active:shadow-[inset_0_5px_12px_rgba(0,0,0,0.45)] cursor-pointer sm:w-auto"
           >
-            <span className="whitespace-nowrap tracking-wide">{heroData.ctaPrimaryLabel}</span>
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-black/10 text-black transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-              <ArrowUpRight size={15} weight="bold" />
+            <span className="whitespace-nowrap tracking-tight">{heroData.ctaPrimaryLabel}</span>
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-black/10 text-black transition-all duration-300 ease-premium group-hover:translate-x-1 group-hover:-translate-y-0.5 group-hover:bg-black/15">
+              <ArrowUpRight size={16} weight="bold" />
             </span>
           </a>
 
-          {/* Secondary CTA: Quick jump to interactive workbench */}
+          {/* Secondary CTA: Substantial frosted pill with inward shadow on hover */}
           <button
             type="button"
             onClick={scrollToWorkbench}
-            className="group flex h-13 w-full items-center justify-center gap-2.5 rounded-full border border-white/15 bg-white/[0.04] px-6 font-sans text-sm font-medium text-zinc-200 backdrop-blur-md transition-all duration-300 ease-premium hover:border-white/30 hover:bg-white/[0.08] hover:text-white active:scale-[0.98] sm:w-auto"
+            className="group relative flex h-14 w-full items-center justify-between gap-4 rounded-full border border-white/15 bg-white/[0.04] pl-6 pr-3.5 font-sans text-[15px] font-medium text-zinc-200 backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.3)] transition-all duration-300 ease-premium hover:border-white/30 hover:bg-white/[0.06] hover:text-white hover:shadow-[inset_0_3px_8px_rgba(0,0,0,0.7),inset_0_1px_2px_rgba(255,255,255,0.12)] active:scale-[0.98] active:shadow-[inset_0_5px_12px_rgba(0,0,0,0.85)] cursor-pointer sm:w-auto"
           >
-            <Sparkle size={15} weight="bold" className="text-zinc-400 group-hover:text-white transition-colors" />
-            <span>{heroData.ctaSecondaryLabel || 'Explore Demo Below'}</span>
-            <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">↓</span>
+            <span className="flex items-center gap-2.5">
+              <Compass size={22} weight="bold" className="text-zinc-400 group-hover:text-white transition-colors" />
+              <span className="whitespace-nowrap tracking-tight">{heroData.ctaSecondaryLabel || 'Explore Demo Below'}</span>
+            </span>
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-300 ease-premium group-hover:translate-y-1 group-hover:bg-white/15">
+              <ArrowDown size={15} weight="bold" />
+            </span>
           </button>
-        </motion.div>
-
-        {/* Academic Social Proof Band */}
-        <motion.div
-          variants={itemVariants}
-          className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-y border-white/[0.06] py-3.5 px-4 text-xs text-zinc-400"
-        >
-          <div className="flex items-center gap-1.5 text-zinc-300">
-            <span className="font-semibold text-white">{heroData.socialProof?.learnersCount || '45,000+'}</span>
-            <span>{heroData.socialProof?.learnersLabel || 'learners enrolled'}</span>
-          </div>
-
-          <span className="text-zinc-700 hidden sm:inline">•</span>
-
-          <div className="flex items-center gap-1 text-zinc-300">
-            <div className="flex text-white">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={12} weight="fill" className="text-zinc-200" />
-              ))}
-            </div>
-            <span className="ml-1 font-semibold text-white">{heroData.socialProof?.rating || '4.96/5'}</span>
-            <span className="text-zinc-500 hidden md:inline">({heroData.socialProof?.ratingCount})</span>
-          </div>
-
-          <span className="text-zinc-700 hidden lg:inline">•</span>
-
-          <div className="hidden lg:flex items-center gap-2 text-zinc-500 font-medium">
-            <span>Scholars from:</span>
-            {heroData.socialProof?.institutions?.map((inst, idx) => (
-              <span key={inst} className="inline-flex items-center gap-2 text-zinc-400">
-                <span className="font-semibold text-zinc-300">{inst}</span>
-                {idx < (heroData.socialProof?.institutions?.length || 0) - 1 && (
-                  <span className="text-zinc-700">/</span>
-                )}
-              </span>
-            ))}
-          </div>
         </motion.div>
       </motion.div>
 
