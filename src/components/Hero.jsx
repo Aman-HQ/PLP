@@ -458,7 +458,7 @@ export default function Hero() {
               {/* Bottom: Upgrade to Pro Card */}
               <div className="mt-6 rounded-2xl border border-zinc-200/80 bg-white p-3.5 shadow-sm">
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-100 text-zinc-900 shadow-sm border border-zinc-200/70 mb-2.5">
-                  <Lightning size={14} weight="fill" />
+                  <Lightning size={16} weight="fill" />
                 </div>
                 <div className="font-semibold text-xs text-zinc-900">Upgrade to Pro</div>
                 <p className="mt-0.5 text-[10px] text-zinc-500 leading-snug">
@@ -533,21 +533,21 @@ export default function Hero() {
                 
                 {/* 1. Student Message */}
                 <div className="flex items-start gap-3 text-left">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-100 border border-zinc-200 text-zinc-600">
-                    <User size={13} weight="bold" />
+                  <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-100 border border-zinc-200 text-zinc-600">
+                    <User size={15} weight="bold" />
                   </div>
-                  <div className="flex flex-1 items-start justify-between gap-4">
-                    <p className="font-sans text-xs sm:text-[13.5px] font-medium leading-relaxed text-zinc-800 pt-0.5">
+                  <div className="flex flex-1 items-center justify-between gap-4 rounded-xl border border-zinc-200/80 bg-zinc-100 px-3 py-1.5">
+                    <p className="font-sans text-xs sm:text-[12.5px] font-medium leading-relaxed text-zinc-800">
                       {currentChat.userQuery}
                     </p>
-                    <span className="shrink-0 font-mono text-[10.5px] text-zinc-400 pt-0.5">
+                    <span className="shrink-0 text-[10.5px] text-zinc-500">
                       {currentChat.userTime}
                     </span>
                   </div>
                 </div>
 
                 {/* 2. AI Tutor Message */}
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {/* Tutor Avatar & Identity Badge */}
                   <div className="flex items-center gap-2.5">
                     <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-black text-white font-bold text-xs shadow-sm">
@@ -590,7 +590,7 @@ export default function Hero() {
                     <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm hover:border-zinc-300 transition-colors">
                       <div className="flex items-center gap-2">
                         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 text-zinc-700">
-                          <Stack size={13} weight="bold" />
+                          <Stack size={15} weight="bold" />
                         </span>
                         <span className="font-semibold text-xs text-zinc-900">{currentChat.card2.title}</span>
                       </div>
@@ -608,14 +608,14 @@ export default function Hero() {
                   </div>
 
                   {/* Key Insight Callout Card */}
-                  <div className="ml-0 sm:ml-9 rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-4">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-zinc-200/70 text-zinc-700">
-                        <Lightbulb size={12} weight="bold" />
+                  <div className="ml-0 sm:ml-9 rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-200/70 text-zinc-700">
+                        <Lightbulb size={14} weight="bold" />
                       </span>
                       <span className="font-bold text-xs text-zinc-900">Key Insight</span>
                     </div>
-                    <p className="text-[11.5px] leading-relaxed text-zinc-600 pl-7">
+                    <p className="text-[11.5px] leading-relaxed text-zinc-600 pl-8">
                       {currentChat.keyInsight}
                     </p>
                   </div>
@@ -630,7 +630,7 @@ export default function Hero() {
                       }`}
                       title="Good explanation"
                     >
-                      <ThumbsUp size={14} weight={liked === 'up' ? 'fill' : 'regular'} />
+                      <ThumbsUp size={16} weight={liked === 'up' ? 'fill' : 'regular'} />
                     </button>
                     <button
                       type="button"
@@ -640,7 +640,7 @@ export default function Hero() {
                       }`}
                       title="Needs improvement"
                     >
-                      <ThumbsDown size={14} weight={liked === 'down' ? 'fill' : 'regular'} />
+                      <ThumbsDown size={16} weight={liked === 'down' ? 'fill' : 'regular'} />
                     </button>
                     <button
                       type="button"
@@ -648,14 +648,14 @@ export default function Hero() {
                       className="flex h-7 w-7 items-center justify-center rounded-md hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
                       title="Copy explanation"
                     >
-                      {copied ? <Check size={14} className="text-black" /> : <Copy size={14} />}
+                      {copied ? <Check size={16} className="text-black" /> : <Copy size={16} />}
                     </button>
                     <button
                       type="button"
                       className="flex h-7 w-7 items-center justify-center rounded-md hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
                       title="More options"
                     >
-                      <DotsThree size={16} weight="bold" />
+                      <DotsThree size={18} weight="bold" />
                     </button>
                   </div>
 
