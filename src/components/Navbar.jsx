@@ -60,7 +60,7 @@ export default function Navbar() {
         : 'bg-transparent border-b border-transparent py-5'
         }`}
     >
-      <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-4 sm:px-8">
+      <nav className="mx-auto flex max-w-[1180px] items-center justify-between px-4 sm:px-6">
         {/* Brand */}
         <a href="#home" className="group flex items-center gap-2.5 sm:gap-3" aria-label={`${siteData.name} — home`}>
           <Logo className="h-9 w-9 transition-transform duration-500 ease-premium group-hover:scale-105 sm:h-10 sm:w-10" />

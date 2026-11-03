@@ -134,7 +134,7 @@ export default function Services() {
       id="services"
       className="relative w-full overflow-hidden bg-[#09090B] py-16 sm:py-20 md:py-24"
     >
-      <div className="mx-auto max-w-[1180px] px-4 sm:px-2">
+      <div className="mx-auto max-w-[1180px] px-4 sm:px-6">
         
         {/* 1. Section Header matching Image */}
         <motion.div

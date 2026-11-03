@@ -273,7 +273,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-hidden bg-[#09090B] px-4 pb-28 pt-32 sm:px-6 md:pt-36 lg:px-8 lg:pb-36"
+      className="relative flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-hidden bg-[#09090B] px-4 pb-28 pt-32 sm:px-6 md:pt-36 lg:pb-36"
     >
       {/* 1. Cinematic Background Surfaces & Lighting (Monochrome matching Image 2) */}
       <div
@@ -376,10 +376,10 @@ export default function Hero() {
           variants={itemVariants}
           className="font-display font-bold leading-[1.06] tracking-tight sm:tracking-[-0.03em] text-white"
         >
-          <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] text-zinc-200">
+          <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.65rem] text-zinc-200">
             {heroData.headlinePre}
           </span>
-          <span className="mt-1.5 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.55rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+          <span className="mt-1.5 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.35rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
             {heroData.headlineEmphasis}
           </span>
         </motion.h1>
@@ -473,7 +473,7 @@ export default function Hero() {
         initial={reduceMotion ? false : { y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.25, ease: EASE_PREMIUM }}
-        className="relative z-10 mt-12 sm:mt-14 w-full max-w-[1140px]"
+        className="relative z-10 mt-12 sm:mt-14 w-full max-w-[1132px]"
       >
         {/* Specular Ambient Halo Crown above the App Window matching Image 2 */}
         <div
