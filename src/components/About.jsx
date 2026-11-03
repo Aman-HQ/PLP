@@ -252,13 +252,13 @@ export default function About() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column: 4 Feature Cards matching Image 2 */}
+          {/* Right Column: 4 Feature Cards shifted to align bottom with the white card */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}
-            className="flex flex-col gap-3 w-full mt-6 lg:mt-16"
+            className="flex flex-col gap-3 w-full mt-6 lg:mt-0 lg:self-end"
           >
             {FEATURES.map((feature) => (
               <motion.div
