@@ -312,12 +312,12 @@ export default function Hero() {
         {/* Display Typography */}
         <motion.h1
           variants={itemVariants}
-          className="font-display font-bold leading-[1.06] tracking-tight sm:tracking-[-0.03em] text-white"
+          className="font-display font-bold leading-[1.06] tracking-tight sm:tracking-[-0.03em] text-white mt-14"
         >
           <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] text-zinc-200">
             {heroData.headlinePre}
           </span>
-          <span className="mt-1 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+          <span className="mt-1.5 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.55rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
             {heroData.headlineEmphasis}
           </span>
         </motion.h1>
@@ -325,7 +325,7 @@ export default function Hero() {
         {/* Subtitle */}
         <motion.p
           variants={itemVariants}
-          className="mt-6 max-w-2xl font-sans text-base font-normal leading-relaxed text-zinc-400 sm:text-lg"
+          className="mt-8 max-w-3.5xl font-sans text-base font-normal leading-relaxed text-zinc-400 sm:text-[18px]"
         >
           {heroData.subtitle}
         </motion.p>
@@ -333,7 +333,7 @@ export default function Hero() {
         {/* Button-in-Button CTA Action Row */}
         <motion.div
           variants={itemVariants}
-          className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
+          className="mt-10 mb-8 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
         >
           {/* Primary CTA */}
           <a
@@ -353,7 +353,7 @@ export default function Hero() {
             className="group relative flex h-14 w-full items-center justify-between gap-4 rounded-full border border-white/15 bg-white/[0.04] pl-6 pr-3.5 font-sans text-[15px] font-medium text-zinc-200 backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.3)] transition-all duration-300 ease-premium hover:border-white/30 hover:bg-white/[0.06] hover:text-white hover:shadow-[inset_0_3px_8px_rgba(0,0,0,0.7),inset_0_1px_2px_rgba(255,255,255,0.12)] active:scale-[0.98] active:shadow-[inset_0_5px_12px_rgba(0,0,0,0.85)] cursor-pointer sm:w-auto"
           >
             <span className="flex items-center gap-2.5">
-              <Compass size={18} weight="bold" className="text-zinc-400 group-hover:text-white transition-colors" />
+              <Compass size={22} weight="bold" className="text-zinc-400 group-hover:text-white transition-colors" />
               <span className="whitespace-nowrap tracking-tight">{heroData.ctaSecondaryLabel || 'Explore Demo Below'}</span>
             </span>
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-300 ease-premium group-hover:translate-y-1 group-hover:bg-white/15">
@@ -398,28 +398,28 @@ export default function Hero() {
                 <button
                   type="button"
                   onClick={() => setActiveChatId('stokes')}
-                  className="mt-4 flex w-full items-center justify-start gap-2 rounded-xl bg-zinc-900 px-3.5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-black transition-all active:scale-[0.98] cursor-pointer"
+                  className="mt-6 sm:mt-8 flex w-full items-center justify-start gap-2 rounded-xl bg-zinc-900 px-3.5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-black transition-all active:scale-[0.98] cursor-pointer"
                 >
-                  <Plus size={14} weight="bold" />
+                  <Plus size={16} weight="bold" />
                   <span>New Chat</span>
                 </button>
 
                 {/* Primary Navigation */}
-                <nav className="mt-4 space-y-0.5 text-xs font-medium text-zinc-600">
+                <nav className="mt-2.5 space-y-0.5 text-[12.5px] font-medium text-zinc-600">
                   <a href="#home" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-zinc-900 hover:bg-zinc-200/60 transition-colors">
-                    <House size={16} weight="bold" className="text-zinc-700" />
+                    <House size={17} weight="bold" className="text-zinc-700" />
                     <span>Home</span>
                   </a>
                   <a href="#services" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-zinc-200/60 transition-colors">
-                    <Books size={16} className="text-zinc-500" />
+                    <Books size={17} weight="bold" className="text-zinc-500/80" />
                     <span>Subjects</span>
                   </a>
                   <a href="#about" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-zinc-200/60 transition-colors">
-                    <CheckCircle size={16} className="text-zinc-500" />
+                    <CheckCircle size={17} weight="bold" className="text-zinc-500/80" />
                     <span>Practice</span>
                   </a>
                   <a href="/dashboard" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-zinc-200/60 transition-colors">
-                    <ChartLineUp size={16} className="text-zinc-500" />
+                    <ChartLineUp size={17} weight="bold" className="text-zinc-500/80" />
                     <span>Progress</span>
                   </a>
                 </nav>
@@ -444,7 +444,7 @@ export default function Hero() {
                           }`}
                         >
                           <div className="flex items-center gap-2 overflow-hidden pr-1">
-                            <ChatCircleDots size={14} className={isActive ? 'text-zinc-900 shrink-0' : 'text-zinc-400 shrink-0'} />
+                            <ChatCircleDots size={16} weight='regular' className={isActive ? 'text-zinc-900 shrink-0' : 'text-zinc-400 shrink-0'} />
                             <span className="truncate">{chat.title}</span>
                           </div>
                           {isActive && <DotsThree size={16} weight="bold" className="text-zinc-600 shrink-0" />}
@@ -484,9 +484,9 @@ export default function Hero() {
                 {/* Left Breadcrumb */}
                 <div className="flex items-center gap-2 text-xs sm:text-sm">
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-zinc-100 text-zinc-700">
-                    <Stack size={14} weight="bold" />
+                    <Stack size={16} weight="bold" />
                   </div>
-                  <span className="font-semibold text-zinc-900">{currentChat.subject}</span>
+                  <span className="font-semibold text-zinc-900 ml-1">{currentChat.subject}</span>
                   <span className="text-zinc-400">›</span>
                   <span className="font-medium text-zinc-500">{currentChat.topic}</span>
                 </div>
@@ -498,14 +498,14 @@ export default function Hero() {
                     title="Light Mode"
                     className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
                   >
-                    <Sun size={16} />
+                    <Sun size={18} weight="bold" />
                   </button>
                   <button
                     type="button"
                     title="Export"
                     className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
                   >
-                    <Export size={16} />
+                    <Export size={17} weight="bold" />
                   </button>
                   <button
                     type="button"
@@ -515,7 +515,7 @@ export default function Hero() {
                       bookmarked ? 'text-black bg-zinc-100' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
                     }`}
                   >
-                    <BookmarkSimple size={16} weight={bookmarked ? 'fill' : 'regular'} />
+                    <BookmarkSimple size={17} weight={bookmarked ? 'fill' : 'regular'} />
                   </button>
                   <button
                     type="button"
