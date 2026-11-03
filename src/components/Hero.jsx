@@ -24,8 +24,10 @@ import {
   ThumbsUp,
   ThumbsDown,
   PaperPlaneTilt,
+  TrendUp,
   User,
 } from './icons';
+import Logo from './Logo';
 import heroData from '../data/hero.json';
 
 const EASE_PREMIUM = [0.16, 1, 0.3, 1];
@@ -383,9 +385,7 @@ export default function Hero() {
               <div>
                 {/* Brand Header */}
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-white font-bold text-sm shadow-sm">
-                    ✱
-                  </div>
+                  <Logo dark className="h-8 w-8 !rounded-lg" />
                   <div className="flex flex-col leading-none">
                     <span className="font-display text-[13px] font-bold tracking-tight text-zinc-900">AI Tutor</span>
                     <span className="mt-0.5 text-[8.5px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
@@ -550,9 +550,7 @@ export default function Hero() {
                 <div className="space-y-3">
                   {/* Tutor Avatar & Identity Badge */}
                   <div className="flex items-center gap-2.5">
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-black text-white font-bold text-xs shadow-sm">
-                      ✱
-                    </div>
+                    <Logo dark className="h-7 w-7 !rounded-lg shrink-0" />
                     <span className="font-bold text-xs sm:text-sm text-zinc-900">AI Tutor</span>
                     <span className="rounded-full bg-zinc-100 border border-zinc-200/80 px-2.5 py-0.5 text-[10px] font-medium text-zinc-600">
                       Concept Explanation
@@ -570,8 +568,8 @@ export default function Hero() {
                     {/* Card 1: 1D */}
                     <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm hover:border-zinc-300 transition-colors">
                       <div className="flex items-center gap-2">
-                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 text-zinc-700 font-bold text-xs">
-                          📈
+                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 text-zinc-700">
+                          <TrendUp size={15} weight="bold" />
                         </span>
                         <span className="font-semibold text-xs text-zinc-900">{currentChat.card1.title}</span>
                       </div>

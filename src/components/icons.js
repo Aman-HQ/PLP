@@ -95,6 +95,7 @@ export { ThumbsDown } from '@phosphor-icons/react/dist/icons/ThumbsDown';
 export { ThumbsUp } from '@phosphor-icons/react/dist/icons/ThumbsUp';
 export { Ticket } from '@phosphor-icons/react/dist/icons/Ticket';
 export { Tooth } from '@phosphor-icons/react/dist/icons/Tooth';
+export { TrendUp } from '@phosphor-icons/react/dist/icons/TrendUp';
 export { User } from '@phosphor-icons/react/dist/icons/User';
 export { UserCheck } from '@phosphor-icons/react/dist/icons/UserCheck';
 export { UserCircle } from '@phosphor-icons/react/dist/icons/UserCircle';
