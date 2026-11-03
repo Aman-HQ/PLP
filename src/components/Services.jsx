@@ -17,7 +17,7 @@ const SUBJECTS = [
     id: 'math',
     name: 'Mathematics',
     icon: (
-      <span className="font-serif font-bold text-2xl sm:text-[26px] leading-none select-none">
+      <span className="font-serif font-bold text-3xl sm:text-[34px] leading-none select-none">
         Σ
       </span>
     ),
@@ -26,19 +26,19 @@ const SUBJECTS = [
   {
     id: 'physics',
     name: 'Physics',
-    icon: <Atom size={28} weight="regular" />,
+    icon: <Atom size={34} weight="regular" />,
     href: '/dashboard#physics',
   },
   {
     id: 'cs',
     name: 'Computer Science',
-    icon: <Code size={26} weight="bold" />,
+    icon: <Code size={32} weight="bold" />,
     href: '/dashboard#cs',
   },
   {
     id: 'chemistry',
     name: 'Chemistry',
-    icon: <Flask size={26} weight="regular" />,
+    icon: <Flask size={32} weight="regular" />,
     href: '/dashboard#chemistry',
   },
   {
@@ -49,10 +49,10 @@ const SUBJECTS = [
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="2.2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="w-6 h-6"
+        className="w-8 h-8"
         aria-hidden="true"
       >
         <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
@@ -64,7 +64,7 @@ const SUBJECTS = [
   {
     id: 'engineering',
     name: 'Engineering',
-    icon: <Gear size={26} weight="regular" />,
+    icon: <Gear size={32} weight="regular" />,
     href: '/dashboard#engineering',
   },
   {
@@ -75,10 +75,10 @@ const SUBJECTS = [
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2.2"
+        strokeWidth="2.3"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="w-6 h-6"
+        className="w-8 h-8"
         aria-hidden="true"
       >
         <path d="M6 5H4v14h2" />
@@ -91,19 +91,19 @@ const SUBJECTS = [
   {
     id: 'economics',
     name: 'Economics',
-    icon: <TrendUp size={26} weight="bold" />,
+    icon: <TrendUp size={32} weight="bold" />,
     href: '/dashboard#economics',
   },
   {
     id: 'humanities',
     name: 'Humanities',
-    icon: <BookOpen size={26} weight="regular" />,
+    icon: <BookOpen size={32} weight="regular" />,
     href: '/dashboard#humanities',
   },
   {
     id: 'more',
     name: 'More Subjects',
-    icon: <SquaresFour size={26} weight="bold" />,
+    icon: <SquaresFour size={32} weight="bold" />,
     href: '/dashboard',
   },
 ];
@@ -134,7 +134,7 @@ export default function Services() {
       id="services"
       className="relative w-full overflow-hidden bg-[#09090B] py-16 sm:py-20 md:py-24"
     >
-      <div className="mx-auto max-w-[1360px] px-4 sm:px-6 md:px-8">
+      <div className="mx-auto max-w-[1180px] px-4 sm:px-2">
         
         {/* 1. Section Header matching Image */}
         <motion.div
@@ -166,7 +166,7 @@ export default function Services() {
           </a>
         </motion.div>
 
-        {/* 2. Subjects Grid: 10 Cards in 5x2 Layout (Wide 1.6:1 - 2.2:1 Aspect Ratio) */}
+        {/* 2. Subjects Grid: 10 Cards in 5x2 Layout (Narrower container matching Hero workbench) */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -179,12 +179,12 @@ export default function Services() {
               key={subject.id}
               href={subject.href}
               variants={itemVariants}
-              className="group relative flex flex-col items-center justify-center h-[110px] sm:h-[116px] md:h-[120px] px-4 py-3.5 rounded-2xl border border-white/[0.08] bg-[#111113] hover:bg-[#18181c] hover:border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.5)] transition-all duration-200 ease-out cursor-pointer active:scale-[0.98]"
+              className="group relative flex flex-col items-center justify-center h-[100px] sm:h-[110px] md:h-[116px] px-3.5 py-4 rounded-2xl border border-white/[0.08] bg-[#111113] hover:bg-[#18181c] hover:border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.5)] transition-all duration-200 ease-out cursor-pointer active:scale-[0.98]"
             >
-              <div className="h-8 flex items-center justify-center text-zinc-300 group-hover:text-white transition-colors duration-200">
+              <div className="h-9 sm:h-10 flex items-center justify-center text-zinc-300 group-hover:text-white transition-colors duration-200">
                 {subject.icon}
               </div>
-              <span className="font-sans text-xs sm:text-[13px] font-medium text-zinc-300 group-hover:text-white mt-2.5 text-center tracking-tight transition-colors duration-200 select-none">
+              <span className="font-sans text-xs sm:text-[13px] font-medium text-zinc-300 group-hover:text-white mt-2 text-center tracking-tight transition-colors duration-200 select-none">
                 {subject.name}
               </span>
             </motion.a>
@@ -197,7 +197,7 @@ export default function Services() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.7, ease: EASE_PREMIUM }}
-          className="relative mt-10 sm:mt-14 overflow-hidden rounded-[24px] sm:rounded-[30px] border border-white/15 border-t-white/30 bg-gradient-to-b from-[#131316] via-[#0d0d10] to-[#070708] px-6 py-10 sm:px-12 sm:py-12 md:py-14 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),0_24px_80px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
+          className="relative mt-10 sm:mt-16 overflow-hidden rounded-[24px] sm:rounded-[30px] border border-white/15 border-t-white/30 bg-gradient-to-b from-[#131316] via-[#0d0d10] to-[#070708] px-6 py-10 sm:px-12 sm:py-12 md:py-14 text-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),0_24px_80px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
         >
           {/* Top ambient radial spotlight */}
           <div
