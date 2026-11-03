@@ -103,7 +103,7 @@ export default function About() {
             {/* 1. Eyebrow Badge matching Image 2 */}
             <motion.div variants={itemVariants}>
               <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1.5 backdrop-blur-md">
-                <Logo className="w-3.5 h-3.5 rounded-sm" />
+                <Brain size={18} weight="regular" className="text-zinc-200 shrink-0" />
                 <span className="font-sans text-[11px] sm:text-xs font-semibold uppercase tracking-[0.14em] text-zinc-300">
                   The AI Tutor Advantage
                 </span>
@@ -140,7 +140,7 @@ export default function About() {
               {/* Stacked Backdrop Card 1 (Furthest Back - Widest Fan) */}
               <div
                 aria-hidden
-                className="absolute inset-y-0 right-0 left-5 sm:left-7 rounded-[28px] border border-white/20 bg-gradient-to-br from-[#2a2a32]/90 via-[#1c1c22]/90 to-[#121216]/95 -rotate-[5.5deg] -translate-x-7 -translate-y-3 origin-bottom-right pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),-12px_16px_36px_rgba(0,0,0,0.65)] backdrop-blur-xl"
+                className="absolute inset-y-0 right-0 left-5 sm:left-7 rounded-[28px] border border-white/10 bg-gradient-to-br from-[#2a2a32]/90 via-[#1c1c22]/90 to-[#121216]/95 -rotate-[5.5deg] -translate-x-7 -translate-y-3 origin-bottom-right pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),-12px_16px_36px_rgba(0,0,0,0.65)] backdrop-blur-xl"
               />
 
               {/* Stacked Backdrop Card 2 (Middle Layer) */}
@@ -152,7 +152,7 @@ export default function About() {
               {/* Stacked Backdrop Card 3 (Immediate Backdrop) */}
               <div
                 aria-hidden
-                className="absolute inset-y-0 right-0 left-5 sm:left-7 rounded-[28px] border border-white/18 bg-gradient-to-br from-[#1b1b20]/95 via-[#141418]/95 to-[#0b0b0e] -rotate-[1.8deg] -translate-x-2.5 -translate-y-1 origin-bottom-right pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),-4px_8px_20px_rgba(0,0,0,0.55)] backdrop-blur-xl"
+                className="absolute inset-y-0 right-0 left-5 sm:left-7 rounded-[28px] border border-white/30 bg-gradient-to-br from-[#1b1b20]/95 via-[#141418]/95 to-[#0b0b0e] -rotate-[1.8deg] -translate-x-2.5 -translate-y-1 origin-bottom-right pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),-4px_8px_20px_rgba(0,0,0,0.55)] backdrop-blur-xl"
               />
 
               {/* Main Foreground White Mockup Window */}
@@ -170,9 +170,7 @@ export default function About() {
 
                     {/* Window Brand Mark & Title */}
                     <div className="flex items-center gap-2 ml-1">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-black text-white shadow-xs">
-                        <span className="font-bold text-xs select-none">✱</span>
-                      </div>
+                      <Logo dark className="w-6 h-6 rounded-lg" />
                       <span className="font-sans text-xs sm:text-[13px] font-semibold text-zinc-900 tracking-tight">
                         AI Tutor Session
                       </span>
@@ -189,20 +187,20 @@ export default function About() {
                 {/* Conversation Body */}
                 <div className="mt-4 space-y-3.5">
                   
-                  {/* User Question Bar matching Image */}
-                  <div className="flex items-center gap-3 rounded-2xl bg-zinc-100/90 border border-zinc-200/70 px-4 py-3 text-xs sm:text-[13px] text-zinc-800">
-                    <User size={15} weight="bold" className="text-zinc-600 shrink-0" />
-                    <span className="font-sans leading-relaxed">
+                  {/* User Question with Separate Avatar */}
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-100 border border-zinc-200/80 text-zinc-600 mt-0.5 shadow-2xs">
+                      <User size={15} weight="bold" />
+                    </div>
+                    <div className="flex-1 rounded-2xl rounded-tl-sm bg-zinc-100/90 border border-zinc-200/70 px-4 py-2.5 sm:py-3 text-xs sm:text-[13px] text-zinc-800 font-sans leading-relaxed">
                       Why does Quicksort run in <span className="font-semibold text-zinc-900">O(n²)</span> in the worst case?
-                    </span>
+                    </div>
                   </div>
 
-                  {/* AI Tutor Response */}
+                  {/* AI Tutor Response with Logo Component */}
                   <div className="flex items-start gap-3 mt-4">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-black text-white shadow-sm mt-0.5">
-                      <span className="font-bold text-sm select-none">✱</span>
-                    </div>
-                    <div className="flex-1 rounded-2xl bg-white p-4 border border-zinc-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-xs sm:text-[13px] text-zinc-800 font-sans leading-relaxed">
+                    <Logo dark className="w-8 h-8 rounded-xl shrink-0 mt-0.5" />
+                    <div className="flex-1 rounded-2xl rounded-tl-sm bg-white p-4 border border-zinc-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-xs sm:text-[13px] text-zinc-800 font-sans leading-relaxed">
                       <p className="text-zinc-800 leading-relaxed font-normal">
                         Great question! Quicksort&apos;s worst case happens when the pivot consistently divides the array into highly unbalanced parts — for example, when the array is already sorted.
                       </p>
@@ -260,25 +258,25 @@ export default function About() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.1 }}
-            className="flex flex-col gap-3.5 w-full mt-2 lg:mt-0"
+            className="flex flex-col gap-3 w-full mt-6 lg:mt-16"
           >
             {FEATURES.map((feature) => (
               <motion.div
                 key={feature.title}
                 variants={itemVariants}
-                className="group relative flex items-start gap-4 sm:gap-5 rounded-2xl border border-white/10 bg-[#121214] p-5 sm:p-6 transition-all duration-300 ease-premium hover:border-white/20 hover:bg-[#161619] shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]"
+                className="group relative flex items-start gap-3.5 sm:gap-4 rounded-2xl border border-white/10 bg-[#121214] p-3.5 sm:p-4 transition-all duration-300 ease-premium hover:border-white/20 hover:bg-[#161619] shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]"
               >
                 {/* Feature Icon Box */}
-                <div className="flex h-11 w-11 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-zinc-200 group-hover:text-white group-hover:border-white/20 group-hover:bg-white/[0.08] transition-all duration-300">
+                <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-zinc-200 group-hover:text-white group-hover:border-white/20 group-hover:bg-white/[0.08] transition-all duration-300">
                   {feature.icon}
                 </div>
 
                 {/* Feature Text */}
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-sans font-semibold text-base sm:text-[17px] text-white tracking-tight">
+                  <h3 className="font-sans font-semibold text-sm sm:text-base text-white tracking-tight">
                     {feature.title}
                   </h3>
-                  <p className="mt-1 font-sans text-xs sm:text-sm text-zinc-400 font-normal leading-relaxed">
+                  <p className="mt-0.5 font-sans text-xs sm:text-[13px] text-zinc-400 font-normal leading-relaxed">
                     {feature.desc}
                   </p>
                 </div>
