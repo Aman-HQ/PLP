@@ -26,6 +26,7 @@ import {
   PaperPlaneTilt,
   TrendUp,
   User,
+  Users,
 } from './icons';
 import Logo from './Logo';
 import heroData from '../data/hero.json';
@@ -314,7 +315,7 @@ export default function Hero() {
         {/* Display Typography */}
         <motion.h1
           variants={itemVariants}
-          className="font-display font-bold leading-[1.06] tracking-tight sm:tracking-[-0.03em] text-white mt-14"
+          className="font-display font-bold leading-[1.06] tracking-tight sm:tracking-[-0.03em] text-white mt-8"
         >
           <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] text-zinc-200">
             {heroData.headlinePre}
@@ -327,7 +328,7 @@ export default function Hero() {
         {/* Subtitle */}
         <motion.p
           variants={itemVariants}
-          className="mt-8 max-w-3.5xl font-sans text-base font-normal leading-relaxed text-zinc-400 sm:text-[18px]"
+          className="mt-6 max-w-2xl font-sans text-base font-normal leading-relaxed text-zinc-400 sm:text-[18px]"
         >
           {heroData.subtitle}
         </motion.p>
@@ -362,6 +363,51 @@ export default function Hero() {
               <ArrowDown size={15} weight="bold" />
             </span>
           </button>
+        </motion.div>
+
+        {/* Feature Labels from Image 2 */}
+        <motion.div
+          variants={itemVariants}
+          className="mt-2 mb-2 flex flex-wrap items-center justify-center gap-6 sm:gap-8 lg:gap-10 text-left"
+        >
+          {/* 1. 24/7 Learning */}
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white shadow-sm">
+              <Lightning size={20} weight="fill" />
+            </div>
+            <div>
+              <div className="font-semibold text-xs sm:text-[14px] text-white tracking-tight mb-0.5">24/7 Learning</div>
+              <div className="text-[12px] sm:text-[12.5px] text-zinc-400 font-normal">Get help anytime</div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="h-8 w-px bg-white/10 hidden sm:block" />
+
+          {/* 2. 50+ Subjects */}
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white shadow-sm">
+              <Stack size={20} weight="bold" />
+            </div>
+            <div>
+              <div className="font-semibold text-xs sm:text-[14px] text-white tracking-tight mb-0.5">50+ Subjects</div>
+              <div className="text-[12px] sm:text-[12.5px] text-zinc-400 font-normal">From STEM to Humanities</div>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="h-8 w-px bg-white/10 hidden sm:block" />
+
+          {/* 3. Personalized Guidance */}
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white shadow-sm">
+              <Users size={21} weight="bold" />
+            </div>
+            <div>
+              <div className="font-semibold text-xs sm:text-[14px] text-white tracking-tight mb-0.5">Personalized Guidance</div>
+              <div className="text-[12px] sm:text-[12.5px] text-zinc-400 font-normal">Adaptive to your learning style</div>
+            </div>
+          </div>
         </motion.div>
       </motion.div>
 
