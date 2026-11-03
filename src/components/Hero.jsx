@@ -473,12 +473,12 @@ export default function Hero() {
         initial={reduceMotion ? false : { y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.25, ease: EASE_PREMIUM }}
-        className="relative z-10 mt-12 sm:mt-14 w-full max-w-[1040px]"
+        className="relative z-10 mt-12 sm:mt-14 w-full max-w-[1140px]"
       >
         {/* Specular Ambient Halo Crown above the App Window matching Image 2 */}
         <div
           aria-hidden
-          className="pointer-events-none absolute left-1/2 -top-24 h-[320px] w-[850px] -translate-x-1/2 rounded-full opacity-60 blur-[90px] z-0"
+          className="pointer-events-none absolute left-1/2 -top-24 h-[320px] w-[940px] -translate-x-1/2 rounded-full opacity-60 blur-[90px] z-0"
           style={{
             background: 'radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.03) 50%, transparent 75%)',
           }}

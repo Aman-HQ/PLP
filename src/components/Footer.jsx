@@ -17,43 +17,9 @@ export default function Footer() {
   const quickLinks = footerData.quickLinks || [];
 
   return (
-    <footer className="relative w-full border-t border-white/[0.08] bg-[#09090B]">
-      {/* CTA Band */}
-      <div className="relative flex min-h-[30vh] sm:min-h-[36vh] items-center overflow-hidden bg-gradient-to-b from-[#121214] via-[#09090B] to-[#09090B]">
-        {/* Subtle white ambient glow */}
-        <div className="absolute left-1/2 top-0 h-48 w-96 -translate-x-1/2 rounded-full bg-white/[0.04] blur-3xl pointer-events-none" />
-
-        <motion.div
-          variants={fade}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.05 }}
-          className="relative z-10 mx-auto max-w-3xl px-5 py-14 text-center sm:px-8 sm:py-16"
-        >
-          <h2 className="font-display text-2xl font-bold leading-snug text-white sm:text-4xl">
-            {footerData.ctaTitle}
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl font-sans text-sm font-light leading-relaxed text-zinc-400 sm:mt-4 sm:text-base">
-            {footerData.ctaSubtitle}
-          </p>
-          <div className="mt-6 flex justify-center">
-            <a
-              href={footerData.ctaButtonLink || '#about'}
-              className="group inline-flex items-center gap-2.5 rounded-full bg-white px-7 py-3 font-sans text-xs font-semibold tracking-wide text-black border border-white/20 shadow-[0_2px_16px_rgba(255,255,255,0.08)] transition-all duration-300 ease-premium hover:bg-neutral-200 active:scale-[0.98]"
-            >
-              <span>{footerData.ctaButtonLabel || 'Start Learning Free'}</span>
-              <ArrowRight
-                size={14}
-                weight="bold"
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </a>
-          </div>
-        </motion.div>
-      </div>
-
+    <footer className="relative w-full border-t border-white/[0.08] bg-[#000000]">
       {/* Footer Body */}
-      <div className="border-t border-white/[0.06] bg-[#000000]">
+      <div className="bg-[#000000]">
         <div className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-12">
             {/* Brand column */}

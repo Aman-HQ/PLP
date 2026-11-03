@@ -1,175 +1,282 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, ArrowRight, FileText, Hash, Compass, Certificate, ChatCircleDots, Briefcase } from './icons';
-import servicesData from '../data/services.json';
+import {
+  ArrowUpRight,
+  Atom,
+  Code,
+  Flask,
+  Dna,
+  Gear,
+  TrendUp,
+  BookOpen,
+  SquaresFour,
+} from './icons';
 
-const EASE = [0.16, 1, 0.3, 1];
+const EASE_PREMIUM = [0.16, 1, 0.3, 1];
 
-const ICONS = {
-  FileText,
-  Hash,
-  Compass,
-  Certificate,
-  ChatCircleDots,
-  Briefcase,
-};
-
-function TrackIcon({ name, ...props }) {
-  const C = ICONS[name] || FileText;
-  return <C {...props} />;
-}
+const SUBJECTS = [
+  {
+    id: 'math',
+    name: 'Mathematics',
+    icon: (
+      <span className="font-serif font-bold text-2xl sm:text-[26px] leading-none select-none">
+        Σ
+      </span>
+    ),
+    href: '/dashboard#math',
+  },
+  {
+    id: 'physics',
+    name: 'Physics',
+    icon: <Atom size={26} weight="light" />,
+    href: '/dashboard#physics',
+  },
+  {
+    id: 'cs',
+    name: 'Computer Science',
+    icon: <Code size={26} weight="bold" />,
+    href: '/dashboard#cs',
+  },
+  {
+    id: 'chemistry',
+    name: 'Chemistry',
+    icon: <Flask size={26} weight="regular" />,
+    href: '/dashboard#chemistry',
+  },
+  {
+    id: 'biology',
+    name: 'Biology',
+    icon: <Dna size={26} weight="regular" />,
+    href: '/dashboard#biology',
+  },
+  {
+    id: 'engineering',
+    name: 'Engineering',
+    icon: <Gear size={26} weight="regular" />,
+    href: '/dashboard#engineering',
+  },
+  {
+    id: 'data-science',
+    name: 'Data Science',
+    icon: (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="w-6 h-6"
+        aria-hidden="true"
+      >
+        <path d="M6 5H4v14h2" />
+        <circle cx="12" cy="12" r="2.5" fill="currentColor" />
+        <path d="M18 5h2v14h-2" />
+      </svg>
+    ),
+    href: '/dashboard#data-science',
+  },
+  {
+    id: 'economics',
+    name: 'Economics',
+    icon: <TrendUp size={26} weight="bold" />,
+    href: '/dashboard#economics',
+  },
+  {
+    id: 'humanities',
+    name: 'Humanities',
+    icon: <BookOpen size={26} weight="regular" />,
+    href: '/dashboard#humanities',
+  },
+  {
+    id: 'more',
+    name: 'More Subjects',
+    icon: <SquaresFour size={26} weight="bold" />,
+    href: '/dashboard',
+  },
+];
 
 export default function Services() {
   const reduceMotion = useReducedMotion();
-  const heroSpecialty = servicesData.heroSpecialty || {};
-  const treatments = servicesData.treatments || [];
 
-  const rise = {
-    hidden: reduceMotion ? {} : { opacity: 0, y: 12 },
-    show: (i = 0) => ({
+  const containerVariants = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.05,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: reduceMotion ? {} : { opacity: 0, y: 16 },
+    show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, ease: EASE, delay: reduceMotion ? 0 : i * 0.05 },
-    }),
+      transition: { duration: 0.5, ease: EASE_PREMIUM },
+    },
   };
 
   return (
-    <section id="services" className="relative w-full overflow-x-clip bg-[#09090B] py-24 md:py-32 border-t border-white/[0.06]">
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
+    <section
+      id="services"
+      className="relative w-full overflow-hidden bg-[#09090B] py-20 sm:py-24 md:py-28"
+    >
+      <div className="mx-auto max-w-[1240px] px-5 sm:px-8">
         
-        {/* Header */}
+        {/* 1. Section Header matching Image */}
         <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10 text-left"
+        >
+          <div>
+            <h2 className="font-display font-bold text-2xl sm:text-3xl lg:text-[2.25rem] text-white tracking-tight leading-tight">
+              Explore Subjects
+            </h2>
+            <p className="font-sans text-xs sm:text-sm text-zinc-400 mt-1.5 font-normal">
+              From core STEM to humanities, learn and practice across 50+ subjects.
+            </p>
+          </div>
+
+          <a
+            href="/dashboard"
+            className="group inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 font-sans text-xs sm:text-[13px] font-semibold text-black shadow-[0_2px_12px_rgba(255,255,255,0.1)] hover:bg-neutral-200 active:scale-95 transition-all duration-300 ease-premium shrink-0 cursor-pointer w-fit"
+          >
+            <span>View All Subjects</span>
+            <ArrowUpRight
+              size={14}
+              weight="bold"
+              className="transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </a>
+        </motion.div>
+
+        {/* 2. Subjects Grid: 10 Cards in 5x2 Layout */}
+        <motion.div
+          variants={containerVariants}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.05 }}
-          variants={rise}
-          className="max-w-3xl"
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 sm:gap-4"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-300">
-            <span>{servicesData.badge}</span>
-          </div>
-          <h2 className="mt-4 font-display text-3xl font-bold leading-[1.12] tracking-tight text-white sm:text-5xl">
-            <span>{servicesData.titlePrefix} </span>
-            <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-              {servicesData.titleHighlight}
-            </span>
-          </h2>
-          <p className="mt-4 max-w-2xl font-sans text-base font-light leading-relaxed text-zinc-400">
-            {servicesData.subtitle}
-          </p>
+          {SUBJECTS.map((subject) => (
+            <motion.a
+              key={subject.id}
+              href={subject.href}
+              variants={itemVariants}
+              className="group relative flex flex-col items-center justify-center p-6 sm:p-7 rounded-2xl border border-white/10 bg-[#121214]/60 hover:bg-[#18181B] hover:border-white/25 shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.5)] transition-all duration-300 ease-premium cursor-pointer active:scale-[0.98]"
+            >
+              <div className="h-8 flex items-center justify-center text-zinc-300 group-hover:text-white transition-colors duration-200">
+                {subject.icon}
+              </div>
+              <span className="font-sans text-xs sm:text-[13px] font-medium text-zinc-300 group-hover:text-white mt-3 text-center tracking-tight transition-colors duration-200">
+                {subject.name}
+              </span>
+            </motion.a>
+          ))}
         </motion.div>
 
-        {/* Bento Grid */}
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-          
-          {/* Flagship Specialty Card (Monochrome Black & Grey) */}
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.05 }}
-            transition={{ duration: 0.45, ease: EASE }}
-            className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-b from-[#18181B] via-[#121214] to-[#0E0E10] p-7 sm:p-8 lg:col-span-2 shadow-xl"
+        {/* 3. CTA Banner: Unlock Your Full Academic Potential */}
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.7, ease: EASE_PREMIUM }}
+          className="relative mt-12 sm:mt-16 overflow-hidden rounded-[26px] sm:rounded-[32px] border border-white/15 bg-gradient-to-b from-[#141418] via-[#0E0E12] to-[#08080A] px-6 py-12 sm:px-12 sm:py-16 text-center shadow-[0_24px_90px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
+        >
+          {/* Top ambient radial spotlight */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 -top-16 -translate-x-1/2 h-[220px] w-[600px] rounded-full opacity-40 blur-[70px] z-0"
+            style={{
+              background: 'radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%)',
+            }}
+          />
+
+          {/* Bottom-left curved specular light sweep */}
+          <svg
+            className="pointer-events-none absolute -bottom-4 -left-4 h-[220px] w-[320px] opacity-40 select-none z-0"
+            viewBox="0 0 320 220"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <div className="relative z-10">
-              <span className="inline-block rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 font-mono text-xs font-medium text-white">
-                {heroSpecialty.badge}
-              </span>
-              <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-                {heroSpecialty.title}
-              </h3>
-              <p className="mt-3 max-w-xl font-sans text-sm font-light leading-relaxed text-zinc-300">
-                {heroSpecialty.desc}
-              </p>
+            <path
+              d="M -40 220 C 60 170, 180 180, 260 250"
+              stroke="url(#ctaLeftGlow)"
+              strokeWidth="2"
+            />
+            <path
+              d="M -40 220 C 60 170, 180 180, 260 250"
+              stroke="url(#ctaLeftGlow)"
+              strokeWidth="8"
+              strokeOpacity="0.3"
+              filter="blur(6px)"
+            />
+            <defs>
+              <linearGradient id="ctaLeftGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.7" />
+                <stop offset="60%" stopColor="#FFFFFF" stopOpacity="0.2" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
 
-              {/* Highlights */}
-              <div className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                {heroSpecialty.highlights?.map((hl, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-xs text-zinc-300">
-                    <span className="h-1.5 w-1.5 rounded-full bg-white" />
-                    <span>{hl}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {/* Bottom-right curved specular light sweep */}
+          <svg
+            className="pointer-events-none absolute -bottom-4 -right-4 h-[220px] w-[320px] opacity-40 select-none z-0"
+            viewBox="0 0 320 220"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M 360 220 C 260 170, 140 180, 60 250"
+              stroke="url(#ctaRightGlow)"
+              strokeWidth="2"
+            />
+            <path
+              d="M 360 220 C 260 170, 140 180, 60 250"
+              stroke="url(#ctaRightGlow)"
+              strokeWidth="8"
+              strokeOpacity="0.3"
+              filter="blur(6px)"
+            />
+            <defs>
+              <linearGradient id="ctaRightGlow" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.7" />
+                <stop offset="60%" stopColor="#FFFFFF" stopOpacity="0.2" />
+                <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
 
-            <div className="relative z-10 mt-8 pt-4 border-t border-white/[0.08]">
+          {/* Banner Content */}
+          <div className="relative z-10 mx-auto max-w-2xl">
+            <h3 className="font-display font-bold text-2xl sm:text-3xl md:text-[2.5rem] leading-tight text-white tracking-tight">
+              Unlock Your Full Academic Potential
+            </h3>
+            
+            <p className="mx-auto mt-3.5 max-w-xl font-sans text-xs sm:text-sm md:text-base text-zinc-400 font-normal leading-relaxed">
+              Start learning with your 24/7 personal AI Tutor. Master tough concepts, ace your exams, and build deep confidence.
+            </p>
+
+            <div className="mt-8 flex justify-center">
               <a
-                href="#about"
-                className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-white transition-colors hover:text-zinc-300"
+                href="/dashboard"
+                className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-sans text-xs sm:text-sm font-semibold text-black shadow-[0_4px_24px_rgba(255,255,255,0.18)] hover:bg-neutral-100 active:scale-[0.98] transition-all duration-300 ease-premium cursor-pointer"
               >
-                <span>{heroSpecialty.ctaText || 'Get Started with STEM'}</span>
-                <ArrowUpRight size={16} weight="bold" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <span>Start Learning Free</span>
+                <ArrowUpRight
+                  size={15}
+                  weight="bold"
+                  className="transition-transform duration-300 ease-premium group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </a>
             </div>
-          </motion.div>
-
-          {/* Subject Track Cards */}
-          {treatments.map((track, i) => (
-            <motion.div
-              key={track.id}
-              custom={i}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.05 }}
-              variants={rise}
-              className="group flex flex-col justify-between rounded-3xl border border-white/10 bg-[#121214]/80 p-6 transition-all duration-300 ease-premium hover:-translate-y-1 hover:border-white/25 hover:bg-[#18181B]"
-            >
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white">
-                    <TrackIcon name={track.icon} size={20} weight="regular" />
-                  </span>
-                  <span className="rounded-full bg-white/[0.04] px-2.5 py-0.5 font-mono text-[10px] text-zinc-400">
-                    {track.category}
-                  </span>
-                </div>
-                <h3 className="mt-4 font-display text-lg font-semibold tracking-tight text-white">
-                  {track.title}
-                </h3>
-                <p className="mt-2 font-sans text-xs font-light leading-relaxed text-zinc-400">
-                  {track.desc}
-                </p>
-              </div>
-
-              <div className="mt-5 pt-4 border-t border-white/[0.06] flex items-center justify-between">
-                <span className="font-mono text-[11px] text-zinc-300 font-medium">
-                  {track.badge}
-                </span>
-                <a
-                  href="#about"
-                  className="inline-flex items-center gap-1 font-sans text-xs font-medium text-zinc-400 hover:text-white transition-colors"
-                >
-                  <span>Practice</span>
-                  <ArrowRight size={13} weight="bold" />
-                </a>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Footer Banner */}
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="mt-14 flex flex-col items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-6 sm:flex-row sm:items-center sm:justify-between"
-        >
-          <div>
-            <h4 className="font-display text-base font-semibold text-white">
-              Need help with a custom exam syllabus or course topic?
-            </h4>
-            <p className="mt-1 font-sans text-xs font-light text-zinc-400">
-              Upload your textbook chapter, lecture slides, or exam syllabus and AI Tutor will generate a custom learning track.
-            </p>
           </div>
-          <a
-            href="#about"
-            className="group inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-white px-5 font-sans text-xs font-semibold text-black transition-all duration-300 ease-premium hover:bg-neutral-200 active:scale-[0.98]"
-          >
-            <span>Start Free Session</span>
-            <ArrowRight size={14} weight="bold" className="transition-transform duration-300 group-hover:translate-x-0.5" />
-          </a>
         </motion.div>
+
       </div>
     </section>
   );
