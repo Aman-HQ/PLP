@@ -1,49 +1,241 @@
 import { useState } from 'react';
-import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowUpRight,
   ArrowDown,
+  ArrowRight,
   Compass,
   Sparkle,
-  CheckCircle,
   Copy,
   Check,
-  Brain,
-  Terminal,
-  Atom,
-  CaretDown,
-  CaretUp,
-  GraduationCap
+  House,
+  Books,
+  CheckCircle,
+  ChartLineUp,
+  ChatCircleDots,
+  DotsThree,
+  Lightning,
+  Plus,
+  Stack,
+  Sun,
+  Export,
+  BookmarkSimple,
+  Lightbulb,
+  ThumbsUp,
+  ThumbsDown,
+  PaperPlaneTilt,
+  User,
 } from './icons';
 import heroData from '../data/hero.json';
 
 const EASE_PREMIUM = [0.16, 1, 0.3, 1];
 
+const CONVERSATIONS = [
+  {
+    id: 'stokes',
+    title: "Stokes' Theorem in 3D",
+    subject: 'Calculus III',
+    topic: 'Vector Calculus',
+    userQuery: 'How do I conceptually connect the Fundamental Theorem of Calculus to Stokes\' Theorem in 3D?',
+    userTime: '7:32 PM',
+    introText: (
+      <>
+        Both the Fundamental Theorem of Calculus (FTC) and Stokes&apos; Theorem are part of a deeper unifying idea:{' '}
+        <strong className="font-semibold text-zinc-900">
+          they relate the integral of a derivative over a region to the integral of the original function over the boundary of that region.
+        </strong>
+      </>
+    ),
+    card1: {
+      title: 'Fundamental Theorem of Calculus (1D)',
+      icon: 'trend',
+      formula: (
+        <div className="font-serif italic text-base sm:text-lg text-zinc-900 tracking-wide select-none py-0.5">
+          <span className="text-xl sm:text-2xl not-italic font-normal mr-0.5">∫</span>
+          <sub className="text-[10px] -ml-1 mr-0.5 not-italic">a</sub>
+          <sup className="text-[10px] -ml-1 mr-1 not-italic">b</sup>
+          <span>f &apos;(x) dx</span>
+          <span className="mx-2 not-italic font-sans text-zinc-400">=</span>
+          <span>f(b) − f(a)</span>
+        </div>
+      ),
+      description: 'Relates the integral of a derivative over an interval to the values at its endpoints.',
+    },
+    card2: {
+      title: "Stokes' Theorem (3D)",
+      icon: 'stack',
+      formula: (
+        <div className="font-serif italic text-base sm:text-lg text-zinc-900 tracking-wide select-none py-0.5">
+          <span className="text-xl sm:text-2xl not-italic font-normal mr-0.5">∬</span>
+          <sub className="text-[10px] -ml-1 mr-1 not-italic font-sans font-bold">S</sub>
+          <span>(∇ × </span>
+          <strong className="not-italic font-bold">F</strong>
+          <span>) · d</span>
+          <strong className="not-italic font-bold">S</strong>
+          <span className="mx-2 not-italic font-sans text-zinc-400">=</span>
+          <span className="text-xl sm:text-2xl not-italic font-normal mr-0.5">∮</span>
+          <sub className="text-[10px] -ml-1 mr-1 not-italic font-sans font-bold">C</sub>
+          <strong className="not-italic font-bold">F</strong>
+          <span> · d</span>
+          <strong className="not-italic font-bold">r</strong>
+        </div>
+      ),
+      description: 'Relates the surface integral of a curl over a surface S to the line integral of the vector field over its boundary C.',
+    },
+    keyInsight: (
+      <>
+        <strong className="font-semibold text-zinc-900">Stokes&apos; Theorem</strong> generalizes the FTC to higher dimensions: instead of an interval and its endpoints, we have a surface and its boundary curve, and instead of a derivative, we use the curl (∇ × F).
+      </>
+    ),
+  },
+  {
+    id: 'quicksort',
+    title: 'Quick Sort Analysis',
+    subject: 'Algorithms',
+    topic: 'Divide & Conquer',
+    userQuery: 'Why does QuickSort run in O(n²) worst-case but O(n log n) expected time?',
+    userTime: '6:14 PM',
+    introText: (
+      <>
+        QuickSort&apos;s efficiency depends fundamentally on{' '}
+        <strong className="font-semibold text-zinc-900">
+          how evenly each partitioned pivot divides the remaining array into independent subproblems.
+        </strong>
+      </>
+    ),
+    card1: {
+      title: 'Average Case (Balanced Partition)',
+      icon: 'trend',
+      formula: (
+        <div className="font-mono text-sm sm:text-base text-zinc-900 select-none py-0.5 font-semibold">
+          T(n) = 2T(n/2) + O(n) ⇒ <span className="text-black font-bold">O(n log n)</span>
+        </div>
+      ),
+      description: 'When pivots roughly split the array in half, recursion depth is mathematically bounded by log₂ n.',
+    },
+    card2: {
+      title: 'Worst Case (Degenerate Partition)',
+      icon: 'stack',
+      formula: (
+        <div className="font-mono text-sm sm:text-base text-zinc-900 select-none py-0.5 font-semibold">
+          T(n) = T(n-1) + O(n) ⇒ <span className="text-black font-bold">O(n²)</span>
+        </div>
+      ),
+      description: 'Picking the minimum or maximum element repeatedly collapses the tree into a linked list of depth n.',
+    },
+    keyInsight: (
+      <>
+        <strong className="font-semibold text-zinc-900">Randomized Pivoting</strong> or Median-of-Three guarantees expected O(n log n) runtime and protects against adversarial sorted inputs.
+      </>
+    ),
+  },
+  {
+    id: 'bayes',
+    title: "Bayes' Theorem",
+    subject: 'Probability & Statistics',
+    topic: 'Bayesian Inference',
+    userQuery: 'Can you explain Bayes\' Theorem intuitively with a medical diagnostic example?',
+    userTime: '5:08 PM',
+    introText: (
+      <>
+        Bayes&apos; Theorem updates our belief in a hypothesis given observed evidence:{' '}
+        <strong className="font-semibold text-zinc-900">
+          Posterior Probability = (Likelihood × Prior) / Marginal Evidence.
+        </strong>
+      </>
+    ),
+    card1: {
+      title: 'Prior Probability P(H)',
+      icon: 'trend',
+      formula: (
+        <div className="font-serif italic text-base sm:text-lg text-zinc-900 select-none py-0.5">
+          <span>P(Condition) = </span>
+          <span className="font-sans not-italic font-bold">0.01 (1% base rate)</span>
+        </div>
+      ),
+      description: 'The baseline frequency of the condition in the broader population before testing.',
+    },
+    card2: {
+      title: 'Posterior Probability P(H|E)',
+      icon: 'stack',
+      formula: (
+        <div className="font-serif italic text-base sm:text-lg text-zinc-900 select-none py-0.5">
+          <span>P(H|E) = </span>
+          <span className="font-sans not-italic font-bold text-black">[ P(E|H) · P(H) ] / P(E) ≈ 16.4%</span>
+        </div>
+      ),
+      description: 'Even with a 95% accurate test, a rare 1% prior means false positives often outnumber true positives.',
+    },
+    keyInsight: (
+      <>
+        <strong className="font-semibold text-zinc-900">Always account for the base rate:</strong> rare hypotheses require overwhelmingly high specificity before a positive signal indicates strong posterior certainty.
+      </>
+    ),
+  },
+  {
+    id: 'thermo',
+    title: 'Thermodynamics Basics',
+    subject: 'Physics',
+    topic: 'Classical Thermodynamics',
+    userQuery: 'What is the conceptual bridge between the First and Second Laws of Thermodynamics?',
+    userTime: '3:45 PM',
+    introText: (
+      <>
+        The First Law governs{' '}
+        <strong className="font-semibold text-zinc-900">conservation of energy</strong>, while the Second Law dictates the{' '}
+        <strong className="font-semibold text-zinc-900">unidirectional arrow of natural processes.</strong>
+      </>
+    ),
+    card1: {
+      title: 'First Law (Conservation)',
+      icon: 'trend',
+      formula: (
+        <div className="font-serif italic text-base sm:text-lg text-zinc-900 select-none py-0.5">
+          <span>ΔU = Q − W</span>
+        </div>
+      ),
+      description: 'Energy cannot be created or destroyed; heat supplied minus work done equals internal energy change.',
+    },
+    card2: {
+      title: 'Second Law (Entropy)',
+      icon: 'stack',
+      formula: (
+        <div className="font-serif italic text-base sm:text-lg text-zinc-900 select-none py-0.5">
+          <span>ΔS</span>
+          <sub className="text-[10px] not-italic font-sans">isolated</sub>
+          <span className="mx-1.5 not-italic font-sans text-zinc-400">≥</span>
+          <span className="not-italic font-sans font-bold">0</span>
+        </div>
+      ),
+      description: 'The entropy of an isolated thermodynamic system never decreases over time.',
+    },
+    keyInsight: (
+      <>
+        <strong className="font-semibold text-zinc-900">Energy quantity is conserved, but quality degrades:</strong> entropy ensures heat cannot spontaneously flow from a colder to a hotter reservoir.
+      </>
+    ),
+  },
+];
+
 export default function Hero() {
   const reduceMotion = useReducedMotion();
 
-  // Active interactive demo state
-  const [activeTab, setActiveTab] = useState(heroData.interactiveDemos[0].id);
-  const [showThinking, setShowThinking] = useState(false);
-  const [selectedQuizOption, setSelectedQuizOption] = useState(null);
-  const [copiedSnippet, setCopiedSnippet] = useState(false);
+  // Active chat conversation inside the mockup
+  const [activeChatId, setActiveChatId] = useState('stokes');
+  const [copied, setCopied] = useState(false);
+  const [liked, setLiked] = useState(null);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [inputVal, setInputVal] = useState('');
 
-  const currentDemo =
-    heroData.interactiveDemos.find((d) => d.id === activeTab) ||
-    heroData.interactiveDemos[0];
+  const currentChat = CONVERSATIONS.find((c) => c.id === activeChatId) || CONVERSATIONS[0];
 
-  const handleTabChange = (tabId) => {
-    setActiveTab(tabId);
-    setSelectedQuizOption(null);
-    setShowThinking(false);
-  };
-
-  const handleCopyCode = () => {
-    const textToCopy = currentDemo.codeBlock || currentDemo.mathBlock || '';
-    if (textToCopy && navigator.clipboard) {
-      navigator.clipboard.writeText(textToCopy);
-      setCopiedSnippet(true);
-      setTimeout(() => setCopiedSnippet(false), 2000);
+  const handleCopy = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(
+        `Concept Explanation: ${currentChat.title}\n${currentChat.userQuery}`
+      );
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 
@@ -79,7 +271,7 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-[100dvh] w-full flex-col items-center justify-start overflow-hidden bg-[#09090B] px-4 pb-28 pt-32 sm:px-6 md:pt-36 lg:px-8 lg:pb-36"
     >
-      {/* 1. Cinematic Background Surfaces & Lighting (Strict Monochrome) */}
+      {/* 1. Cinematic Background Surfaces & Lighting (Monochrome) */}
       <div
         className="pointer-events-none absolute inset-0 z-0"
         style={{
@@ -88,16 +280,16 @@ export default function Hero() {
         }}
       />
 
-      {/* Subtle specular spotlight glow behind workbench */}
+      {/* Subtle specular spotlight bloom behind app mockup */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-[28%] h-[500px] w-[900px] -translate-x-1/2 rounded-full opacity-35 blur-[120px] z-0"
+        className="pointer-events-none absolute left-1/2 top-[32%] h-[600px] w-[1000px] -translate-x-1/2 rounded-full opacity-40 blur-[130px] z-0"
         style={{
-          background: 'radial-gradient(circle, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 70%)',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%)',
         }}
       />
 
-      {/* Fine technical architectural grid */}
+      {/* Technical architectural grid */}
       <div
         className="pointer-events-none absolute inset-0 z-0 opacity-[0.025]"
         style={{
@@ -120,20 +312,20 @@ export default function Hero() {
         {/* Display Typography */}
         <motion.h1
           variants={itemVariants}
-          className="font-display font-bold leading-[1.06] tracking-tight sm:tracking-[-0.03em] text-white mt-14"
+          className="font-display font-bold leading-[1.06] tracking-tight sm:tracking-[-0.03em] text-white"
         >
-          <span className="block text-3xl font-sans sm:text-5xl md:text-6xl lg:text-[4.55rem] text-zinc-200">
+          <span className="block text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] text-zinc-200">
             {heroData.headlinePre}
           </span>
-          <span className="mt-1.5 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.25rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+          <span className="mt-1 block text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
             {heroData.headlineEmphasis}
           </span>
         </motion.h1>
 
-        {/* Subtitle with optical measure */}
+        {/* Subtitle */}
         <motion.p
           variants={itemVariants}
-          className="mt-6 max-w-4xl font-sans text-sm font-normal leading-relaxed text-zinc-400 sm:text-[18px]"
+          className="mt-6 max-w-2xl font-sans text-base font-normal leading-relaxed text-zinc-400 sm:text-lg"
         >
           {heroData.subtitle}
         </motion.p>
@@ -143,7 +335,7 @@ export default function Hero() {
           variants={itemVariants}
           className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row sm:gap-5"
         >
-          {/* Primary CTA: Substantial pill with tactile inward shadow on hover */}
+          {/* Primary CTA */}
           <a
             href="/dashboard"
             className="group relative flex h-14 w-full items-center justify-between gap-4 rounded-full bg-white pl-8 pr-3.5 font-sans text-[15px] font-semibold text-black shadow-[0_4px_24px_rgba(255,255,255,0.14)] transition-all duration-300 ease-premium hover:bg-neutral-100 hover:shadow-[inset_0_3px_8px_rgba(0,0,0,0.32),inset_0_-1px_2px_rgba(255,255,255,0.9)] active:scale-[0.98] active:shadow-[inset_0_5px_12px_rgba(0,0,0,0.45)] cursor-pointer sm:w-auto"
@@ -154,14 +346,14 @@ export default function Hero() {
             </span>
           </a>
 
-          {/* Secondary CTA: Substantial frosted pill with inward shadow on hover */}
+          {/* Secondary CTA */}
           <button
             type="button"
             onClick={scrollToWorkbench}
             className="group relative flex h-14 w-full items-center justify-between gap-4 rounded-full border border-white/15 bg-white/[0.04] pl-6 pr-3.5 font-sans text-[15px] font-medium text-zinc-200 backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.3)] transition-all duration-300 ease-premium hover:border-white/30 hover:bg-white/[0.06] hover:text-white hover:shadow-[inset_0_3px_8px_rgba(0,0,0,0.7),inset_0_1px_2px_rgba(255,255,255,0.12)] active:scale-[0.98] active:shadow-[inset_0_5px_12px_rgba(0,0,0,0.85)] cursor-pointer sm:w-auto"
           >
             <span className="flex items-center gap-2.5">
-              <Compass size={22} weight="bold" className="text-zinc-400 group-hover:text-white transition-colors" />
+              <Compass size={18} weight="bold" className="text-zinc-400 group-hover:text-white transition-colors" />
               <span className="whitespace-nowrap tracking-tight">{heroData.ctaSecondaryLabel || 'Explore Demo Below'}</span>
             </span>
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-300 ease-premium group-hover:translate-y-1 group-hover:bg-white/15">
@@ -171,281 +363,343 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* 3. The Hero Centerpiece: Interactive AI Tutor Workbench (Doppelrand Bezel) */}
+      {/* 3. The Hero Centerpiece: High-Fidelity AI Tutor App Mockup (Matching Image 2) */}
       <motion.div
         id="interactive-workbench"
         initial={reduceMotion ? false : { y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.25, ease: EASE_PREMIUM }}
-        className="relative z-10 mt-14 w-full max-w-5xl"
+        className="relative z-10 mt-14 w-full max-w-[1040px]"
       >
-        {/* Outer Doppelrand Shell */}
-        <div className="relative rounded-[24px] sm:rounded-[28px] p-1.5 sm:p-2.5 border border-white/10 bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent shadow-[0_24px_80px_rgba(0,0,0,0.85)] backdrop-blur-2xl">
+        {/* Outer Frame Glow / Ambient Bezel */}
+        <div className="relative rounded-[26px] sm:rounded-[30px] p-2 sm:p-2.5 border border-white/10 bg-gradient-to-b from-white/[0.08] via-white/[0.03] to-transparent shadow-[0_24px_90px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
           
-          {/* Inner Machined Core */}
-          <div className="relative overflow-hidden rounded-[18px] sm:rounded-[22px] border border-white/[0.08] bg-[#0c0c0e] shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)]">
+          {/* Pristine App Window (Image 2 Architecture) */}
+          <div className="relative overflow-hidden rounded-[20px] sm:rounded-[24px] bg-white text-zinc-900 border border-zinc-200/80 shadow-2xl flex flex-col md:flex-row min-h-[590px]">
             
-            {/* Top Chrome / Workspace Navigation */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/[0.08] bg-black/40 px-4 py-3 sm:px-5">
+            {/* ── LEFT SIDEBAR (Desktop) ── */}
+            <div className="hidden md:flex w-60 shrink-0 flex-col justify-between border-r border-zinc-200/70 bg-[#FAFAFA] p-4 text-left select-none">
               
-              {/* Left: Window Controls + Active Session Status */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full bg-zinc-700/80" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-zinc-600/80" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-zinc-500/80" />
-                </div>
-                <div className="h-3 w-px bg-white/10 mx-1 hidden sm:block" />
-                <span className="font-mono text-[11px] font-medium tracking-wide text-zinc-400">
-                  interactive_session.ai
-                </span>
-                <span className="rounded-full border border-white/10 bg-white/[0.05] px-2 py-0.5 font-mono text-[10px] text-zinc-300">
-                  Live Preview
-                </span>
-              </div>
-
-              {/* Right: Domain Subject Switcher Tabs */}
-              <div className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 no-scrollbar">
-                {heroData.interactiveDemos.map((demo) => {
-                  const isActive = demo.id === activeTab;
-                  return (
-                    <button
-                      key={demo.id}
-                      type="button"
-                      onClick={() => handleTabChange(demo.id)}
-                      className={`relative flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-all duration-200 ${
-                        isActive
-                          ? 'bg-white/10 text-white border border-white/15 shadow-sm'
-                          : 'text-zinc-400 hover:text-zinc-200 hover:bg-white/[0.04]'
-                      }`}
-                    >
-                      {demo.id === 'calculus' && <GraduationCap size={13} />}
-                      {demo.id === 'systems' && <Terminal size={13} />}
-                      {demo.id === 'physics' && <Atom size={13} />}
-                      <span>{demo.badge}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Workspace Canvas Body */}
-            <div className="p-4 sm:p-6 lg:p-7 space-y-4">
-              
-              {/* 1. Student Inquirer Card */}
-              <div className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 text-left">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-semibold text-white border border-white/15">
-                  You
-                </div>
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-zinc-300">Scholar Prompt</span>
-                    <span className="text-[10px] text-zinc-500 font-mono">Topic: {currentDemo.topic}</span>
+              <div>
+                {/* Brand Header */}
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-white font-bold text-sm shadow-sm">
+                    ✱
                   </div>
-                  <p className="font-sans text-sm text-zinc-200 leading-snug">
-                    "{currentDemo.studentQuery}"
-                  </p>
-                </div>
-              </div>
-
-              {/* 2. AI Tutor Socratic Reasoning Card */}
-              <div className="rounded-xl border border-white/12 bg-white/[0.04] p-4 sm:p-5 text-left space-y-3.5">
-                
-                {/* Tutor Header & Expandable Thinking Drawer */}
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.06] pb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-white text-black">
-                      <Brain size={14} weight="bold" />
-                    </span>
-                    <span className="text-xs font-semibold text-white">AI Socratic Tutor</span>
-                    <span className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-[9px] text-zinc-300">
-                      Concept Deconstruction
+                  <div className="flex flex-col leading-none">
+                    <span className="font-display text-[13px] font-bold tracking-tight text-zinc-900">AI Tutor</span>
+                    <span className="mt-0.5 text-[8.5px] font-semibold uppercase tracking-[0.2em] text-zinc-400">
+                      Intelligent Learning
                     </span>
                   </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setShowThinking((v) => !v)}
-                    className="group inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-black/40 px-2.5 py-1 text-[11px] font-mono text-zinc-400 hover:text-white transition-colors"
-                  >
-                    <Sparkle size={11} className="text-zinc-400 group-hover:text-white" />
-                    <span>Thinking trace ({currentDemo.thinkingTime})</span>
-                    {showThinking ? <CaretUp size={11} /> : <CaretDown size={11} />}
-                  </button>
                 </div>
 
-                {/* Collapsible Thinking Heuristics */}
-                <AnimatePresence>
-                  {showThinking && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: EASE_PREMIUM }}
-                      className="overflow-hidden rounded-lg bg-black/60 p-3 border border-white/[0.06] space-y-2 text-[11px] font-mono text-zinc-400"
-                    >
-                      <div className="text-[10px] uppercase tracking-wider text-zinc-500 font-semibold">
-                        Cognitive Evaluation Pipeline
-                      </div>
-                      <div className="space-y-1.5">
-                        {currentDemo.cognitiveSteps.map((step, idx) => (
-                          <div key={idx} className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
-                            <span className="text-zinc-300">{step}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {/* + New Chat Button */}
+                <button
+                  type="button"
+                  onClick={() => setActiveChatId('stokes')}
+                  className="mt-4 flex w-full items-center justify-start gap-2 rounded-xl bg-zinc-900 px-3.5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-black transition-all active:scale-[0.98] cursor-pointer"
+                >
+                  <Plus size={14} weight="bold" />
+                  <span>New Chat</span>
+                </button>
 
-                {/* Core Socratic Answer */}
-                <div className="text-sm leading-relaxed text-zinc-300 font-normal">
-                  {currentDemo.tutorCore}
-                </div>
+                {/* Primary Navigation */}
+                <nav className="mt-4 space-y-0.5 text-xs font-medium text-zinc-600">
+                  <a href="#home" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-zinc-900 hover:bg-zinc-200/60 transition-colors">
+                    <House size={16} weight="bold" className="text-zinc-700" />
+                    <span>Home</span>
+                  </a>
+                  <a href="#services" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-zinc-200/60 transition-colors">
+                    <Books size={16} className="text-zinc-500" />
+                    <span>Subjects</span>
+                  </a>
+                  <a href="#about" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-zinc-200/60 transition-colors">
+                    <CheckCircle size={16} className="text-zinc-500" />
+                    <span>Practice</span>
+                  </a>
+                  <a href="/dashboard" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-zinc-200/60 transition-colors">
+                    <ChartLineUp size={16} className="text-zinc-500" />
+                    <span>Progress</span>
+                  </a>
+                </nav>
 
-                {/* Mathematical or Code Block */}
-                {(currentDemo.mathBlock || currentDemo.codeBlock) && (
-                  <div className="relative rounded-lg border border-white/10 bg-black/80 p-3 font-mono text-xs text-zinc-200">
-                    <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] text-[10px] text-zinc-400">
-                      <span>{currentDemo.codeBlock ? 'Invariant Verification' : 'Differential Form Formulations'}</span>
-                      <button
-                        type="button"
-                        onClick={handleCopyCode}
-                        className="flex items-center gap-1 rounded px-1.5 py-0.5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"
-                      >
-                        {copiedSnippet ? (
-                          <>
-                            <Check size={11} className="text-white" />
-                            <span className="text-white">Copied</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy size={11} />
-                            <span>Copy</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                    <pre className="mt-2.5 overflow-x-auto text-[12px] text-zinc-100 no-scrollbar">
-                      <code>{currentDemo.codeBlock || currentDemo.mathBlock}</code>
-                    </pre>
+                {/* Recent Conversations */}
+                <div className="mt-5">
+                  <div className="px-1 text-[11px] font-medium text-zinc-400">
+                    Recent Conversations
                   </div>
-                )}
-
-                {/* Interactive Socratic Checkpoint */}
-                <div className="mt-4 rounded-xl border border-white/10 bg-black/40 p-4 space-y-3">
-                  <div className="flex items-center gap-2 text-xs font-medium text-zinc-300">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 text-[10px] text-white font-bold">
-                      ?
-                    </span>
-                    <span>Test Your Intuition (Interactive Socratic Checkpoint)</span>
-                  </div>
-
-                  <p className="text-xs text-zinc-400 leading-normal">
-                    {currentDemo.socraticQuestion}
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                    {currentDemo.quiz.options.map((opt) => {
-                      const isSelected = selectedQuizOption === opt.id;
-                      const isCorrect = opt.correct;
+                  <div className="mt-2 space-y-1">
+                    {CONVERSATIONS.map((chat) => {
+                      const isActive = chat.id === activeChatId;
                       return (
                         <button
-                          key={opt.id}
+                          key={chat.id}
                           type="button"
-                          onClick={() => setSelectedQuizOption(opt.id)}
-                          className={`flex items-start gap-2.5 rounded-lg border p-3 text-left text-xs transition-all duration-200 active:scale-[0.98] ${
-                            isSelected
-                              ? isCorrect
-                                ? 'border-white/40 bg-white/10 text-white shadow-sm'
-                                : 'border-zinc-700 bg-zinc-900/80 text-zinc-300'
-                              : 'border-white/10 bg-white/[0.02] text-zinc-300 hover:border-white/20 hover:bg-white/[0.05]'
+                          onClick={() => setActiveChatId(chat.id)}
+                          className={`group flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs transition-colors text-left ${
+                            isActive
+                              ? 'bg-zinc-200/80 font-semibold text-zinc-900'
+                              : 'font-normal text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-900'
                           }`}
                         >
-                          <span
-                            className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-[9px] ${
-                              isSelected
-                                ? isCorrect
-                                  ? 'border-white bg-white text-black font-bold'
-                                  : 'border-zinc-500 bg-zinc-700 text-white'
-                                : 'border-white/20 text-transparent'
-                            }`}
-                          >
-                            ✓
-                          </span>
-                          <span className="leading-snug">{opt.text}</span>
+                          <div className="flex items-center gap-2 overflow-hidden pr-1">
+                            <ChatCircleDots size={14} className={isActive ? 'text-zinc-900 shrink-0' : 'text-zinc-400 shrink-0'} />
+                            <span className="truncate">{chat.title}</span>
+                          </div>
+                          {isActive && <DotsThree size={16} weight="bold" className="text-zinc-600 shrink-0" />}
                         </button>
                       );
                     })}
                   </div>
+                </div>
+              </div>
 
-                  {/* Immediate Feedback Banner */}
-                  <AnimatePresence>
-                    {selectedQuizOption && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 4 }}
-                        className="mt-2.5 flex items-start gap-2 rounded-lg border border-white/15 bg-white/[0.05] p-2.5 text-xs text-zinc-200"
-                      >
-                        <CheckCircle size={15} weight="fill" className="text-white shrink-0 mt-0.5" />
-                        <div>
-                          {
-                            currentDemo.quiz.options.find((o) => o.id === selectedQuizOption)?.feedback
-                          }
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+              {/* Bottom: Upgrade to Pro Card */}
+              <div className="mt-6 rounded-2xl border border-zinc-200/80 bg-white p-3.5 shadow-sm">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-100 text-zinc-900 shadow-sm border border-zinc-200/70 mb-2.5">
+                  <Lightning size={14} weight="fill" />
+                </div>
+                <div className="font-semibold text-xs text-zinc-900">Upgrade to Pro</div>
+                <p className="mt-0.5 text-[10px] text-zinc-500 leading-snug">
+                  Unlock unlimited chats, advanced models and personalized plans.
+                </p>
+                <a
+                  href="/dashboard"
+                  className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-black py-1.5 px-3 text-[11px] font-medium text-white shadow-sm hover:bg-zinc-800 transition-colors"
+                >
+                  <span>Upgrade Now</span>
+                  <ArrowRight size={12} weight="bold" />
+                </a>
+              </div>
+
+            </div>
+
+            {/* ── RIGHT MAIN CHAT AREA ── */}
+            <div className="flex flex-1 flex-col justify-between bg-white text-left">
+              
+              {/* Top Navigation & Breadcrumb Header */}
+              <div className="flex items-center justify-between border-b border-zinc-200/70 px-5 py-3.5 sm:px-6">
+                
+                {/* Left Breadcrumb */}
+                <div className="flex items-center gap-2 text-xs sm:text-sm">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-zinc-100 text-zinc-700">
+                    <Stack size={14} weight="bold" />
+                  </div>
+                  <span className="font-semibold text-zinc-900">{currentChat.subject}</span>
+                  <span className="text-zinc-400">›</span>
+                  <span className="font-medium text-zinc-500">{currentChat.topic}</span>
+                </div>
+
+                {/* Right Utility Actions */}
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    title="Light Mode"
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
+                  >
+                    <Sun size={16} />
+                  </button>
+                  <button
+                    type="button"
+                    title="Export"
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
+                  >
+                    <Export size={16} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setBookmarked((v) => !v)}
+                    title="Bookmark"
+                    className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+                      bookmarked ? 'text-black bg-zinc-100' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800'
+                    }`}
+                  >
+                    <BookmarkSimple size={16} weight={bookmarked ? 'fill' : 'regular'} />
+                  </button>
+                  <button
+                    type="button"
+                    className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-zinc-200/80 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-800 shadow-sm hover:bg-zinc-50 transition-colors"
+                  >
+                    <span>Study Plan</span>
+                    <Sparkle size={12} weight="fill" className="text-zinc-600" />
+                  </button>
                 </div>
 
               </div>
 
-            </div>
+              {/* Chat Conversation Scroll Area */}
+              <div className="space-y-5 p-5 sm:p-7 overflow-y-auto max-h-[520px]">
+                
+                {/* 1. Student Message */}
+                <div className="flex items-start gap-3 text-left">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-zinc-100 border border-zinc-200 text-zinc-600">
+                    <User size={13} weight="bold" />
+                  </div>
+                  <div className="flex flex-1 items-start justify-between gap-4">
+                    <p className="font-sans text-xs sm:text-[13.5px] font-medium leading-relaxed text-zinc-800 pt-0.5">
+                      {currentChat.userQuery}
+                    </p>
+                    <span className="shrink-0 font-mono text-[10.5px] text-zinc-400 pt-0.5">
+                      {currentChat.userTime}
+                    </span>
+                  </div>
+                </div>
 
-            {/* Bottom Footer Action Strip */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-white/[0.08] bg-black/60 px-5 py-3 text-xs text-zinc-400">
-              <div className="flex items-center gap-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-white/60 animate-pulse" />
-                <span>Ready to experience your personalized AI Tutor across 50+ subjects?</span>
+                {/* 2. AI Tutor Message */}
+                <div className="space-y-4">
+                  {/* Tutor Avatar & Identity Badge */}
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-black text-white font-bold text-xs shadow-sm">
+                      ✱
+                    </div>
+                    <span className="font-bold text-xs sm:text-sm text-zinc-900">AI Tutor</span>
+                    <span className="rounded-full bg-zinc-100 border border-zinc-200/80 px-2.5 py-0.5 text-[10px] font-medium text-zinc-600">
+                      Concept Explanation
+                    </span>
+                  </div>
+
+                  {/* Intro Synthesis */}
+                  <p className="pl-9 font-sans text-xs sm:text-[13px] leading-relaxed text-zinc-700">
+                    {currentChat.introText}
+                  </p>
+
+                  {/* Two Side-by-Side Math/Concept Comparison Cards */}
+                  <div className="pl-0 sm:pl-9 grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                    
+                    {/* Card 1: 1D */}
+                    <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm hover:border-zinc-300 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 text-zinc-700 font-bold text-xs">
+                          📈
+                        </span>
+                        <span className="font-semibold text-xs text-zinc-900">{currentChat.card1.title}</span>
+                      </div>
+
+                      {/* Formula Box */}
+                      <div className="my-3 rounded-xl border border-zinc-200/60 bg-zinc-50/80 px-3 py-3.5 text-center">
+                        {currentChat.card1.formula}
+                      </div>
+
+                      <p className="text-[11px] leading-snug text-zinc-500">
+                        {currentChat.card1.description}
+                      </p>
+                    </div>
+
+                    {/* Card 2: 3D */}
+                    <div className="rounded-2xl border border-zinc-200/80 bg-white p-4 shadow-sm hover:border-zinc-300 transition-colors">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-zinc-100 text-zinc-700">
+                          <Stack size={13} weight="bold" />
+                        </span>
+                        <span className="font-semibold text-xs text-zinc-900">{currentChat.card2.title}</span>
+                      </div>
+
+                      {/* Formula Box */}
+                      <div className="my-3 rounded-xl border border-zinc-200/60 bg-zinc-50/80 px-3 py-3.5 text-center">
+                        {currentChat.card2.formula}
+                      </div>
+
+                      <p className="text-[11px] leading-snug text-zinc-500">
+                        {currentChat.card2.description}
+                      </p>
+                    </div>
+
+                  </div>
+
+                  {/* Key Insight Callout Card */}
+                  <div className="ml-0 sm:ml-9 rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-4">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-zinc-200/70 text-zinc-700">
+                        <Lightbulb size={12} weight="bold" />
+                      </span>
+                      <span className="font-bold text-xs text-zinc-900">Key Insight</span>
+                    </div>
+                    <p className="text-[11.5px] leading-relaxed text-zinc-600 pl-7">
+                      {currentChat.keyInsight}
+                    </p>
+                  </div>
+
+                  {/* Tutor Feedback & Utility Row */}
+                  <div className="pl-0 sm:pl-9 flex items-center gap-2.5 pt-1 text-zinc-400">
+                    <button
+                      type="button"
+                      onClick={() => setLiked((v) => (v === 'up' ? null : 'up'))}
+                      className={`flex h-7 w-7 items-center justify-center rounded-md hover:bg-zinc-100 transition-colors ${
+                        liked === 'up' ? 'text-black bg-zinc-100' : 'hover:text-zinc-800'
+                      }`}
+                      title="Good explanation"
+                    >
+                      <ThumbsUp size={14} weight={liked === 'up' ? 'fill' : 'regular'} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLiked((v) => (v === 'down' ? null : 'down'))}
+                      className={`flex h-7 w-7 items-center justify-center rounded-md hover:bg-zinc-100 transition-colors ${
+                        liked === 'down' ? 'text-black bg-zinc-100' : 'hover:text-zinc-800'
+                      }`}
+                      title="Needs improvement"
+                    >
+                      <ThumbsDown size={14} weight={liked === 'down' ? 'fill' : 'regular'} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCopy}
+                      className="flex h-7 w-7 items-center justify-center rounded-md hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
+                      title="Copy explanation"
+                    >
+                      {copied ? <Check size={14} className="text-black" /> : <Copy size={14} />}
+                    </button>
+                    <button
+                      type="button"
+                      className="flex h-7 w-7 items-center justify-center rounded-md hover:bg-zinc-100 hover:text-zinc-800 transition-colors"
+                      title="More options"
+                    >
+                      <DotsThree size={16} weight="bold" />
+                    </button>
+                  </div>
+
+                </div>
+
               </div>
-              <a
-                href="/dashboard"
-                className="group inline-flex items-center gap-2 text-xs font-semibold text-white hover:text-zinc-200 transition-colors"
-              >
-                <span>Launch Full Learning Console</span>
-                <ArrowUpRight size={13} weight="bold" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
+
+              {/* Bottom Input Box (Ask a follow-up question...) */}
+              <div className="p-4 sm:p-5 pt-0">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (inputVal.trim()) setInputVal('');
+                  }}
+                  className="relative flex items-center justify-between rounded-full border border-zinc-200/90 bg-white p-1.5 pl-3.5 shadow-sm transition-all focus-within:border-zinc-400 focus-within:ring-2 focus-within:ring-zinc-950/5"
+                >
+                  <button
+                    type="button"
+                    title="Add attachment"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 hover:bg-zinc-200 transition-colors"
+                  >
+                    <Plus size={14} weight="bold" />
+                  </button>
+
+                  <input
+                    type="text"
+                    value={inputVal}
+                    onChange={(e) => setInputVal(e.target.value)}
+                    placeholder="Ask a follow-up question..."
+                    className="w-full bg-transparent px-3 text-xs sm:text-sm text-zinc-800 placeholder-zinc-400 outline-none"
+                  />
+
+                  <button
+                    type="submit"
+                    title="Send message"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white hover:bg-zinc-800 active:scale-95 shadow-sm transition-all"
+                  >
+                    <PaperPlaneTilt size={15} weight="bold" />
+                  </button>
+                </form>
+              </div>
+
             </div>
 
-          </div>
-        </div>
-
-        {/* Ambient Floating Metric Badges (Z-Axis Depth & Physical Layering) */}
-        <div
-          aria-hidden
-          className="hidden lg:flex absolute -left-8 -bottom-6 z-20 items-center gap-3 rounded-2xl border border-white/15 bg-[#121214]/90 p-3.5 shadow-2xl backdrop-blur-xl"
-        >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white border border-white/10">
-            <Brain size={18} weight="bold" />
-          </div>
-          <div className="text-left">
-            <div className="text-[11px] font-medium text-zinc-400">Socratic Mastery Rate</div>
-            <div className="font-mono text-sm font-bold text-white">98.4% Retention</div>
-          </div>
-        </div>
-
-        <div
-          aria-hidden
-          className="hidden lg:flex absolute -right-8 -top-6 z-20 items-center gap-3 rounded-2xl border border-white/15 bg-[#121214]/90 p-3.5 shadow-2xl backdrop-blur-xl"
-        >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-black">
-            <Sparkle size={18} weight="bold" />
-          </div>
-          <div className="text-left">
-            <div className="text-[11px] font-medium text-zinc-400">Cognitive Acceleration</div>
-            <div className="font-mono text-sm font-bold text-white">+2.4x vs Rote Study</div>
           </div>
         </div>
 
