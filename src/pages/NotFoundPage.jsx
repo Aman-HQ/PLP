@@ -17,12 +17,7 @@ export default function NotFoundPage({ onGoHome }) {
         transition={{ duration: 0.4 }}
         className="relative z-10 flex max-w-md flex-col items-center"
       >
-        <Logo className="mb-6 h-11 w-11" />
-
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1 text-xs font-mono text-zinc-300">
-          <Compass size={14} />
-          <span>Error 404</span>
-        </div>
+        <Logo className="mb-4 h-12 w-12" />
 
         <h1 className="mt-4 font-display text-6xl sm:text-7xl font-bold tracking-tight bg-gradient-to-b from-white via-zinc-300 to-zinc-600 bg-clip-text text-transparent">
           404

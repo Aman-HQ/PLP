@@ -126,25 +126,37 @@ export default function About() {
               A learning experience designed around how you think, practice, and truly build lasting understanding.
             </motion.p>
 
-            {/* 4. Stacked Mockup Window matching Image 2 */}
+            {/* 4. Stacked Mockup Window with 3 layered cards behind matching Image */}
             <motion.div
               variants={itemVariants}
-              className="relative mt-8 sm:mt-10 w-full max-w-[530px]"
+              className="relative mt-8 sm:mt-10 w-full max-w-[530px] pl-5 sm:pl-7"
             >
-              {/* Stacked Backdrop Card 1 (Deepest) */}
+              {/* Soft ambient backlight halo */}
               <div
                 aria-hidden
-                className="absolute inset-0 rounded-[28px] border border-white/[0.07] bg-[#111114] -rotate-[3.5deg] scale-[0.98] -translate-x-3 -translate-y-2 pointer-events-none opacity-50 shadow-xl"
+                className="absolute -top-6 -left-6 -z-10 h-72 w-72 rounded-full bg-white/[0.05] blur-3xl pointer-events-none"
               />
 
-              {/* Stacked Backdrop Card 2 (Middle) */}
+              {/* Stacked Backdrop Card 1 (Furthest Back - Widest Fan) */}
               <div
                 aria-hidden
-                className="absolute inset-0 rounded-[28px] border border-white/[0.1] bg-[#16161a] -rotate-[1.8deg] scale-[0.99] -translate-x-1.5 -translate-y-1 pointer-events-none opacity-70 shadow-xl"
+                className="absolute inset-y-0 right-0 left-5 sm:left-7 rounded-[28px] border border-white/20 bg-gradient-to-br from-[#2a2a32]/90 via-[#1c1c22]/90 to-[#121216]/95 -rotate-[5.5deg] -translate-x-7 -translate-y-3 origin-bottom-right pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.22),-12px_16px_36px_rgba(0,0,0,0.65)] backdrop-blur-xl"
+              />
+
+              {/* Stacked Backdrop Card 2 (Middle Layer) */}
+              <div
+                aria-hidden
+                className="absolute inset-y-0 right-0 left-5 sm:left-7 rounded-[28px] border border-white/20 bg-gradient-to-br from-[#222228]/92 via-[#18181d]/92 to-[#0e0e12]/95 -rotate-[3.6deg] -translate-x-4.5 -translate-y-2 origin-bottom-right pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.18),-8px_12px_28px_rgba(0,0,0,0.6)] backdrop-blur-xl"
+              />
+
+              {/* Stacked Backdrop Card 3 (Immediate Backdrop) */}
+              <div
+                aria-hidden
+                className="absolute inset-y-0 right-0 left-5 sm:left-7 rounded-[28px] border border-white/18 bg-gradient-to-br from-[#1b1b20]/95 via-[#141418]/95 to-[#0b0b0e] -rotate-[1.8deg] -translate-x-2.5 -translate-y-1 origin-bottom-right pointer-events-none shadow-[inset_0_1px_1px_rgba(255,255,255,0.14),-4px_8px_20px_rgba(0,0,0,0.55)] backdrop-blur-xl"
               />
 
               {/* Main Foreground White Mockup Window */}
-              <div className="relative rounded-[26px] border border-zinc-200/90 bg-white p-5 sm:p-6 shadow-[0_24px_60px_rgba(0,0,0,0.55)] text-zinc-900">
+              <div className="relative rounded-[26px] border border-zinc-200/90 bg-white p-5 sm:p-6 shadow-[0_24px_60px_rgba(0,0,0,0.65),0_2px_4px_rgba(0,0,0,0.06)] text-zinc-900">
                 
                 {/* Window Header */}
                 <div className="flex items-center justify-between border-b border-zinc-100 pb-3.5">
@@ -158,7 +170,9 @@ export default function About() {
 
                     {/* Window Brand Mark & Title */}
                     <div className="flex items-center gap-2 ml-1">
-                      <Logo dark className="w-5 h-5 rounded-md" />
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-black text-white shadow-xs">
+                        <span className="font-bold text-xs select-none">✱</span>
+                      </div>
                       <span className="font-sans text-xs sm:text-[13px] font-semibold text-zinc-900 tracking-tight">
                         AI Tutor Session
                       </span>
@@ -166,7 +180,7 @@ export default function About() {
                   </div>
 
                   {/* Live Session Badge */}
-                  <div className="flex items-center gap-1.5 rounded-full bg-zinc-100 border border-zinc-200/80 px-2.5 py-1 text-[11px] font-medium text-zinc-700">
+                  <div className="flex items-center gap-1.5 rounded-full bg-zinc-100 border border-zinc-200/80 px-3 py-1 text-[11px] font-medium text-zinc-700">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     <span>Live Session</span>
                   </div>
@@ -175,64 +189,62 @@ export default function About() {
                 {/* Conversation Body */}
                 <div className="mt-4 space-y-3.5">
                   
-                  {/* User Question */}
-                  <div className="flex items-start gap-2.5">
-                    <div className="h-6 w-6 rounded-full bg-zinc-100 border border-zinc-200/80 flex items-center justify-center text-zinc-600 shrink-0 mt-0.5">
-                      <User size={12} weight="bold" />
-                    </div>
-                    <div className="rounded-2xl rounded-tl-sm bg-zinc-100 px-3.5 py-2.5 text-xs sm:text-[13px] text-zinc-800 font-sans leading-relaxed border border-zinc-200/50">
-                      Why does Quicksort run in O(n²) in the worst case?
-                    </div>
+                  {/* User Question Bar matching Image */}
+                  <div className="flex items-center gap-3 rounded-2xl bg-zinc-100/90 border border-zinc-200/70 px-4 py-3 text-xs sm:text-[13px] text-zinc-800">
+                    <User size={15} weight="bold" className="text-zinc-600 shrink-0" />
+                    <span className="font-sans leading-relaxed">
+                      Why does Quicksort run in <span className="font-semibold text-zinc-900">O(n²)</span> in the worst case?
+                    </span>
                   </div>
 
                   {/* AI Tutor Response */}
-                  <div className="flex items-start gap-2.5">
-                    <div className="h-6 w-6 rounded-lg bg-black flex items-center justify-center text-white shrink-0 mt-0.5 shadow-sm">
-                      <span className="font-bold text-[11px] select-none">✱</span>
+                  <div className="flex items-start gap-3 mt-4">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-black text-white shadow-sm mt-0.5">
+                      <span className="font-bold text-sm select-none">✱</span>
                     </div>
-                    <div className="flex-1 rounded-2xl rounded-tl-sm bg-white p-3.5 sm:p-4 border border-zinc-200/80 shadow-[0_2px_10px_rgba(0,0,0,0.03)] text-xs sm:text-[13px] text-zinc-800 font-sans leading-relaxed">
-                      <p className="text-zinc-800">
+                    <div className="flex-1 rounded-2xl bg-white p-4 border border-zinc-200/80 shadow-[0_2px_12px_rgba(0,0,0,0.04)] text-xs sm:text-[13px] text-zinc-800 font-sans leading-relaxed">
+                      <p className="text-zinc-800 leading-relaxed font-normal">
                         Great question! Quicksort&apos;s worst case happens when the pivot consistently divides the array into highly unbalanced parts — for example, when the array is already sorted.
                       </p>
 
-                      {/* Interactive Array Visualization matching Image 2 */}
+                      {/* Interactive Array Visualization matching Image */}
                       <div className="mt-3.5 flex flex-wrap items-center gap-2 pt-0.5">
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1.5">
                           {[1, 2, 3, 4, 5].map((num) => (
                             <div
                               key={num}
-                              className="flex h-7 w-7 items-center justify-center rounded-lg border border-zinc-200 bg-white font-mono text-xs font-semibold text-zinc-900 shadow-xs"
+                              className="flex h-8 w-8 items-center justify-center rounded-xl border border-zinc-200 bg-white font-mono text-xs font-semibold text-zinc-900 shadow-xs"
                             >
                               {num}
                             </div>
                           ))}
                         </div>
-                        <span className="text-zinc-400 font-bold text-sm mx-0.5 select-none">→</span>
-                        <div className="flex items-center rounded-lg border border-zinc-200 bg-zinc-100 px-2.5 py-1 font-mono text-xs font-semibold text-zinc-800">
+                        <span className="text-zinc-400 font-bold text-sm mx-1 select-none">→</span>
+                        <div className="flex items-center rounded-xl border border-zinc-200 bg-zinc-100 px-3 py-1.5 font-mono text-xs font-semibold text-zinc-800">
                           pivot = 1
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Chat Input Field matching Image 2 */}
-                  <div className="mt-4 flex items-center justify-between gap-3 rounded-full border border-zinc-200 bg-zinc-50/90 px-3 py-1.5 sm:px-3.5 sm:py-2">
+                  {/* Chat Input Field matching Image */}
+                  <div className="mt-5 flex items-center justify-between gap-3 rounded-full border border-zinc-200 bg-zinc-50/80 px-3.5 py-2">
                     <button
                       type="button"
                       aria-label="Add attachment"
-                      className="flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 hover:text-zinc-600 transition-colors cursor-pointer"
+                      className="flex h-7 w-7 items-center justify-center rounded-full text-zinc-400 hover:text-zinc-600 transition-colors cursor-pointer"
                     >
-                      <Plus size={15} weight="bold" />
+                      <Plus size={16} weight="bold" />
                     </button>
-                    <span className="flex-1 font-sans text-xs text-zinc-400 select-none">
+                    <span className="flex-1 font-sans text-xs sm:text-[13px] text-zinc-400 select-none">
                       Ask a follow-up question...
                     </span>
                     <button
                       type="button"
                       aria-label="Send message"
-                      className="flex h-7 w-7 items-center justify-center rounded-full bg-black text-white hover:bg-zinc-800 active:scale-95 transition-all cursor-pointer"
+                      className="flex h-8 w-8 items-center justify-center rounded-xl bg-zinc-900 text-white hover:bg-black active:scale-95 transition-all cursor-pointer shadow-xs"
                     >
-                      <PaperPlaneTilt size={12} weight="fill" className="-rotate-12 translate-x-px" />
+                      <PaperPlaneTilt size={13} weight="fill" className="-rotate-12 translate-x-px" />
                     </button>
                   </div>
 
