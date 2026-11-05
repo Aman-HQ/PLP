@@ -3,7 +3,7 @@ import { useAuth } from './AuthContext';
 import { Lock, EnvelopeSimple, Eye, EyeSlash, CircleNotch, ArrowRight } from '../icons';
 import Logo from '../Logo';
 
-export const LoginView = ({ onExploreDemo }) => {
+export const LoginView = ({ onExploreDemo, onNavigateToRegister, onNavigateToForgotPassword }) => {
   const { signIn, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -70,7 +70,7 @@ export const LoginView = ({ onExploreDemo }) => {
         {/* Brand Header */}
         <div className="text-center mb-8">
           {/* Neumorphic Brand Logo */}
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#e6ebf2] shadow-[6px_6px_14px_#c2c9d4,-6px_-6px_14px_#ffffff] mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#e6ebf2] shadow-[6px_6px_14px_#c2c9d4,-6px_-6px_14px_#ffffff] mb-2">
             <Logo dark className="w-14 h-14 !rounded-full shadow-sm" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl font-sans">
@@ -79,7 +79,7 @@ export const LoginView = ({ onExploreDemo }) => {
         </div>
 
         {/* Neumorphic Main Card (Inward Shadow: White on top, dark at bottom) */}
-        <div className="bg-[#e6ebf2] border border-white/80 rounded-[2rem] p-7 sm:p-9 shadow-[inset_8px_8px_20px_#ffffff,inset_-8px_-8px_20px_#c5ccd6]">
+        <div className="bg-[#e6ebf2] border border-slate-300/40 rounded-[2rem] p-7 sm:p-9 shadow-[inset_8px_8px_20px_#ffffff,inset_-8px_-8px_20px_#c5ccd6]">
           <div className="pb-4 mb-5 border-b border-zinc-300/60 text-center">
             <h2 className="text-lg font-bold text-zinc-900">Sign In</h2>
             <p className="text-xs text-zinc-500 mt-0.5">Enter your credentials to access your learning console</p>
@@ -160,6 +160,15 @@ export const LoginView = ({ onExploreDemo }) => {
                 <label className="block text-[11px] font-bold text-zinc-600 uppercase tracking-wider">
                   Password
                 </label>
+                {onNavigateToForgotPassword && (
+                  <button
+                    type="button"
+                    onClick={onNavigateToForgotPassword}
+                    className="text-[11px] font-semibold text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer"
+                  >
+                    Forgot Password?
+                  </button>
+                )}
               </div>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-zinc-400 group-focus-within:text-zinc-900 transition-colors">
@@ -210,9 +219,23 @@ export const LoginView = ({ onExploreDemo }) => {
                 )}
               </button>
             </div>
+            {/* Switch to Sign Up */}
+            {onNavigateToRegister && (
+              <div className="text-center text-xs text-zinc-500">
+                <span>Don&apos;t have an account? </span>
+                <button
+                  type="button"
+                  onClick={onNavigateToRegister}
+                  className="font-bold text-zinc-800 hover:text-black underline underline-offset-2 transition-colors cursor-pointer"
+                >
+                  Sign Up
+                </button>
+              </div>
+            )}
+
             {/* Explore Demo Preview */}
             {onExploreDemo && (
-              <div className="pt-2 text-center">
+              <div className="text-center">
                 <button
                   type="button"
                   onClick={onExploreDemo}
@@ -222,6 +245,7 @@ export const LoginView = ({ onExploreDemo }) => {
                 </button>
               </div>
             )}
+
           </form>
         </div>
       </div>

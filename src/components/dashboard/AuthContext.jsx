@@ -6,6 +6,8 @@ const AuthContext = createContext({
   session: null,
   loading: true,
   signIn: async () => {},
+  signUp: async () => {},
+  resetPassword: async () => {},
   signInWithGoogle: async () => {},
   signOut: async () => {},
 });
@@ -66,6 +68,28 @@ export const AuthProvider = ({ children }) => {
     return data;
   };
 
+  const signUp = async (email, password, fullName = '') => {
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password: password,
+      options: {
+        data: {
+          full_name: fullName.trim(),
+        },
+      },
+    });
+    if (error) throw error;
+    return data;
+  };
+
+  const resetPassword = async (email) => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/dashboard#reset-password`,
+    });
+    if (error) throw error;
+    return data;
+  };
+
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
@@ -74,7 +98,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signIn, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, signIn, signUp, resetPassword, signInWithGoogle, signOut }}>
       {children}
     </AuthContext.Provider>
   );

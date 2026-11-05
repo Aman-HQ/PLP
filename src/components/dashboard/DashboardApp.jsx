@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './AuthContext';
 import { LoginView } from './LoginView';
+import { RegisterView } from './RegisterView';
+import { ForgotPasswordView } from './ForgotPasswordView';
 import { DashboardShell } from './DashboardShell';
 import { NewPatientView } from './NewPatientView';
 import { ExistingPatientView } from './ExistingPatientView';
@@ -55,6 +57,14 @@ const buildDashboardHash = (tab, date, month) => {
 const DashboardContent = () => {
   const { user, loading, signOut } = useAuth();
   const [guestMode, setGuestMode] = useState(false);
+  const [authView, setAuthView] = useState(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const h = window.location.hash.toLowerCase();
+      if (h.includes('register') || h.includes('signup')) return 'register';
+      if (h.includes('forgot') || h.includes('reset')) return 'forgot-password';
+    }
+    return 'login';
+  });
 
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined' && window.location.hash) {
@@ -183,9 +193,31 @@ const DashboardContent = () => {
     );
   }
 
-  // If user is not authenticated, render the Login screen
+  // If user is not authenticated and not exploring demo, render the Auth views (Login / Register / Forgot Password)
   if (!user && !guestMode) {
-    return <LoginView onExploreDemo={() => setGuestMode(true)} />;
+    if (authView === 'register') {
+      return (
+        <RegisterView
+          onNavigateToLogin={() => setAuthView('login')}
+          onExploreDemo={() => setGuestMode(true)}
+        />
+      );
+    }
+    if (authView === 'forgot-password') {
+      return (
+        <ForgotPasswordView
+          onNavigateToLogin={() => setAuthView('login')}
+          onExploreDemo={() => setGuestMode(true)}
+        />
+      );
+    }
+    return (
+      <LoginView
+        onNavigateToRegister={() => setAuthView('register')}
+        onNavigateToForgotPassword={() => setAuthView('forgot-password')}
+        onExploreDemo={() => setGuestMode(true)}
+      />
+    );
   }
 
   // Preserved legacy clinic views (if specifically requested via #clinic)
