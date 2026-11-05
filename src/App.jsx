@@ -14,6 +14,8 @@ import { LearningConsoleApp } from './components/learning-console/LearningConsol
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import NotFoundPage from './pages/NotFoundPage';
+import { CircleNotch } from './components/icons';
+import Logo from './components/Logo';
 
 // Resolves current page route and section from window location with clean URLs (no hashes)
 function resolveRoute() {
@@ -108,6 +110,14 @@ function AppContent() {
     window.scrollTo(0, 0);
   };
 
+  // Route Guard: If on /app and user is neither logged in nor in demo mode, redirect to /login
+  useEffect(() => {
+    if (!loading && route.page === 'app' && !user && !demoMode) {
+      window.history.replaceState(null, '', '/login');
+      setRoute(resolveRoute());
+    }
+  }, [route.page, user, demoMode, loading]);
+
   // Sync route on browser popstate and hashchange
   useEffect(() => {
     const handleNavigation = () => {
@@ -186,7 +196,7 @@ function AppContent() {
       const href = anchor.getAttribute('href');
       if (!href) return;
 
-      // App / Dashboard navigation
+      // App / Dashboard navigation: redirect to /login if unauthenticated
       if (
         href === '/app' ||
         href.startsWith('/app') ||
@@ -195,7 +205,11 @@ function AppContent() {
         href === '#dashboard'
       ) {
         e.preventDefault();
-        navigate('/app');
+        if (!user && !demoMode) {
+          navigate('/login');
+        } else {
+          navigate('/app');
+        }
         return;
       }
 
@@ -318,17 +332,19 @@ function AppContent() {
 
       {/* 5. Learning App Console (/app) */}
       {route.page === 'app' && (
-        !user && !demoMode ? (
-          <LoginView
-            onNavigateToRegister={() => navigate('/register')}
-            onNavigateToForgotPassword={() => navigate('/forgot-password')}
-            onNavigateToHome={() => navigate('/')}
-            onExploreDemo={() => {
-              setDemoMode(true);
-              navigate('/app');
-            }}
-          />
-        ) : (
+        loading ? (
+          <div className="min-h-screen w-full bg-[#f0f2f5] text-zinc-900 flex flex-col items-center justify-center p-6 relative select-none">
+            <div className="relative z-10 flex flex-col items-center gap-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#e6ebf2] shadow-[6px_6px_14px_#c2c9d4,-6px_-6px_14px_#ffffff] mb-1">
+                <Logo dark className="w-14 h-14 !rounded-full shadow-sm" />
+              </div>
+              <div className="flex items-center gap-2.5 text-sm text-zinc-600 font-medium">
+                <CircleNotch size={18} className="animate-spin text-zinc-900" />
+                <span>Connecting to AI Tutor...</span>
+              </div>
+            </div>
+          </div>
+        ) : (user || demoMode) ? (
           <LearningConsoleApp
             onSignOut={async () => {
               setDemoMode(false);
@@ -342,7 +358,7 @@ function AppContent() {
               navigate('/login');
             }}
           />
-        )
+        ) : null
       )}
 
       {/* 6. Privacy Policy Page */}
