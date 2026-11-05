@@ -6,39 +6,73 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import Footer from './components/Footer';
-import DashboardApp from './components/dashboard/DashboardApp';
+import { AuthProvider, useAuth } from './components/dashboard/AuthContext';
+import { LoginView } from './components/dashboard/LoginView';
+import { RegisterView } from './components/dashboard/RegisterView';
+import { ForgotPasswordView } from './components/dashboard/ForgotPasswordView';
+import { LearningConsoleApp } from './components/learning-console/LearningConsoleApp';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-// Resolves current page route and section from window location
+// Resolves current page route and section from window location with clean URLs (no hashes)
 function resolveRoute() {
   if (typeof window === 'undefined') return { page: 'home', section: null };
 
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
   const hash = window.location.hash;
 
-  // Dashboard route
-  if (
-    pathname === '/dashboard' ||
-    pathname.startsWith('/dashboard/') ||
-    hash === '#dashboard' ||
-    hash.startsWith('#dashboard') ||
-    hash === '#signup' ||
-    hash === '#register' ||
-    hash === '#login' ||
-    hash === '#forgot-password'
-  ) {
+  // 1. Immediately clean up and normalize hash-based or alias auth URLs:
+  if (hash === '#signup' || hash === '#register' || pathname === '/signup') {
+    if (window.location.hash || pathname !== '/register') {
+      window.history.replaceState(null, '', '/register');
+    }
+    return { page: 'register', section: null };
+  }
+
+  if (hash === '#login') {
+    if (window.location.hash) {
+      window.history.replaceState(null, '', '/login');
+    }
+    return { page: 'login', section: null };
+  }
+
+  if (hash === '#forgot-password' || hash === '#reset-password' || pathname === '/reset-password') {
+    if (window.location.hash || pathname !== '/forgot-password') {
+      window.history.replaceState(null, '', '/forgot-password');
+    }
+    return { page: 'forgot-password', section: null };
+  }
+
+  if (hash === '#dashboard' || hash.startsWith('#dashboard')) {
+    if (window.location.hash) {
+      window.history.replaceState(null, '', '/dashboard');
+    }
     return { page: 'dashboard', section: null };
   }
 
-  // Privacy Policy route
-  if (pathname === '/privacy' || pathname === '/privacy-policy' || hash === '#privacy' || hash === '#privacy-policy') {
+  // 2. Direct clean path matching:
+  if (pathname === '/login') {
+    return { page: 'login', section: null };
+  }
+
+  if (pathname === '/register') {
+    return { page: 'register', section: null };
+  }
+
+  if (pathname === '/forgot-password') {
+    return { page: 'forgot-password', section: null };
+  }
+
+  if (pathname === '/dashboard' || pathname.startsWith('/dashboard/')) {
+    return { page: 'dashboard', section: null };
+  }
+
+  if (pathname === '/privacy' || pathname === '/privacy-policy') {
     return { page: 'privacy', section: null };
   }
 
-  // Terms and Conditions route
-  if (pathname === '/terms' || pathname === '/terms-and-conditions' || hash === '#terms' || hash === '#terms-and-conditions') {
+  if (pathname === '/terms' || pathname === '/terms-and-conditions') {
     return { page: 'terms', section: null };
   }
 
@@ -50,7 +84,6 @@ function resolveRoute() {
     if (hash === '#about' || hash === '#services') {
       return { page: 'home', section: hash };
     }
-    // Pure home root: no section anchor
     return { page: 'home', section: null };
   }
 
@@ -58,9 +91,22 @@ function resolveRoute() {
   return { page: 'not-found', section: null };
 }
 
-export default function App() {
+function AppContent() {
   const lenisRef = useRef(null);
   const [route, setRoute] = useState(resolveRoute);
+  const { user, loading, signOut } = useAuth();
+  const [demoMode, setDemoMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return new URLSearchParams(window.location.search).get('demo') === 'true';
+    }
+    return false;
+  });
+
+  const navigate = (toPath) => {
+    window.history.pushState(null, '', toPath);
+    setRoute(resolveRoute());
+    window.scrollTo(0, 0);
+  };
 
   // Sync route on browser popstate and hashchange
   useEffect(() => {
@@ -68,20 +114,7 @@ export default function App() {
       const current = resolveRoute();
       setRoute(current);
 
-      // Normalize URL in address bar
-      if (current.page === 'home' && !current.section) {
-        if (window.location.hash || window.location.pathname !== '/') {
-          window.history.replaceState(null, '', '/');
-        }
-      } else if (current.page === 'dashboard' && window.location.pathname !== '/dashboard' && !window.location.hash) {
-        window.history.replaceState(null, '', '/dashboard');
-      } else if (current.page === 'privacy' && window.location.pathname !== '/privacy') {
-        window.history.replaceState(null, '', '/privacy');
-      } else if (current.page === 'terms' && window.location.pathname !== '/terms') {
-        window.history.replaceState(null, '', '/terms');
-      }
-
-      // Scroll handling
+      // Scroll handling for homepage anchors
       if (current.page === 'home') {
         if (current.section) {
           setTimeout(() => {
@@ -146,7 +179,7 @@ export default function App() {
       rafId = requestAnimationFrame(raf);
     }
 
-    // Intercept clicks on links for smooth navigation
+    // Intercept clicks on links for smooth clean-path navigation without reloads
     const handleAnchorClick = (e) => {
       const anchor = e.target.closest('a');
       if (!anchor) return;
@@ -154,41 +187,48 @@ export default function App() {
       if (!href) return;
 
       // Dashboard navigation
-      if (href === '/dashboard' || href.startsWith('/dashboard') || href === '#dashboard' || href.startsWith('#dashboard')) {
+      if (href === '/dashboard' || href.startsWith('/dashboard') || href === '#dashboard') {
         e.preventDefault();
-        window.history.pushState(null, '', '/dashboard');
-        setRoute({ page: 'dashboard', section: null });
-        window.scrollTo(0, 0);
+        navigate('/dashboard');
         return;
       }
 
-      // Clean path navigation for pages
+      // Clean auth routes
+      if (href === '/login' || href === '#login') {
+        e.preventDefault();
+        navigate('/login');
+        return;
+      }
+
+      if (href === '/register' || href === '/signup' || href === '#register' || href === '#signup') {
+        e.preventDefault();
+        navigate('/register');
+        return;
+      }
+
+      if (href === '/forgot-password' || href === '/reset-password' || href === '#forgot-password' || href === '#reset-password') {
+        e.preventDefault();
+        navigate('/forgot-password');
+        return;
+      }
+
+      // Legal pages
       if (href === '/privacy' || href === '/privacy-policy') {
         e.preventDefault();
-        window.history.pushState(null, '', '/privacy');
-        setRoute({ page: 'privacy', section: null });
-        window.scrollTo(0, 0);
+        navigate('/privacy');
         return;
       }
 
       if (href === '/terms' || href === '/terms-and-conditions') {
         e.preventDefault();
-        window.history.pushState(null, '', '/terms');
-        setRoute({ page: 'terms', section: null });
-        window.scrollTo(0, 0);
+        navigate('/terms');
         return;
       }
 
       // Home link: reset URL to '/' (no '#')
       if (href === '#home' || href === '/') {
         e.preventDefault();
-        window.history.pushState(null, '', '/');
-        setRoute({ page: 'home', section: null });
-        if (lenisRef.current) {
-          lenisRef.current.scrollTo(0, { duration: 1.0 });
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        navigate('/');
         return;
       }
 
@@ -218,13 +258,6 @@ export default function App() {
     };
   }, [route.page]);
 
-  // Navigate back to homepage root '/' with no hash
-  const navigateToHome = () => {
-    window.history.pushState(null, '', '/');
-    setRoute({ page: 'home', section: null });
-    window.scrollTo(0, 0);
-  };
-
   return (
     <div className="app-container min-h-screen bg-[#09090B] text-[#FAFAFA]">
       {/* 1. Main Homepage */}
@@ -240,25 +273,94 @@ export default function App() {
         </>
       )}
 
-      {/* 2. Dashboard App */}
+      {/* 2. Login Page (/login) */}
+      {route.page === 'login' && (
+        <LoginView
+          onNavigateToRegister={() => navigate('/register')}
+          onNavigateToForgotPassword={() => navigate('/forgot-password')}
+          onNavigateToHome={() => navigate('/')}
+          onExploreDemo={() => {
+            setDemoMode(true);
+            navigate('/dashboard');
+          }}
+        />
+      )}
+
+      {/* 3. Register / Sign Up Page (/register) */}
+      {route.page === 'register' && (
+        <RegisterView
+          onNavigateToLogin={() => navigate('/login')}
+          onNavigateToHome={() => navigate('/')}
+          onExploreDemo={() => {
+            setDemoMode(true);
+            navigate('/dashboard');
+          }}
+        />
+      )}
+
+      {/* 4. Forgot Password Page (/forgot-password) */}
+      {route.page === 'forgot-password' && (
+        <ForgotPasswordView
+          onNavigateToLogin={() => navigate('/login')}
+          onNavigateToHome={() => navigate('/')}
+          onExploreDemo={() => {
+            setDemoMode(true);
+            navigate('/dashboard');
+          }}
+        />
+      )}
+
+      {/* 5. Dashboard / Learning App Console (/dashboard) */}
       {route.page === 'dashboard' && (
-        <DashboardApp />
+        !user && !demoMode ? (
+          <LoginView
+            onNavigateToRegister={() => navigate('/register')}
+            onNavigateToForgotPassword={() => navigate('/forgot-password')}
+            onNavigateToHome={() => navigate('/')}
+            onExploreDemo={() => {
+              setDemoMode(true);
+              navigate('/dashboard');
+            }}
+          />
+        ) : (
+          <LearningConsoleApp
+            onSignOut={async () => {
+              setDemoMode(false);
+              if (user && signOut) {
+                try {
+                  await signOut();
+                } catch (e) {
+                  console.error('Sign out error:', e);
+                }
+              }
+              navigate('/login');
+            }}
+          />
+        )
       )}
 
-      {/* 3. Privacy Policy Page */}
+      {/* 6. Privacy Policy Page */}
       {route.page === 'privacy' && (
-        <PrivacyPolicyPage onBack={navigateToHome} />
+        <PrivacyPolicyPage onBack={() => navigate('/')} />
       )}
 
-      {/* 4. Terms & Conditions Page */}
+      {/* 7. Terms & Conditions Page */}
       {route.page === 'terms' && (
-        <TermsPage onBack={navigateToHome} />
+        <TermsPage onBack={() => navigate('/')} />
       )}
 
-      {/* 5. 404 Page Not Found */}
+      {/* 8. 404 Page Not Found */}
       {route.page === 'not-found' && (
-        <NotFoundPage onGoHome={navigateToHome} />
+        <NotFoundPage onGoHome={() => navigate('/')} />
       )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }

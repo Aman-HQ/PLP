@@ -3,7 +3,7 @@ import { useAuth } from './AuthContext';
 import { EnvelopeSimple, CircleNotch, ArrowRight, ArrowLeft, CheckCircle } from '../icons';
 import Logo from '../Logo';
 
-export const ForgotPasswordView = ({ onNavigateToLogin, onExploreDemo }) => {
+export const ForgotPasswordView = ({ onNavigateToLogin, onNavigateToHome, onExploreDemo }) => {
   const { resetPassword } = useAuth();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -36,13 +36,25 @@ export const ForgotPasswordView = ({ onNavigateToLogin, onExploreDemo }) => {
       <div className="w-full max-w-[430px] relative z-10">
         {/* Brand Header */}
         <div className="text-center mb-8">
-          {/* Neumorphic Brand Logo */}
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#e6ebf2] shadow-[6px_6px_14px_#c2c9d4,-6px_-6px_14px_#ffffff] mb-2">
-            <Logo dark className="w-14 h-14 !rounded-full shadow-sm" />
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl font-sans">
-            AI Tutor
-          </h1>
+          <a
+            href="/"
+            onClick={(e) => {
+              if (onNavigateToHome) {
+                e.preventDefault();
+                onNavigateToHome();
+              }
+            }}
+            className="inline-block group cursor-pointer"
+            aria-label="AI Tutor Homepage"
+          >
+            {/* Neumorphic Brand Logo */}
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#e6ebf2] shadow-[6px_6px_14px_#c2c9d4,-6px_-6px_14px_#ffffff] mb-2 group-hover:scale-105 transition-transform duration-200">
+              <Logo dark className="w-14 h-14 !rounded-full shadow-sm" />
+            </div>
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-900 sm:text-3xl font-sans">
+              AI Tutor
+            </h1>
+          </a>
         </div>
 
         {/* Neumorphic Main Card */}

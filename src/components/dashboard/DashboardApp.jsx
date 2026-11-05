@@ -1,46 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { AuthProvider, useAuth } from './AuthContext';
-import { LoginView } from './LoginView';
-import { RegisterView } from './RegisterView';
-import { ForgotPasswordView } from './ForgotPasswordView';
+import React from 'react';
+import { useAuth } from './AuthContext';
 import { LearningConsoleApp } from '../learning-console/LearningConsoleApp';
+import { LoginView } from './LoginView';
 import { CircleNotch } from '../icons';
 import Logo from '../Logo';
 
-const DashboardContent = () => {
+export const DashboardApp = ({ onNavigateToLogin, onNavigateToRegister, onNavigateToForgotPassword, onNavigateToHome }) => {
   const { user, loading, signOut } = useAuth();
-  const [guestMode, setGuestMode] = useState(false);
-  const [authView, setAuthView] = useState(() => {
-    if (typeof window !== 'undefined' && window.location.hash) {
-      const h = window.location.hash.toLowerCase();
-      if (h.includes('register') || h.includes('signup')) return 'register';
-      if (h.includes('forgot') || h.includes('reset')) return 'forgot-password';
+  const [demoMode, setDemoMode] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      return new URLSearchParams(window.location.search).get('demo') === 'true';
     }
-    return 'login';
+    return false;
   });
-
-  // Keep authView in sync when browser navigation occurs (back/forward or hash change)
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const handleHashSync = () => {
-      const h = window.location.hash.toLowerCase();
-      if (h.includes('register') || h.includes('signup')) {
-        setAuthView('register');
-      } else if (h.includes('forgot') || h.includes('reset')) {
-        setAuthView('forgot-password');
-      } else {
-        setAuthView('login');
-      }
-    };
-
-    window.addEventListener('hashchange', handleHashSync);
-    window.addEventListener('popstate', handleHashSync);
-    return () => {
-      window.removeEventListener('hashchange', handleHashSync);
-      window.removeEventListener('popstate', handleHashSync);
-    };
-  }, []);
 
   if (loading) {
     return (
@@ -58,41 +30,14 @@ const DashboardContent = () => {
     );
   }
 
-  // If user is not authenticated and not exploring demo, render the Auth views (Login / Register / Forgot Password)
-  if (!user && !guestMode) {
-    if (authView === 'register') {
-      return (
-        <RegisterView
-          onNavigateToLogin={() => {
-            window.location.hash = '#login';
-            setAuthView('login');
-          }}
-          onExploreDemo={() => setGuestMode(true)}
-        />
-      );
-    }
-    if (authView === 'forgot-password') {
-      return (
-        <ForgotPasswordView
-          onNavigateToLogin={() => {
-            window.location.hash = '#login';
-            setAuthView('login');
-          }}
-          onExploreDemo={() => setGuestMode(true)}
-        />
-      );
-    }
+  // If user is not authenticated and not exploring demo, show LoginView
+  if (!user && !demoMode) {
     return (
       <LoginView
-        onNavigateToRegister={() => {
-          window.location.hash = '#signup';
-          setAuthView('register');
-        }}
-        onNavigateToForgotPassword={() => {
-          window.location.hash = '#forgot-password';
-          setAuthView('forgot-password');
-        }}
-        onExploreDemo={() => setGuestMode(true)}
+        onNavigateToRegister={onNavigateToRegister}
+        onNavigateToForgotPassword={onNavigateToForgotPassword}
+        onNavigateToHome={onNavigateToHome}
+        onExploreDemo={() => setDemoMode(true)}
       />
     );
   }
@@ -101,7 +46,7 @@ const DashboardContent = () => {
   return (
     <LearningConsoleApp
       onSignOut={async () => {
-        setGuestMode(false);
+        setDemoMode(false);
         if (user && signOut) {
           try {
             await signOut();
@@ -109,15 +54,15 @@ const DashboardContent = () => {
             console.error('Sign out error:', e);
           }
         }
+        if (onNavigateToLogin) {
+          onNavigateToLogin();
+        } else {
+          window.history.pushState(null, '', '/login');
+          window.dispatchEvent(new PopStateEvent('popstate'));
+        }
       }}
     />
   );
 };
 
-export default function DashboardApp() {
-  return (
-    <AuthProvider>
-      <DashboardContent />
-    </AuthProvider>
-  );
-}
+export default DashboardApp;

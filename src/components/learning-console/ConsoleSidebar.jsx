@@ -26,7 +26,7 @@ export const ConsoleSidebar = ({
   onOpenUpgrade,
 }) => {
   const navItems = [
-    { id: 'home', label: 'Home', icon: House, href: '#home' },
+    { id: 'home', label: 'Home', icon: House, href: '/' },
     { id: 'subjects', label: 'Subjects', icon: Books, href: '#subjects' },
     { id: 'practice', label: 'Practice', icon: CheckCircle, href: '#practice' },
     { id: 'progress', label: 'Progress', icon: ChartLineUp, href: '#progress' },
@@ -37,7 +37,7 @@ export const ConsoleSidebar = ({
       <div>
         {/* Brand Header */}
         <div className="flex items-center justify-between">
-          <a href="#home" className="flex items-center gap-2.5 group cursor-pointer" aria-label="AI Tutor — Home">
+          <a href="/" className="flex items-center gap-2.5 group cursor-pointer" aria-label="AI Tutor — Home">
             <Logo dark className="h-8 w-8 !rounded-lg transition-transform group-hover:scale-105" />
             <div className="flex flex-col leading-none">
               <span className="font-display text-[14px] font-bold tracking-tight text-zinc-900">
