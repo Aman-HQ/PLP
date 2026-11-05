@@ -387,7 +387,7 @@ export default function Hero() {
         {/* Subtitle */}
         <motion.p
           variants={itemVariants}
-          className="mt-6 max-w-2xl font-sans text-base font-normal leading-relaxed text-zinc-400 sm:text-[17.5px]"
+          className="mt-5 max-w-2xl font-sans text-base font-normal leading-relaxed text-zinc-400 sm:text-[17.5px]"
         >
           {heroData.subtitle}
         </motion.p>

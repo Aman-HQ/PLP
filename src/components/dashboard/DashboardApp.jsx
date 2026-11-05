@@ -6,6 +6,7 @@ import { NewPatientView } from './NewPatientView';
 import { ExistingPatientView } from './ExistingPatientView';
 import { DoctorDashboardView } from './DoctorDashboardView';
 import { NotificationView } from './NotificationView';
+import { LearningConsoleApp } from '../learning-console/LearningConsoleApp';
 import { CircleNotch } from '../icons';
 
 // Unified Hash Parser for PWA & Browser History navigation
@@ -52,7 +53,8 @@ const buildDashboardHash = (tab, date, month) => {
 };
 
 const DashboardContent = () => {
-  const { user, loading } = useAuth();
+  const { user, loading, signOut } = useAuth();
+  const [guestMode, setGuestMode] = useState(false);
 
   const [activeTab, setActiveTab] = useState(() => {
     if (typeof window !== 'undefined' && window.location.hash) {
@@ -182,11 +184,12 @@ const DashboardContent = () => {
   }
 
   // If user is not authenticated, render the Login screen
-  if (!user) {
-    return <LoginView />;
+  if (!user && !guestMode) {
+    return <LoginView onExploreDemo={() => setGuestMode(true)} />;
   }
 
-  // Authenticated: Render Main Dashboard Shell with preserved tab views
+  // Preserved legacy clinic views (if specifically requested via #clinic)
+  if (typeof window !== 'undefined' && window.location.hash.includes('clinic')) {
   return (
     <DashboardShell activeTab={activeTab} onTabChange={handleTabChange}>
       <div className={activeTab === 'new-patient' ? 'block' : 'hidden'}>
@@ -208,6 +211,22 @@ const DashboardContent = () => {
         <NotificationView />
       </div>
     </DashboardShell>
+    );
+  }
+
+  return (
+    <LearningConsoleApp
+      onSignOut={async () => {
+        setGuestMode(false);
+        if (user && signOut) {
+          try {
+            await signOut();
+          } catch (e) {
+            console.error('Sign out error:', e);
+          }
+        }
+      }}
+    />
   );
 };
 

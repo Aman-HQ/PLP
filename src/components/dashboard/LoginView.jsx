@@ -3,7 +3,7 @@ import { useAuth } from './AuthContext';
 import { Lock, EnvelopeSimple, Eye, EyeSlash, CircleNotch, ArrowRight } from '../icons';
 import Logo from '../Logo';
 
-export const LoginView = () => {
+export const LoginView = ({ onExploreDemo }) => {
   const { signIn, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -65,7 +65,7 @@ export const LoginView = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#d9e2ec]/60 text-zinc-800 flex items-center justify-center p-4 sm:p-6 relative overflow-hidden font-sans select-none">
+    <div className="min-h-screen w-full bg-[#f0f2f5] text-zinc-800 flex items-center justify-center p-4 sm:p-6 relative overflow-hidden font-sans select-none">
       <div className="w-full max-w-[430px] relative z-10">
         {/* Brand Header */}
         <div className="text-center mb-8">
@@ -210,6 +210,18 @@ export const LoginView = () => {
                 )}
               </button>
             </div>
+            {/* Explore Demo Preview */}
+            {onExploreDemo && (
+              <div className="pt-2 text-center">
+                <button
+                  type="button"
+                  onClick={onExploreDemo}
+                  className="font-sans text-xs font-semibold text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer py-1"
+                >
+                  Explore Learning Console Demo →
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </div>
