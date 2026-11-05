@@ -21,25 +21,25 @@ const SUBJECTS = [
         Σ
       </span>
     ),
-    href: '/dashboard#math',
+    href: '/app#math',
   },
   {
     id: 'physics',
     name: 'Physics',
     icon: <Atom size={34} weight="regular" />,
-    href: '/dashboard#physics',
+    href: '/app#physics',
   },
   {
     id: 'cs',
     name: 'Computer Science',
     icon: <Code size={32} weight="bold" />,
-    href: '/dashboard#cs',
+    href: '/app#cs',
   },
   {
     id: 'chemistry',
     name: 'Chemistry',
     icon: <Flask size={32} weight="regular" />,
-    href: '/dashboard#chemistry',
+    href: '/app#chemistry',
   },
   {
     id: 'biology',
@@ -59,13 +59,13 @@ const SUBJECTS = [
         <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
       </svg>
     ),
-    href: '/dashboard#biology',
+    href: '/app#biology',
   },
   {
     id: 'engineering',
     name: 'Engineering',
     icon: <Gear size={32} weight="regular" />,
-    href: '/dashboard#engineering',
+    href: '/app#engineering',
   },
   {
     id: 'data-science',
@@ -86,25 +86,25 @@ const SUBJECTS = [
         <path d="M18 5h2v14h-2" />
       </svg>
     ),
-    href: '/dashboard#data-science',
+    href: '/app#data-science',
   },
   {
     id: 'economics',
     name: 'Economics',
     icon: <TrendUp size={32} weight="bold" />,
-    href: '/dashboard#economics',
+    href: '/app#economics',
   },
   {
     id: 'humanities',
     name: 'Humanities',
     icon: <BookOpen size={32} weight="regular" />,
-    href: '/dashboard#humanities',
+    href: '/app#humanities',
   },
   {
     id: 'more',
     name: 'More Subjects',
     icon: <SquaresFour size={32} weight="bold" />,
-    href: '/dashboard',
+    href: '/app',
   },
 ];
 
@@ -154,7 +154,7 @@ export default function Services() {
           </div>
 
           <a
-            href="/dashboard"
+            href="/app"
             className="group inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 font-sans text-xs sm:text-[13px] font-semibold text-black shadow-[0_2px_12px_rgba(255,255,255,0.1)] hover:bg-neutral-200 active:scale-95 transition-all duration-300 ease-premium shrink-0 cursor-pointer w-fit"
           >
             <span>View All Subjects</span>
@@ -278,7 +278,7 @@ export default function Services() {
 
             <div className="mt-7 flex justify-center">
               <a
-                href="/dashboard"
+                href="/app"
                 className="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 font-sans text-xs sm:text-sm font-semibold text-black shadow-[0_4px_24px_rgba(255,255,255,0.18)] hover:bg-neutral-100 active:scale-[0.97] transition-all duration-200 cursor-pointer"
               >
                 <span>Start Learning Free</span>

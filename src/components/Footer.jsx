@@ -108,7 +108,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/dashboard#study-plan" className="transition-colors hover:text-white">
+                <a href="/app#study-plan" className="transition-colors hover:text-white">
                   Study Guides
                 </a>
               </li>

@@ -93,7 +93,7 @@ export default function Navbar() {
         {/* Right CTA */}
         <div className="flex items-center gap-2 sm:gap-3">
           <a
-            href="/dashboard"
+            href="/app"
             className="group hidden h-10 items-center justify-center gap-2 rounded-full bg-white px-4 font-sans text-black border border-white/20 shadow-[0_2px_12px_rgba(255,255,255,0.08)] transition-all duration-300 ease-premium hover:bg-neutral-200 active:scale-95 cursor-pointer sm:inline-flex"
           >
             <span className="whitespace-nowrap text-[12px] font-semibold tracking-wide">{siteData.bookButtonLabel || 'Start Learning Free'}</span>
@@ -142,7 +142,7 @@ export default function Navbar() {
           ))}
           <li className="pt-5">
             <a
-              href="/dashboard"
+              href="/app"
               onClick={() => setMenuOpen(false)}
               className="group flex w-full h-12 items-center justify-center gap-2.5 rounded-full bg-white px-6 font-sans text-black font-semibold shadow-[0_4px_16px_rgba(255,255,255,0.1)] transition-all duration-300 ease-premium hover:bg-neutral-200 active:scale-95 cursor-pointer"
             >

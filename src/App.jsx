@@ -44,11 +44,11 @@ function resolveRoute() {
     return { page: 'forgot-password', section: null };
   }
 
-  if (hash === '#dashboard' || hash.startsWith('#dashboard')) {
-    if (window.location.hash) {
-      window.history.replaceState(null, '', '/dashboard');
+  if (hash === '#dashboard' || hash.startsWith('#dashboard') || pathname === '/dashboard' || pathname.startsWith('/dashboard')) {
+    if (window.location.hash || pathname !== '/app') {
+      window.history.replaceState(null, '', '/app');
     }
-    return { page: 'dashboard', section: null };
+    return { page: 'app', section: null };
   }
 
   // 2. Direct clean path matching:
@@ -64,8 +64,8 @@ function resolveRoute() {
     return { page: 'forgot-password', section: null };
   }
 
-  if (pathname === '/dashboard' || pathname.startsWith('/dashboard/')) {
-    return { page: 'dashboard', section: null };
+  if (pathname === '/app' || pathname.startsWith('/app/')) {
+    return { page: 'app', section: null };
   }
 
   if (pathname === '/privacy' || pathname === '/privacy-policy') {
@@ -186,10 +186,16 @@ function AppContent() {
       const href = anchor.getAttribute('href');
       if (!href) return;
 
-      // Dashboard navigation
-      if (href === '/dashboard' || href.startsWith('/dashboard') || href === '#dashboard') {
+      // App / Dashboard navigation
+      if (
+        href === '/app' ||
+        href.startsWith('/app') ||
+        href === '/dashboard' ||
+        href.startsWith('/dashboard') ||
+        href === '#dashboard'
+      ) {
         e.preventDefault();
-        navigate('/dashboard');
+        navigate('/app');
         return;
       }
 
@@ -281,7 +287,7 @@ function AppContent() {
           onNavigateToHome={() => navigate('/')}
           onExploreDemo={() => {
             setDemoMode(true);
-            navigate('/dashboard');
+            navigate('/app');
           }}
         />
       )}
@@ -293,7 +299,7 @@ function AppContent() {
           onNavigateToHome={() => navigate('/')}
           onExploreDemo={() => {
             setDemoMode(true);
-            navigate('/dashboard');
+            navigate('/app');
           }}
         />
       )}
@@ -305,13 +311,13 @@ function AppContent() {
           onNavigateToHome={() => navigate('/')}
           onExploreDemo={() => {
             setDemoMode(true);
-            navigate('/dashboard');
+            navigate('/app');
           }}
         />
       )}
 
-      {/* 5. Dashboard / Learning App Console (/dashboard) */}
-      {route.page === 'dashboard' && (
+      {/* 5. Learning App Console (/app) */}
+      {route.page === 'app' && (
         !user && !demoMode ? (
           <LoginView
             onNavigateToRegister={() => navigate('/register')}
@@ -319,7 +325,7 @@ function AppContent() {
             onNavigateToHome={() => navigate('/')}
             onExploreDemo={() => {
               setDemoMode(true);
-              navigate('/dashboard');
+              navigate('/app');
             }}
           />
         ) : (

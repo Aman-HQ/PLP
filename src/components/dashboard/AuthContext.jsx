@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin.includes('dash.') ? window.location.origin : `${window.location.origin}/dashboard`,
+        redirectTo: window.location.origin.includes('dash.') ? window.location.origin : `${window.location.origin}/app`,
       },
     });
     if (error) throw error;
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
 
   const resetPassword = async (email) => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: `${window.location.origin}/dashboard#reset-password`,
+      redirectTo: `${window.location.origin}/forgot-password`,
     });
     if (error) throw error;
     return data;

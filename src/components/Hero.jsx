@@ -399,7 +399,7 @@ export default function Hero() {
         >
           {/* Primary CTA */}
           <a
-            href="/dashboard"
+            href="/app"
             className="group relative flex h-14 w-full items-center justify-between gap-4 rounded-full bg-white pl-8 pr-3.5 font-sans text-[15px] font-semibold text-black shadow-[0_4px_24px_rgba(255,255,255,0.14)] transition-all duration-300 ease-premium hover:bg-neutral-100 hover:shadow-[inset_0_3px_8px_rgba(0,0,0,0.32),inset_0_-1px_2px_rgba(255,255,255,0.9)] active:scale-[0.98] active:shadow-[inset_0_5px_12px_rgba(0,0,0,0.45)] cursor-pointer sm:w-auto"
           >
             <span className="whitespace-nowrap tracking-tight">{heroData.ctaPrimaryLabel}</span>
@@ -529,7 +529,7 @@ export default function Hero() {
                     <CheckCircle size={17} weight="bold" className="text-zinc-500/80" />
                     <span>Practice</span>
                   </a>
-                  <a href="/dashboard" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-zinc-200/60 transition-colors">
+                  <a href="/app" className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 hover:bg-zinc-200/60 transition-colors">
                     <ChartLineUp size={17} weight="bold" className="text-zinc-500/80" />
                     <span>Progress</span>
                   </a>
@@ -576,7 +576,7 @@ export default function Hero() {
                   Unlock unlimited chats, advanced models and personalized plans.
                 </p>
                 <a
-                  href="/dashboard"
+                  href="/app"
                   className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-black py-1.5 px-3 text-[11px] font-medium text-white shadow-sm hover:bg-zinc-800 transition-colors"
                 >
                   <span>Upgrade Now</span>
