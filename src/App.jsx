@@ -24,9 +24,10 @@ function resolveRoute() {
     pathname.startsWith('/dashboard/') ||
     hash === '#dashboard' ||
     hash.startsWith('#dashboard') ||
-    hash === '#new-patient' ||
-    hash.startsWith('#existing-patient') ||
-    hash.startsWith('#notifications')
+    hash === '#signup' ||
+    hash === '#register' ||
+    hash === '#login' ||
+    hash === '#forgot-password'
   ) {
     return { page: 'dashboard', section: null };
   }
