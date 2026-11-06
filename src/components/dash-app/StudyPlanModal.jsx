@@ -1,5 +1,4 @@
-import React from 'react';
-import { X, Sparkle, CheckCircle, ArrowRight, Books } from '../icons';
+import { X, Sparkle, CheckCircle, ArrowRight } from '../icons';
 
 export const StudyPlanModal = ({ isOpen, onClose, currentTopic = 'Vector Calculus' }) => {
   if (!isOpen) return null;

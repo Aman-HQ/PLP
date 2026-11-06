@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Stack, Sun, Export, BookmarkSimple, Sparkle, List, Check } from '../icons';
 
 export const Header = ({

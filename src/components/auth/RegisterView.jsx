@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from './AuthContext';
 import { Lock, EnvelopeSimple, User, Eye, EyeSlash, CircleNotch, ArrowRight, CheckCircle } from '../icons';
 import Logo from '../Logo';
 
-export const RegisterView = ({ onNavigateToLogin, onNavigateToHome, onExploreDemo }) => {
+export const RegisterView = ({
+  onNavigateToLogin,
+  onNavigateToHome,
+  onExploreDemo,
+  onSuccess,
+}) => {
   const { signUp, signInWithGoogle } = useAuth();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -57,6 +62,9 @@ export const RegisterView = ({ onNavigateToLogin, onNavigateToHome, onExploreDem
         setSuccessMessage('Registration successful! Please check your email inbox to verify your account.');
       } else {
         setSuccessMessage('Account created successfully! Redirecting...');
+        setTimeout(() => {
+          if (onSuccess) onSuccess();
+        }, 1200);
       }
     } catch (err) {
       console.error('Registration error:', err);

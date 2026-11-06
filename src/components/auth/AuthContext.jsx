@@ -1,104 +1,150 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '../../utils/supabase';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { authService } from '../../services/authService';
 
-const AuthContext = createContext({
+export const AuthContext = createContext({
   user: null,
   session: null,
+  userProfile: null,
   loading: true,
+  isPasswordRecovery: false,
   signIn: async () => {},
   signUp: async () => {},
   resetPassword: async () => {},
+  updatePassword: async () => {},
   signInWithGoogle: async () => {},
   signOut: async () => {},
+  refreshProfile: async () => {},
+  setIsPasswordRecovery: () => {},
 });
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    const hash = window.location.hash || '';
+    const search = window.location.search || '';
+    return hash.includes('type=recovery') || search.includes('type=recovery');
+  });
+
+  // Fetch or refresh profile details from public.profiles
+  const loadProfile = useCallback(async (userId) => {
+    if (!userId) {
+      setUserProfile(null);
+      return;
+    }
+    try {
+      const profile = await authService.getUserProfile(userId);
+      setUserProfile(profile);
+    } catch (err) {
+      console.warn('Failed to load profile for user:', userId, err);
+    }
+  }, []);
 
   useEffect(() => {
-    // 1. Fetch initial session
-    const getInitialSession = async () => {
+    // 1. Fetch initial active session
+    const initAuth = async () => {
       try {
-        const { data: { session: initialSession }, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error('Error fetching session:', error.message);
-        }
+        const initialSession = await authService.getSession();
         setSession(initialSession);
         setUser(initialSession?.user ?? null);
+
+        if (initialSession?.user?.id) {
+          await loadProfile(initialSession.user.id);
+        }
       } catch (err) {
-        console.error('Unexpected auth initialization error:', err);
+        console.error('Auth initialization error:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    getInitialSession();
+    initAuth();
 
-    // 2. Subscribe to auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, newSession) => {
+    // 2. Listen to auth state transitions
+    const { data: { subscription } } = authService.onAuthStateChange(async (event, newSession) => {
       setSession(newSession);
       setUser(newSession?.user ?? null);
+
+      if (event === 'PASSWORD_RECOVERY') {
+        setIsPasswordRecovery(true);
+      } else if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+        if (newSession?.user?.id) {
+          await loadProfile(newSession.user.id);
+        }
+      } else if (event === 'SIGNED_OUT') {
+        setUserProfile(null);
+        setIsPasswordRecovery(false);
+      }
+
       setLoading(false);
     });
 
     return () => {
       subscription?.unsubscribe();
     };
-  }, []);
+  }, [loadProfile]);
 
   const signIn = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password: password,
-    });
-    if (error) throw error;
+    const data = await authService.signInWithEmail(email, password);
+    if (data?.user?.id) {
+      await loadProfile(data.user.id);
+    }
     return data;
   };
 
   const signInWithGoogle = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin.includes('dash.') ? window.location.origin : `${window.location.origin}/app`,
-      },
-    });
-    if (error) throw error;
-    return data;
+    return authService.signInWithGoogle();
   };
 
   const signUp = async (email, password, fullName = '') => {
-    const { data, error } = await supabase.auth.signUp({
-      email: email.trim(),
-      password: password,
-      options: {
-        data: {
-          full_name: fullName.trim(),
-        },
-      },
-    });
-    if (error) throw error;
-    return data;
+    return authService.signUpWithEmail(email, password, fullName);
   };
 
   const resetPassword = async (email) => {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
-      redirectTo: `${window.location.origin}/forgot-password`,
-    });
-    if (error) throw error;
-    return data;
+    return authService.sendPasswordReset(email);
+  };
+
+  const updatePassword = async (newPassword) => {
+    const result = await authService.updatePassword(newPassword);
+    setIsPasswordRecovery(false);
+    return result;
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
+    await authService.signOut();
     setUser(null);
     setSession(null);
+    setUserProfile(null);
+    setIsPasswordRecovery(false);
+  };
+
+  const refreshProfile = async () => {
+    if (user?.id) {
+      await loadProfile(user.id);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, signIn, signUp, resetPassword, signInWithGoogle, signOut }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        session,
+        userProfile,
+        loading,
+        isPasswordRecovery,
+        setIsPasswordRecovery,
+        signIn,
+        signUp,
+        resetPassword,
+        updatePassword,
+        signInWithGoogle,
+        signOut,
+        refreshProfile,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -111,3 +157,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export default AuthContext;

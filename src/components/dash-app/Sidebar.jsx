@@ -1,5 +1,5 @@
-import React from 'react';
 import Logo from '../Logo';
+import { useAuth } from '../auth/AuthContext';
 import {
   Plus,
   House,
@@ -25,6 +25,11 @@ export const Sidebar = ({
   onCloseMobile,
   onOpenUpgrade,
 }) => {
+  const { user, userProfile } = useAuth();
+  const displayName = userProfile?.full_name || user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'Learner';
+  const displayEmail = user?.email || '';
+  const avatarUrl = userProfile?.avatar_url || user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+
   const navItems = [
     { id: 'home', label: 'Home', icon: House, href: '/' },
     { id: 'subjects', label: 'Subjects', icon: Books, href: '#subjects' },
@@ -163,6 +168,27 @@ export const Sidebar = ({
             <ArrowRight size={12} weight="bold" />
           </button>
         </div>
+
+        {/* User Profile Info */}
+        {user && (
+          <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white border border-zinc-200/80 shadow-2xs">
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt={displayName}
+                className="w-7 h-7 rounded-full object-cover shrink-0 border border-zinc-200"
+              />
+            ) : (
+              <div className="w-7 h-7 rounded-full bg-zinc-900 text-white text-[11px] font-bold flex items-center justify-center shrink-0">
+                {displayName.charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-semibold text-zinc-900 truncate">{displayName}</div>
+              <div className="text-[10px] text-zinc-400 truncate">{displayEmail}</div>
+            </div>
+          </div>
+        )}
 
         {/* User Sign Out button */}
         {onSignOut && (

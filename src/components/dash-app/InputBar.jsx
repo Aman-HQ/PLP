@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Plus, PaperPlaneTilt } from '../icons';
 
 export const InputBar = ({ onSendMessage, disabled = false }) => {

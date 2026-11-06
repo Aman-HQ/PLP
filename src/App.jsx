@@ -22,7 +22,13 @@ function resolveRoute() {
   if (typeof window === 'undefined') return { page: 'home', section: null };
 
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
-  const hash = window.location.hash;
+  const hash = window.location.hash || '';
+  const search = window.location.search || '';
+
+  // 0. Handle Supabase Auth Redirects (Recovery & OAuth)
+  if (hash.includes('type=recovery') || search.includes('type=recovery')) {
+    return { page: 'forgot-password', section: null };
+  }
 
   // 1. Immediately clean up and normalize hash-based or alias auth URLs:
   if (hash === '#signup' || hash === '#register' || pathname === '/signup') {
@@ -40,7 +46,7 @@ function resolveRoute() {
   }
 
   if (hash === '#forgot-password' || hash === '#reset-password' || pathname === '/reset-password') {
-    if (window.location.hash || pathname !== '/forgot-password') {
+    if ((window.location.hash && !hash.includes('type=')) || pathname !== '/forgot-password') {
       window.history.replaceState(null, '', '/forgot-password');
     }
     return { page: 'forgot-password', section: null };
@@ -110,11 +116,22 @@ function AppContent() {
     window.scrollTo(0, 0);
   };
 
-  // Route Guard: If on /app and user is neither logged in nor in demo mode, redirect to /login
+  // Resolved active page accounting for route guards without cascading renders
+  const activePage = (() => {
+    if (loading) return route.page;
+    if (route.page === 'app' && !user && !demoMode) return 'login';
+    if (user && (route.page === 'login' || route.page === 'register')) return 'app';
+    return route.page;
+  })();
+
+  // Synchronize URL history with guarded route
   useEffect(() => {
-    if (!loading && route.page === 'app' && !user && !demoMode) {
-      window.history.replaceState(null, '', '/login');
-      setRoute(resolveRoute());
+    if (!loading) {
+      if (route.page === 'app' && !user && !demoMode) {
+        window.history.replaceState(null, '', '/login');
+      } else if (user && (route.page === 'login' || route.page === 'register')) {
+        window.history.replaceState(null, '', '/app');
+      }
     }
   }, [route.page, user, demoMode, loading]);
 
@@ -276,12 +293,12 @@ function AppContent() {
       if (lenis) lenis.destroy();
       lenisRef.current = null;
     };
-  }, [route.page]);
+  }, [route.page, user, demoMode]);
 
   return (
     <div className="app-container min-h-screen bg-[#09090B] text-[#FAFAFA]">
       {/* 1. Main Homepage */}
-      {route.page === 'home' && (
+      {activePage === 'home' && (
         <>
           <Navbar />
           <main>
@@ -294,11 +311,12 @@ function AppContent() {
       )}
 
       {/* 2. Login Page (/login) */}
-      {route.page === 'login' && (
+      {activePage === 'login' && (
         <LoginView
           onNavigateToRegister={() => navigate('/register')}
           onNavigateToForgotPassword={() => navigate('/forgot-password')}
           onNavigateToHome={() => navigate('/')}
+          onSuccess={() => navigate('/app')}
           onExploreDemo={() => {
             setDemoMode(true);
             navigate('/app');
@@ -307,10 +325,11 @@ function AppContent() {
       )}
 
       {/* 3. Register / Sign Up Page (/register) */}
-      {route.page === 'register' && (
+      {activePage === 'register' && (
         <RegisterView
           onNavigateToLogin={() => navigate('/login')}
           onNavigateToHome={() => navigate('/')}
+          onSuccess={() => navigate('/app')}
           onExploreDemo={() => {
             setDemoMode(true);
             navigate('/app');
@@ -319,7 +338,7 @@ function AppContent() {
       )}
 
       {/* 4. Forgot Password Page (/forgot-password) */}
-      {route.page === 'forgot-password' && (
+      {activePage === 'forgot-password' && (
         <ForgotPasswordView
           onNavigateToLogin={() => navigate('/login')}
           onNavigateToHome={() => navigate('/')}
@@ -331,7 +350,7 @@ function AppContent() {
       )}
 
       {/* 5. Learning App Console (/app) */}
-      {route.page === 'app' && (
+      {activePage === 'app' && (
         loading ? (
           <div className="min-h-screen w-full bg-[#f0f2f5] text-zinc-900 flex flex-col items-center justify-center p-6 relative select-none">
             <div className="relative z-10 flex flex-col items-center gap-4">
@@ -362,17 +381,17 @@ function AppContent() {
       )}
 
       {/* 6. Privacy Policy Page */}
-      {route.page === 'privacy' && (
+      {activePage === 'privacy' && (
         <PrivacyPolicyPage onBack={() => navigate('/')} />
       )}
 
       {/* 7. Terms & Conditions Page */}
-      {route.page === 'terms' && (
+      {activePage === 'terms' && (
         <TermsPage onBack={() => navigate('/')} />
       )}
 
       {/* 8. 404 Page Not Found */}
-      {route.page === 'not-found' && (
+      {activePage === 'not-found' && (
         <NotFoundPage onGoHome={() => navigate('/')} />
       )}
     </div>

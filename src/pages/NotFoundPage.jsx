@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowLeft, Compass } from '../components/icons';
+import { ArrowLeft } from '../components/icons';
 import Logo from '../components/Logo';
 
 export default function NotFoundPage({ onGoHome }) {

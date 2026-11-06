@@ -1,30 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { Lock, EnvelopeSimple, Eye, EyeSlash, CircleNotch, ArrowRight } from '../icons';
 import Logo from '../Logo';
 
-export const LoginView = ({ onExploreDemo, onNavigateToRegister, onNavigateToForgotPassword, onNavigateToHome }) => {
+export const LoginView = ({
+  onExploreDemo,
+  onNavigateToRegister,
+  onNavigateToForgotPassword,
+  onNavigateToHome,
+  onSuccess,
+}) => {
   const { signIn, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // Read error from URL if redirected from failed Google / Supabase login
-  useEffect(() => {
+  const [errorMessage, setErrorMessage] = useState(() => {
+    if (typeof window === 'undefined') return '';
     const params = new URLSearchParams(window.location.search);
     const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
     const errorDesc = params.get('error_description') || hashParams.get('error_description');
-
     if (errorDesc) {
       const msg = decodeURIComponent(errorDesc.replace(/\+/g, ' '));
-      setErrorMessage(
-        msg.toLowerCase().includes('signup')
-          ? 'Signups are disabled for this console. Please sign in with an authorized account.'
-          : msg
-      );
-      window.history.replaceState(null, '', window.location.pathname);
+      return msg.toLowerCase().includes('signup')
+        ? 'Signups are disabled for this console. Please sign in with an authorized account.'
+        : msg;
+    }
+    return '';
+  });
+
+  // Clean error from URL if redirected from failed Google / Supabase login
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+      if (params.get('error_description') || hashParams.get('error_description')) {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
     }
   }, []);
 
@@ -52,6 +64,9 @@ export const LoginView = ({ onExploreDemo, onNavigateToRegister, onNavigateToFor
       setIsLoading(true);
       setErrorMessage('');
       await signIn(email, password);
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (err) {
       console.error('Login error:', err);
       if (err.message && err.message.includes('Invalid login credentials')) {

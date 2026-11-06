@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
@@ -49,7 +49,7 @@ export const DashApp = ({ onSignOut }) => {
 
     // Generate intelligent Socratic response after brief delay
     setTimeout(() => {
-      let replyText = '';
+      let replyText;
       const lower = text.toLowerCase();
 
       if (activeChatId === 'stokes') {

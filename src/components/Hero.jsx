@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowUpRight,
-  ArrowDown,
   ArrowRight,
-  Compass,
   Sparkle,
   Copy,
   Check,
