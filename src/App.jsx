@@ -6,11 +6,11 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Services from './components/Services';
 import Footer from './components/Footer';
-import { AuthProvider, useAuth } from './components/dashboard/AuthContext';
-import { LoginView } from './components/dashboard/LoginView';
-import { RegisterView } from './components/dashboard/RegisterView';
-import { ForgotPasswordView } from './components/dashboard/ForgotPasswordView';
-import { LearningConsoleApp } from './components/learning-console/LearningConsoleApp';
+import { AuthProvider, useAuth } from './components/auth/AuthContext';
+import { LoginView } from './components/auth/LoginView';
+import { RegisterView } from './components/auth/RegisterView';
+import { ForgotPasswordView } from './components/auth/ForgotPasswordView';
+import { DashApp } from './components/dash-app/DashApp';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsPage from './pages/TermsPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -345,7 +345,7 @@ function AppContent() {
             </div>
           </div>
         ) : (user || demoMode) ? (
-          <LearningConsoleApp
+          <DashApp
             onSignOut={async () => {
               setDemoMode(false);
               if (user && signOut) {

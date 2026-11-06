@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Stack, Sun, Export, BookmarkSimple, Sparkle, List, Check } from '../icons';
 
-export const ConsoleHeader = ({
+export const Header = ({
   subject = 'Calculus III',
   topic = 'Vector Calculus',
   onOpenMobileMenu,
@@ -99,3 +99,7 @@ export const ConsoleHeader = ({
     </header>
   );
 };
+
+export const ConsoleHeader = Header;
+export default Header;
+

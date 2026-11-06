@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { useAuth } from '../dashboard/AuthContext';
-import { ConsoleSidebar } from './ConsoleSidebar';
-import { ConsoleHeader } from './ConsoleHeader';
-import { ConsoleChatView } from './ConsoleChatView';
-import { ConsoleInputBar } from './ConsoleInputBar';
+import { useAuth } from '../auth/AuthContext';
+import { Sidebar } from './Sidebar';
+import { Header } from './Header';
+import { ChatView } from './ChatView';
+import { InputBar } from './InputBar';
 import { StudyPlanModal } from './StudyPlanModal';
 import { UpgradeModal } from './UpgradeModal';
-import { CONVERSATIONS } from './conversationsData';
+import { CONVERSATIONS } from './conversations';
 
-export const LearningConsoleApp = ({ onSignOut }) => {
+export const DashApp = ({ onSignOut }) => {
   const auth = useAuth();
   const handleSignOut = onSignOut || auth?.signOut;
   const [activeChatId, setActiveChatId] = useState('stokes');
@@ -112,92 +112,69 @@ export const LearningConsoleApp = ({ onSignOut }) => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#f0f2f5] text-zinc-800 flex items-center justify-center p-3 sm:p-6 md:p-8 relative overflow-hidden font-sans select-none">
-      {/* ── Subtly Curved Ambient Light Highlights (matching reference image) ── */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0">
-        {/* Soft diagonal highlight sweeping from top left */}
-        <div
-          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-40 blur-[120px]"
-          style={{
-            background:
-              'radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(230,235,245,0.6) 50%, transparent 80%)',
-          }}
-        />
-        {/* Soft ambient bottom glow */}
-        <div
-          className="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full opacity-30 blur-[130px]"
-          style={{
-            background:
-              'radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(220,230,245,0.4) 60%, transparent 80%)',
-          }}
+    <div className="h-screen w-screen bg-white text-zinc-800 flex overflow-hidden font-sans select-none relative">
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex h-full shrink-0">
+        <Sidebar
+          activeChatId={activeChatId}
+          onSelectChat={setActiveChatId}
+          onNewChat={handleNewChat}
+          activeNav={activeNav}
+          onNavChange={setActiveNav}
+          onSignOut={handleSignOut}
+          onOpenUpgrade={() => setUpgradeOpen(true)}
         />
       </div>
 
-      {/* ── Master App Console Window (matching reference image) ── */}
-      <div className="relative z-10 w-full max-w-[1240px] h-[92vh] sm:h-[88vh] max-h-[860px] bg-white rounded-[24px] sm:rounded-[32px] border border-zinc-200/80 shadow-[0_20px_60px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden flex flex-col md:flex-row">
-        {/* Desktop Sidebar */}
-        <div className="hidden md:flex h-full">
-          <ConsoleSidebar
-            activeChatId={activeChatId}
-            onSelectChat={setActiveChatId}
-            onNewChat={handleNewChat}
-            activeNav={activeNav}
-            onNavChange={setActiveNav}
-            onSignOut={handleSignOut}
-            onOpenUpgrade={() => setUpgradeOpen(true)}
+      {/* Mobile Slide-over Drawer */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-50 md:hidden flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
+            onClick={() => setMobileMenuOpen(false)}
           />
-        </div>
-
-        {/* Mobile Slide-over Drawer */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 z-50 md:hidden flex">
-            {/* Backdrop */}
-            <div
-              className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity"
-              onClick={() => setMobileMenuOpen(false)}
+          {/* Drawer */}
+          <div className="relative w-72 max-w-[80vw] bg-[#FAFAFA] h-full shadow-2xl z-10 flex flex-col">
+            <Sidebar
+              activeChatId={activeChatId}
+              onSelectChat={setActiveChatId}
+              onNewChat={handleNewChat}
+              activeNav={activeNav}
+              onNavChange={setActiveNav}
+              onSignOut={handleSignOut}
+              onCloseMobile={() => setMobileMenuOpen(false)}
+              onOpenUpgrade={() => {
+                setMobileMenuOpen(false);
+                setUpgradeOpen(true);
+              }}
             />
-            {/* Drawer */}
-            <div className="relative w-72 max-w-[80vw] bg-[#FAFAFA] h-full shadow-2xl z-10 flex flex-col">
-              <ConsoleSidebar
-                activeChatId={activeChatId}
-                onSelectChat={setActiveChatId}
-                onNewChat={handleNewChat}
-                activeNav={activeNav}
-                onNavChange={setActiveNav}
-                onSignOut={handleSignOut}
-                onCloseMobile={() => setMobileMenuOpen(false)}
-                onOpenUpgrade={() => {
-                  setMobileMenuOpen(false);
-                  setUpgradeOpen(true);
-                }}
-              />
-            </div>
           </div>
-        )}
-
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col h-full bg-white overflow-hidden min-w-0">
-          {/* Header */}
-          <ConsoleHeader
-            subject={currentChat.subject}
-            topic={currentChat.topic}
-            onOpenMobileMenu={() => setMobileMenuOpen(true)}
-            onOpenStudyPlan={() => setStudyPlanOpen(true)}
-          />
-
-          {/* Interactive Chat / Workbench Area */}
-          <ConsoleChatView
-            conversation={currentChat}
-            followUpMessages={currentFollowUps}
-            isThinking={isThinking}
-          />
-
-          {/* Bottom Follow-Up Question Bar */}
-          <ConsoleInputBar
-            onSendMessage={handleSendMessage}
-            disabled={isThinking}
-          />
         </div>
+      )}
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col h-full bg-white overflow-hidden min-w-0">
+        {/* Header */}
+        <Header
+          subject={currentChat.subject}
+          topic={currentChat.topic}
+          onOpenMobileMenu={() => setMobileMenuOpen(true)}
+          onOpenStudyPlan={() => setStudyPlanOpen(true)}
+        />
+
+        {/* Interactive Chat / Workbench Area */}
+        <ChatView
+          conversation={currentChat}
+          followUpMessages={currentFollowUps}
+          isThinking={isThinking}
+        />
+
+        {/* Bottom Follow-Up Question Bar */}
+        <InputBar
+          onSendMessage={handleSendMessage}
+          disabled={isThinking}
+        />
       </div>
 
       {/* ── Modals ── */}
@@ -215,4 +192,5 @@ export const LearningConsoleApp = ({ onSignOut }) => {
   );
 };
 
-export default LearningConsoleApp;
+export const LearningConsoleApp = DashApp;
+export default DashApp;

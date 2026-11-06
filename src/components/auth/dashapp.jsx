@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from './AuthContext';
-import { LearningConsoleApp } from '../learning-console/LearningConsoleApp';
+import { DashApp } from '../dash-app/DashApp';
 import { LoginView } from './LoginView';
 import { CircleNotch } from '../icons';
 import Logo from '../Logo';
@@ -44,7 +44,7 @@ export const DashboardApp = ({ onNavigateToLogin, onNavigateToRegister, onNaviga
 
   // Primary Learning App Console
   return (
-    <LearningConsoleApp
+    <DashApp
       onSignOut={async () => {
         setDemoMode(false);
         if (user && signOut) {

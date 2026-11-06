@@ -13,7 +13,7 @@ import {
   CircleNotch,
 } from '../icons';
 
-export const ConsoleChatView = ({
+export const ChatView = ({
   conversation,
   followUpMessages = [],
   isThinking = false,
@@ -41,7 +41,8 @@ export const ConsoleChatView = ({
   if (!conversation) return null;
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-7 space-y-6 text-left">
+    <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-8 sm:py-8 text-left">
+      <div className="max-w-4xl mx-auto w-full space-y-6">
       {/* ── 1. STUDENT INITIAL QUERY ── */}
       <div className="flex items-start gap-2.5 sm:gap-3 text-left">
         <div className="mt-0.5 flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full bg-zinc-100 border border-zinc-200 text-zinc-600 shadow-2xs">
@@ -211,7 +212,12 @@ export const ConsoleChatView = ({
         </div>
       )}
 
-      <div ref={bottomRef} />
+        <div ref={bottomRef} />
+      </div>
     </div>
   );
 };
+
+export const ConsoleChatView = ChatView;
+export default ChatView;
+

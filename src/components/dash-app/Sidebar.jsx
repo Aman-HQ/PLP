@@ -13,9 +13,9 @@ import {
   SignOut,
   X,
 } from '../icons';
-import { CONVERSATIONS } from './conversationsData';
+import { CONVERSATIONS } from './conversations';
 
-export const ConsoleSidebar = ({
+export const Sidebar = ({
   activeChatId,
   onSelectChat,
   onNewChat,
@@ -33,7 +33,7 @@ export const ConsoleSidebar = ({
   ];
 
   return (
-    <aside className="w-64 shrink-0 flex flex-col justify-between border-r border-zinc-200/80 bg-[#FAFAFA] p-4 text-left select-none h-full">
+    <aside className="w-64 shrink-0 flex flex-col justify-between border-r border-zinc-200/80 bg-[#FAFAFA] p-4 text-left select-none h-full overflow-y-auto">
       <div>
         {/* Brand Header */}
         <div className="flex items-center justify-between">
@@ -179,3 +179,6 @@ export const ConsoleSidebar = ({
     </aside>
   );
 };
+
+export const ConsoleSidebar = Sidebar;
+export default Sidebar;
