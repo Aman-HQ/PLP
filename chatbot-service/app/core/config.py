@@ -5,12 +5,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     # Groq
-    groq_api_key: str
+    groq_api_key: str = ""
     llm_model: str = "llama-3.3-70b-versatile"
 
     # Supabase
-    supabase_url: str
-    supabase_anon_key: str
+    supabase_url: str = ""
+    supabase_anon_key: str = ""
+    supabase_service_role_key: str = ""
 
     # Application
     app_name: str = "AI Personalized Learning - Chatbot Service"

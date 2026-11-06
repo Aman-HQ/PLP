@@ -47,7 +47,7 @@ export const authService = {
   async signInWithGoogle() {
     // Dynamic origin supports localhost during dev and production domain when deployed
     const origin = window.location.origin;
-    const redirectUrl = `${origin}/dashboard`;
+    const redirectUrl = `${origin}/app`;
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -125,7 +125,7 @@ export const authService = {
 
     const { data, error } = await supabase
       .from('profiles')
-      .select('id, email, full_name, avatar_url, learning_goal, tier, created_at, updated_at')
+      .select('id, email, full_name, avatar_url, learning_goal, created_at, updated_at')
       .eq('id', userId)
       .maybeSingle();
 
@@ -137,19 +137,22 @@ export const authService = {
   },
 
   /**
-   * Update user profile attributes (full_name, learning_goal, tier, avatar_url)
+   * Update user profile attributes (full_name, learning_goal, avatar_url)
    */
   async updateUserProfile(userId, updates) {
     if (!userId) throw new Error('User ID is required to update profile');
 
+    const safeUpdates = {};
+    if (updates.full_name !== undefined) safeUpdates.full_name = updates.full_name;
+    if (updates.avatar_url !== undefined) safeUpdates.avatar_url = updates.avatar_url;
+    if (updates.learning_goal !== undefined) safeUpdates.learning_goal = updates.learning_goal;
+    safeUpdates.updated_at = new Date().toISOString();
+
     const { data, error } = await supabase
       .from('profiles')
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString(),
-      })
+      .update(safeUpdates)
       .eq('id', userId)
-      .select()
+      .select('id, email, full_name, avatar_url, learning_goal, created_at, updated_at')
       .single();
 
     if (error) throw error;

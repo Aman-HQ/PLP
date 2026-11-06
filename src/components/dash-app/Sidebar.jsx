@@ -8,8 +8,6 @@ import {
   ChartLineUp,
   ChatCircleDots,
   DotsThree,
-  Lightning,
-  ArrowRight,
   SignOut,
   X,
 } from '../icons';
@@ -17,13 +15,13 @@ import { CONVERSATIONS } from './conversations';
 
 export const Sidebar = ({
   activeChatId,
+  conversations = CONVERSATIONS,
   onSelectChat,
   onNewChat,
   activeNav = 'home',
   onNavChange,
   onSignOut,
   onCloseMobile,
-  onOpenUpgrade,
 }) => {
   const { user, userProfile } = useAuth();
   const displayName = userProfile?.full_name || user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'Learner';
@@ -112,7 +110,7 @@ export const Sidebar = ({
             Recent Conversations
           </div>
           <div className="mt-2 space-y-1">
-            {CONVERSATIONS.map((chat) => {
+            {conversations.map((chat) => {
               const isActive = chat.id === activeChatId;
               return (
                 <button
@@ -148,27 +146,8 @@ export const Sidebar = ({
         </div>
       </div>
 
-      {/* Bottom Area: Upgrade to Pro Card & Sign Out */}
+      {/* Bottom Area: User Profile Info & Sign Out */}
       <div className="mt-6 space-y-3 pt-2">
-        {/* Upgrade to Pro Card */}
-        <div className="rounded-2xl border border-zinc-200/80 bg-white p-3.5 shadow-2xs text-left">
-          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-100 text-zinc-900 shadow-2xs border border-zinc-200/70 mb-2.5">
-            <Lightning size={15} weight="fill" />
-          </div>
-          <div className="font-semibold text-xs text-zinc-900">Upgrade to Pro</div>
-          <p className="mt-0.5 text-[10.5px] text-zinc-500 leading-snug">
-            Unlock unlimited chats, advanced models and personalized plans.
-          </p>
-          <button
-            type="button"
-            onClick={onOpenUpgrade}
-            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-black py-1.5 px-3 text-[11px] font-semibold text-white shadow-xs hover:bg-zinc-800 active:scale-[0.98] transition-all cursor-pointer"
-          >
-            <span>Upgrade Now</span>
-            <ArrowRight size={12} weight="bold" />
-          </button>
-        </div>
-
         {/* User Profile Info */}
         {user && (
           <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white border border-zinc-200/80 shadow-2xs">

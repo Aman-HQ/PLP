@@ -44,15 +44,19 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // 1. Fetch initial active session
+    // 1. Fetch initial active session with server-side validation
     const initAuth = async () => {
       try {
-        const initialSession = await authService.getSession();
-        setSession(initialSession);
-        setUser(initialSession?.user ?? null);
-
-        if (initialSession?.user?.id) {
-          await loadProfile(initialSession.user.id);
+        const verifiedUser = await authService.getCurrentUser().catch(() => null);
+        if (verifiedUser) {
+          const currentSession = await authService.getSession().catch(() => null);
+          setSession(currentSession);
+          setUser(verifiedUser);
+          await loadProfile(verifiedUser.id);
+        } else {
+          setSession(null);
+          setUser(null);
+          setUserProfile(null);
         }
       } catch (err) {
         console.error('Auth initialization error:', err);

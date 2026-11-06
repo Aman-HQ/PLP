@@ -1,9 +1,11 @@
 -- ==============================================================================
--- AI TUTOR MASTER DATABASE SCHEMA
--- Production Schema: Profiles, Conversations, Messages, Auth Triggers & RLS
+-- AI TUTOR PRODUCTION DATABASE SCHEMA
+-- Tailored for University / College Capstone Major Project
+-- Features: Profiles, Conversations, Messages, Study Plan / Topic Mastery,
+--           Strict Row Level Security (RLS) & Performance Composite Indexes
 -- ==============================================================================
 
--- 1. Enable required extensions
+-- 1. Extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
@@ -16,12 +18,10 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     full_name TEXT,
     avatar_url TEXT,
     learning_goal TEXT,
-    tier TEXT DEFAULT 'free' CHECK (tier IN ('free', 'pro', 'enterprise')),
     created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 
--- Profiles indexes
 CREATE INDEX IF NOT EXISTS idx_profiles_email ON public.profiles(email);
 
 -- ==============================================================================
@@ -29,38 +29,63 @@ CREATE INDEX IF NOT EXISTS idx_profiles_email ON public.profiles(email);
 -- ==============================================================================
 CREATE TABLE IF NOT EXISTS public.conversations (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     title TEXT NOT NULL,
-    subject TEXT DEFAULT 'General',
+    subject TEXT DEFAULT 'General' NOT NULL,
     topic TEXT,
+    is_bookmarked BOOLEAN DEFAULT FALSE NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 
--- Conversations indexes (FK and ordering)
-CREATE INDEX IF NOT EXISTS idx_conversations_user_id ON public.conversations(user_id);
-CREATE INDEX IF NOT EXISTS idx_conversations_updated_at ON public.conversations(updated_at DESC);
+-- Composite index: user's conversations sorted by latest activity
+CREATE INDEX IF NOT EXISTS idx_conversations_user_updated 
+    ON public.conversations(user_id, updated_at DESC);
 
 -- ==============================================================================
 -- 4. MESSAGES TABLE
+-- Relational hierarchy: Messages belong to a conversation.
+-- Supports rich pedagogical metadata: LaTeX formulas, side-by-side cards, key insights, feedback
 -- ==============================================================================
 CREATE TABLE IF NOT EXISTS public.messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     conversation_id UUID NOT NULL REFERENCES public.conversations(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    sender_id UUID REFERENCES auth.users(id) ON DELETE SET NULL, -- Nullable for AI Tutor / System
     role TEXT NOT NULL CHECK (role IN ('user', 'assistant', 'system')),
     content TEXT NOT NULL,
+    cards JSONB DEFAULT '[]'::jsonb,
+    key_insight TEXT,
+    feedback TEXT CHECK (feedback IN ('up', 'down', NULL)),
     metadata JSONB DEFAULT '{}'::jsonb,
     created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 
--- Messages indexes (FKs and chronological ordering)
-CREATE INDEX IF NOT EXISTS idx_messages_conversation_id ON public.messages(conversation_id);
-CREATE INDEX IF NOT EXISTS idx_messages_user_id ON public.messages(user_id);
-CREATE INDEX IF NOT EXISTS idx_messages_created_at ON public.messages(created_at ASC);
+-- Composite index: fast chronological message thread retrieval
+CREATE INDEX IF NOT EXISTS idx_messages_conv_created 
+    ON public.messages(conversation_id, created_at ASC);
 
 -- ==============================================================================
--- 5. UPDATED_AT TRIGGER FUNCTION
+-- 5. STUDENT TOPIC MASTERY & STUDY PLAN
+-- Powers the Adaptive Study Plan Modal and Spaced-Repetition Tracker
+-- ==============================================================================
+CREATE TABLE IF NOT EXISTS public.student_topic_mastery (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    subject TEXT NOT NULL,
+    topic_name TEXT NOT NULL,
+    mastery_percentage INT DEFAULT 0 CHECK (mastery_percentage BETWEEN 0 AND 100) NOT NULL,
+    status TEXT DEFAULT 'Up Next' CHECK (status IN ('Up Next', 'In Review', 'Mastered')) NOT NULL,
+    next_review_at TIMESTAMPTZ DEFAULT (NOW() + INTERVAL '1 day'),
+    created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+    CONSTRAINT uq_user_subject_topic UNIQUE (user_id, subject, topic_name)
+);
+
+CREATE INDEX IF NOT EXISTS idx_topic_mastery_user 
+    ON public.student_topic_mastery(user_id, subject);
+
+-- ==============================================================================
+-- 6. AUTOMATIC UPDATED_AT TRIGGER FUNCTION
 -- ==============================================================================
 CREATE OR REPLACE FUNCTION public.set_updated_at_timestamp()
 RETURNS TRIGGER
@@ -86,8 +111,14 @@ CREATE TRIGGER trg_conversations_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION public.set_updated_at_timestamp();
 
+DROP TRIGGER IF EXISTS trg_topic_mastery_updated_at ON public.student_topic_mastery;
+CREATE TRIGGER trg_topic_mastery_updated_at
+    BEFORE UPDATE ON public.student_topic_mastery
+    FOR EACH ROW
+    EXECUTE FUNCTION public.set_updated_at_timestamp();
+
 -- ==============================================================================
--- 6. AUTOMATIC USER PROFILE TRIGGER (Handles Email & Google OAuth)
+-- 7. AUTOMATIC USER PROFILE TRIGGER (Sync on Email & Google OAuth Signup)
 -- ==============================================================================
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER
@@ -122,9 +153,22 @@ BEGIN
         avatar_url = COALESCE(NULLIF(public.profiles.avatar_url, ''), EXCLUDED.avatar_url),
         updated_at = NOW();
 
+    -- Seed starter topic mastery topics for new learners
+    INSERT INTO public.student_topic_mastery (user_id, subject, topic_name, mastery_percentage, status, next_review_at)
+    VALUES
+        (NEW.id, 'Calculus III', 'Stokes’ Theorem in 3D', 88, 'In Review', NOW() + INTERVAL '1 day'),
+        (NEW.id, 'Calculus III', 'Divergence Theorem', 74, 'Up Next', NOW() + INTERVAL '2 days'),
+        (NEW.id, 'Calculus III', 'Line Integrals & Green’s Theorem', 95, 'Mastered', NOW() + INTERVAL '4 days'),
+        (NEW.id, 'Algorithms', 'QuickSort Analysis', 82, 'In Review', NOW() + INTERVAL '1 day'),
+        (NEW.id, 'Probability', 'Bayes’ Theorem', 90, 'Mastered', NOW() + INTERVAL '3 days')
+    ON CONFLICT (user_id, subject, topic_name) DO NOTHING;
+
     RETURN NEW;
 END;
 $$;
+
+-- Revoke public execution of security definer trigger
+REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC, anon, authenticated;
 
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
@@ -133,27 +177,21 @@ CREATE TRIGGER on_auth_user_created
     EXECUTE FUNCTION public.handle_new_user();
 
 -- ==============================================================================
--- 7. ROW LEVEL SECURITY (RLS) POLICIES
--- Strict, audited Supabase standard using TO authenticated & (select auth.uid())
+-- 8. ROW LEVEL SECURITY (RLS) POLICIES
 -- ==============================================================================
 
 -- Enable RLS on all tables
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.conversations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.student_topic_mastery ENABLE ROW LEVEL SECURITY;
 
--- 7.1 Profiles RLS Policies
+-- 8.1 PROFILES POLICIES
 DROP POLICY IF EXISTS "profiles_select_own" ON public.profiles;
 CREATE POLICY "profiles_select_own" ON public.profiles
     FOR SELECT
     TO authenticated
     USING ((SELECT auth.uid()) = id);
-
-DROP POLICY IF EXISTS "profiles_insert_own" ON public.profiles;
-CREATE POLICY "profiles_insert_own" ON public.profiles
-    FOR INSERT
-    TO authenticated
-    WITH CHECK ((SELECT auth.uid()) = id);
 
 DROP POLICY IF EXISTS "profiles_update_own" ON public.profiles;
 CREATE POLICY "profiles_update_own" ON public.profiles
@@ -162,7 +200,7 @@ CREATE POLICY "profiles_update_own" ON public.profiles
     USING ((SELECT auth.uid()) = id)
     WITH CHECK ((SELECT auth.uid()) = id);
 
--- 7.2 Conversations RLS Policies
+-- 8.2 CONVERSATIONS POLICIES
 DROP POLICY IF EXISTS "conversations_select_own" ON public.conversations;
 CREATE POLICY "conversations_select_own" ON public.conversations
     FOR SELECT
@@ -188,29 +226,94 @@ CREATE POLICY "conversations_delete_own" ON public.conversations
     TO authenticated
     USING ((SELECT auth.uid()) = user_id);
 
--- 7.3 Messages RLS Policies
+-- 8.3 MESSAGES POLICIES (Relational check via conversation ownership)
 DROP POLICY IF EXISTS "messages_select_own" ON public.messages;
 CREATE POLICY "messages_select_own" ON public.messages
     FOR SELECT
     TO authenticated
-    USING ((SELECT auth.uid()) = user_id);
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.conversations c
+            WHERE c.id = messages.conversation_id
+              AND c.user_id = (SELECT auth.uid())
+        )
+    );
 
 DROP POLICY IF EXISTS "messages_insert_own" ON public.messages;
 CREATE POLICY "messages_insert_own" ON public.messages
     FOR INSERT
     TO authenticated
-    WITH CHECK ((SELECT auth.uid()) = user_id);
+    WITH CHECK (
+        EXISTS (
+            SELECT 1 FROM public.conversations c
+            WHERE c.id = messages.conversation_id
+              AND c.user_id = (SELECT auth.uid())
+        )
+        AND (role = 'user') -- Students can only insert their own role messages
+    );
+
+DROP POLICY IF EXISTS "messages_update_feedback" ON public.messages;
+CREATE POLICY "messages_update_feedback" ON public.messages
+    FOR UPDATE
+    TO authenticated
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.conversations c
+            WHERE c.id = messages.conversation_id
+              AND c.user_id = (SELECT auth.uid())
+        )
+    )
+    WITH CHECK (
+        EXISTS (
+            SELECT 1 FROM public.conversations c
+            WHERE c.id = messages.conversation_id
+              AND c.user_id = (SELECT auth.uid())
+        )
+    );
 
 DROP POLICY IF EXISTS "messages_delete_own" ON public.messages;
 CREATE POLICY "messages_delete_own" ON public.messages
     FOR DELETE
     TO authenticated
+    USING (
+        EXISTS (
+            SELECT 1 FROM public.conversations c
+            WHERE c.id = messages.conversation_id
+              AND c.user_id = (SELECT auth.uid())
+        )
+    );
+
+-- 8.4 TOPIC MASTERY POLICIES
+DROP POLICY IF EXISTS "mastery_select_own" ON public.student_topic_mastery;
+CREATE POLICY "mastery_select_own" ON public.student_topic_mastery
+    FOR SELECT
+    TO authenticated
+    USING ((SELECT auth.uid()) = user_id);
+
+DROP POLICY IF EXISTS "mastery_insert_own" ON public.student_topic_mastery;
+CREATE POLICY "mastery_insert_own" ON public.student_topic_mastery
+    FOR INSERT
+    TO authenticated
+    WITH CHECK ((SELECT auth.uid()) = user_id);
+
+DROP POLICY IF EXISTS "mastery_update_own" ON public.student_topic_mastery;
+CREATE POLICY "mastery_update_own" ON public.student_topic_mastery
+    FOR UPDATE
+    TO authenticated
+    USING ((SELECT auth.uid()) = user_id)
+    WITH CHECK ((SELECT auth.uid()) = user_id);
+
+DROP POLICY IF EXISTS "mastery_delete_own" ON public.student_topic_mastery;
+CREATE POLICY "mastery_delete_own" ON public.student_topic_mastery
+    FOR DELETE
+    TO authenticated
     USING ((SELECT auth.uid()) = user_id);
 
 -- ==============================================================================
--- 8. PERMISSIONS & DATA API EXPOSURE
+-- 9. PERMISSIONS & DATA API EXPOSURE
 -- ==============================================================================
 GRANT USAGE ON SCHEMA public TO anon, authenticated;
-GRANT SELECT, INSERT, UPDATE, DELETE ON public.profiles TO authenticated;
+GRANT SELECT, UPDATE ON public.profiles TO authenticated;
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.conversations TO authenticated;
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.messages TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.student_topic_mastery TO authenticated;

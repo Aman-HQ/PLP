@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Logo from '../Logo';
+import { conversationService } from '../../services/conversationService';
 import {
   User,
   TrendUp,
@@ -35,6 +36,15 @@ export const ChatView = ({
       );
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const handleFeedback = (type) => {
+    const nextVal = liked === type ? null : type;
+    setLiked(nextVal);
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(conversation?.id);
+    if (isUuid) {
+      conversationService.saveFeedback(conversation.id, nextVal);
     }
   };
 
@@ -132,7 +142,7 @@ export const ChatView = ({
         <div className="pl-0 sm:pl-9 flex items-center gap-2 pt-1 text-zinc-400 select-none">
           <button
             type="button"
-            onClick={() => setLiked((v) => (v === 'up' ? null : 'up'))}
+            onClick={() => handleFeedback('up')}
             className={`flex h-7 w-7 items-center justify-center rounded-lg hover:bg-zinc-100 transition-colors cursor-pointer ${
               liked === 'up' ? 'text-black bg-zinc-100' : 'hover:text-zinc-800'
             }`}
@@ -142,7 +152,7 @@ export const ChatView = ({
           </button>
           <button
             type="button"
-            onClick={() => setLiked((v) => (v === 'down' ? null : 'down'))}
+            onClick={() => handleFeedback('down')}
             className={`flex h-7 w-7 items-center justify-center rounded-lg hover:bg-zinc-100 transition-colors cursor-pointer ${
               liked === 'down' ? 'text-black bg-zinc-100' : 'hover:text-zinc-800'
             }`}

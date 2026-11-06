@@ -4,5 +4,4 @@ export { Header, Header as ConsoleHeader } from './Header';
 export { ChatView, ChatView as ConsoleChatView } from './ChatView';
 export { InputBar, InputBar as ConsoleInputBar } from './InputBar';
 export { StudyPlanModal } from './StudyPlanModal';
-export { UpgradeModal } from './UpgradeModal';
 export { CONVERSATIONS } from './conversations';

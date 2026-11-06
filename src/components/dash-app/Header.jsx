@@ -4,11 +4,23 @@ import { Stack, Sun, Export, BookmarkSimple, Sparkle, List, Check } from '../ico
 export const Header = ({
   subject = 'Calculus III',
   topic = 'Vector Calculus',
+  isBookmarked = false,
+  onToggleBookmark,
   onOpenMobileMenu,
   onOpenStudyPlan,
 }) => {
-  const [bookmarked, setBookmarked] = useState(false);
+  const [localBookmarked, setLocalBookmarked] = useState(isBookmarked);
   const [exported, setExported] = useState(false);
+
+  const bookmarked = onToggleBookmark !== undefined ? isBookmarked : localBookmarked;
+
+  const handleBookmarkClick = () => {
+    if (onToggleBookmark) {
+      onToggleBookmark();
+    } else {
+      setLocalBookmarked((v) => !v);
+    }
+  };
 
   const handleExport = () => {
     if (navigator.clipboard) {
@@ -77,7 +89,7 @@ export const Header = ({
         {/* Bookmark Button */}
         <button
           type="button"
-          onClick={() => setBookmarked((v) => !v)}
+          onClick={handleBookmarkClick}
           title={bookmarked ? 'Remove Bookmark' : 'Bookmark Conversation'}
           className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors cursor-pointer ${
             bookmarked ? 'text-black bg-zinc-100' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900'

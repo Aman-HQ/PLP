@@ -65,4 +65,6 @@ export const DashboardApp = ({ onNavigateToLogin, onNavigateToRegister, onNaviga
   );
 };
 
+export const DashAppAuth = DashboardApp;
+export const dashapp = DashboardApp;
 export default DashboardApp;

@@ -1,13 +1,36 @@
-import { X, Sparkle, CheckCircle, ArrowRight } from '../icons';
+import { useState, useEffect } from 'react';
+import { X, Sparkle, CheckCircle, ArrowRight, CircleNotch } from '../icons';
+import { useAuth } from '../auth/AuthContext';
+import { conversationService } from '../../services/conversationService';
 
 export const StudyPlanModal = ({ isOpen, onClose, currentTopic = 'Vector Calculus' }) => {
+  const { user } = useAuth();
+  const [topics, setTopics] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const loadMastery = async () => {
+      try {
+        setLoading(true);
+        const data = await conversationService.getTopicMastery(user?.id);
+        setTopics(data);
+      } catch (err) {
+        console.warn('Could not load topic mastery:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadMastery();
+  }, [isOpen, user?.id]);
+
   if (!isOpen) return null;
 
-  const topics = [
-    { name: 'Stokes’ Theorem in 3D', mastery: 88, status: 'In Review' },
-    { name: 'Divergence Theorem', mastery: 74, status: 'Up Next' },
-    { name: 'Line Integrals & Green’s Theorem', mastery: 95, status: 'Mastered' },
-  ];
+  const masteredCount = topics.filter((t) => t.mastery >= 90).length;
+  const targetFraction = `${masteredCount} / ${topics.length || 5} Topics`;
+  const targetPercent = topics.length ? Math.round((masteredCount / topics.length) * 100) : 75;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs select-none">
@@ -43,10 +66,10 @@ export const StudyPlanModal = ({ isOpen, onClose, currentTopic = 'Vector Calculu
           <div className="rounded-2xl bg-zinc-50 border border-zinc-200/70 p-4">
             <div className="flex justify-between text-xs font-semibold text-zinc-800 mb-1.5">
               <span>Weekly Concept Target</span>
-              <span>4 / 5 Topics</span>
+              <span>{targetFraction}</span>
             </div>
             <div className="w-full h-2 rounded-full bg-zinc-200 overflow-hidden">
-              <div className="h-full bg-black rounded-full" style={{ width: '80%' }} />
+              <div className="h-full bg-black rounded-full transition-all duration-500" style={{ width: `${targetPercent}%` }} />
             </div>
             <p className="text-[11px] text-zinc-500 mt-2">
               Next scheduled spaced-repetition review for <strong className="text-zinc-900 font-semibold">{currentTopic}</strong> is tomorrow at 9:00 AM.
@@ -58,26 +81,36 @@ export const StudyPlanModal = ({ isOpen, onClose, currentTopic = 'Vector Calculu
             <h4 className="text-xs font-bold text-zinc-700 uppercase tracking-wider mb-2.5 px-0.5">
               Topic Mastery
             </h4>
-            <div className="space-y-2">
-              {topics.map((t) => (
-                <div
-                  key={t.name}
-                  className="flex items-center justify-between p-3 rounded-xl border border-zinc-200/70 bg-white hover:border-zinc-300 transition-colors"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <CheckCircle
-                      size={17}
-                      weight={t.mastery >= 90 ? 'fill' : 'bold'}
-                      className={t.mastery >= 90 ? 'text-black' : 'text-zinc-400'}
-                    />
-                    <span className="text-xs font-medium text-zinc-800">{t.name}</span>
+            {loading ? (
+              <div className="flex items-center justify-center py-6 gap-2 text-xs text-zinc-500">
+                <CircleNotch size={16} className="animate-spin text-zinc-700" />
+                <span>Loading your curriculum analytics...</span>
+              </div>
+            ) : (
+              <div className="space-y-2 max-h-56 overflow-y-auto pr-1">
+                {topics.map((t) => (
+                  <div
+                    key={t.name}
+                    className="flex items-center justify-between p-3 rounded-xl border border-zinc-200/70 bg-white hover:border-zinc-300 transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                      <CheckCircle
+                        size={17}
+                        weight={t.mastery >= 90 ? 'fill' : 'bold'}
+                        className={t.mastery >= 90 ? 'text-black shrink-0' : 'text-zinc-400 shrink-0'}
+                      />
+                      <div className="min-w-0">
+                        <span className="text-xs font-medium text-zinc-800 block truncate">{t.name}</span>
+                        <span className="text-[10px] text-zinc-400 block">{t.status || 'Active'}</span>
+                      </div>
+                    </div>
+                    <span className="text-xs font-bold font-mono text-zinc-900 shrink-0">
+                      {t.mastery}%
+                    </span>
                   </div>
-                  <span className="text-xs font-bold font-mono text-zinc-900">
-                    {t.mastery}%
-                  </span>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
