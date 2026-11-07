@@ -15,7 +15,7 @@ export const StudyPlanModal = ({ isOpen, onClose, currentTopic = 'Vector Calculu
       try {
         setLoading(true);
         const data = await conversationService.getTopicMastery(user?.id);
-        setTopics(data);
+        setTopics(data || []);
       } catch (err) {
         console.warn('Could not load topic mastery:', err);
       } finally {
@@ -29,8 +29,8 @@ export const StudyPlanModal = ({ isOpen, onClose, currentTopic = 'Vector Calculu
   if (!isOpen) return null;
 
   const masteredCount = topics.filter((t) => t.mastery >= 90).length;
-  const targetFraction = `${masteredCount} / ${topics.length || 5} Topics`;
-  const targetPercent = topics.length ? Math.round((masteredCount / topics.length) * 100) : 75;
+  const targetFraction = topics.length > 0 ? `${masteredCount} / ${topics.length} Topics` : '0 / 0 Topics';
+  const targetPercent = topics.length > 0 ? Math.round((masteredCount / topics.length) * 100) : 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs select-none">
@@ -85,6 +85,13 @@ export const StudyPlanModal = ({ isOpen, onClose, currentTopic = 'Vector Calculu
               <div className="flex items-center justify-center py-6 gap-2 text-xs text-zinc-500">
                 <CircleNotch size={16} className="animate-spin text-zinc-700" />
                 <span>Loading your curriculum analytics...</span>
+              </div>
+            ) : topics.length === 0 ? (
+              <div className="py-6 px-4 text-center rounded-xl border border-dashed border-zinc-200 bg-zinc-50/60">
+                <p className="text-xs font-medium text-zinc-600">No topic mastery recorded yet</p>
+                <p className="text-[11px] text-zinc-400 mt-1">
+                  Start conversing and solving problems with the AI Tutor to track mastery!
+                </p>
               </div>
             ) : (
               <div className="space-y-2 max-h-56 overflow-y-auto pr-1">

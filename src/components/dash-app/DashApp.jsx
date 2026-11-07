@@ -5,7 +5,6 @@ import { Header } from './Header';
 import { ChatView } from './ChatView';
 import { InputBar } from './InputBar';
 import { StudyPlanModal } from './StudyPlanModal';
-import { CONVERSATIONS as DEFAULT_CONVERSATIONS } from './conversations';
 import { conversationService } from '../../services/conversationService';
 import { chatbotService } from '../../services/chatbotService';
 
@@ -13,48 +12,36 @@ export const DashApp = ({ onSignOut }) => {
   const { user, signOut } = useAuth();
   const handleSignOut = onSignOut || signOut;
 
-  const [conversations, setConversations] = useState(DEFAULT_CONVERSATIONS);
-  const [activeChatId, setActiveChatId] = useState(DEFAULT_CONVERSATIONS[0].id);
+  const [conversations, setConversations] = useState([]);
+  const [activeChatId, setActiveChatId] = useState(null);
   const [activeNav, setActiveNav] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [studyPlanOpen, setStudyPlanOpen] = useState(false);
 
-  // Per-conversation follow-up message storage
-  const [followUpsByChat, setFollowUpsByChat] = useState({});
+  // Per-conversation message storage: { [chatId]: [ { id, role, content, created_at, cards, key_insight, feedback } ] }
+  const [messagesByChat, setMessagesByChat] = useState({});
   const [isThinking, setIsThinking] = useState(false);
 
-  // 1. Fetch user's conversations from Supabase
   const userId = user?.id;
 
+  // 1. Fetch user's conversations from Supabase
   useEffect(() => {
-    let isCancelled = false;
+    if (!userId) return;
 
-    if (!userId) {
-      return;
-    }
+    let isCancelled = false;
 
     const fetchConvs = async () => {
       try {
         const data = await conversationService.getUserConversations(userId);
-        if (isCancelled || !data || data.length === 0) return;
+        if (isCancelled) return;
 
-        const merged = data.map((item) => {
-          const defaultMatch = DEFAULT_CONVERSATIONS.find(
-            (dc) => dc.title.toLowerCase() === item.title.toLowerCase()
-          );
-          return {
-            ...item,
-            ...(defaultMatch || {}),
-            id: item.id,
-            title: item.title,
-            subject: item.subject || defaultMatch?.subject || 'General',
-            topic: item.topic || defaultMatch?.topic || item.title,
-            is_bookmarked: item.is_bookmarked ?? false,
-          };
-        });
-
-        setConversations(merged);
-        setActiveChatId((prev) => (merged.some((c) => c.id === prev) ? prev : merged[0].id));
+        if (data && data.length > 0) {
+          setConversations(data);
+          setActiveChatId((prev) => (data.some((c) => c.id === prev) ? prev : data[0].id));
+        } else {
+          setConversations([]);
+          setActiveChatId(null);
+        }
       } catch (err) {
         console.warn('Failed to load conversations from database:', err);
       }
@@ -67,221 +54,165 @@ export const DashApp = ({ onSignOut }) => {
     };
   }, [userId]);
 
-  // Current active conversation
-  const currentChat =
-    conversations.find((c) => c.id === activeChatId) || conversations[0] || DEFAULT_CONVERSATIONS[0];
-
-  const currentFollowUps = followUpsByChat[activeChatId] || [];
-
   // 2. Load message history when selecting a conversation
   useEffect(() => {
-    if (!activeChatId || !user?.id) return;
+    if (!activeChatId || !userId) return;
 
-    // Check if UUID
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(activeChatId);
     if (!isUuid) return;
+
+    let isCancelled = false;
 
     const fetchHistory = async () => {
       try {
         const msgs = await conversationService.getMessages(activeChatId);
-        if (msgs && msgs.length > 2) {
-          // The first 2 messages represent initial query and tutor synthesis
-          // Remaining messages are follow-ups
-          const followUps = msgs.slice(2).map((m) => ({
-            id: m.id,
-            role: m.role === 'assistant' ? 'tutor' : 'user',
-            text: m.content,
-            time: new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            feedback: m.feedback,
-          }));
-          setFollowUpsByChat((prev) => ({
-            ...prev,
-            [activeChatId]: followUps,
-          }));
-        }
+        if (isCancelled) return;
+
+        setMessagesByChat((prev) => ({
+          ...prev,
+          [activeChatId]: msgs || [],
+        }));
       } catch (err) {
         console.warn('Failed to fetch messages for thread:', err);
       }
     };
 
     fetchHistory();
-  }, [activeChatId, user?.id]);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [activeChatId, userId]);
+
+  // Current active conversation and messages
+  const currentChat = conversations.find((c) => c.id === activeChatId) || null;
+  const currentMessages = activeChatId ? messagesByChat[activeChatId] || [] : [];
 
   const handleSendMessage = async (text) => {
-    const timeStr = new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
+    if (!text || !text.trim()) return;
 
+    let chatId = activeChatId;
+
+    // If no active conversation exists yet, automatically create one in Supabase
+    if (!chatId && userId) {
+      try {
+        const derivedTitle = text.length > 35 ? text.slice(0, 32).trim() + '...' : text.trim();
+        const newConv = await conversationService.createConversation(userId, {
+          title: derivedTitle || 'New Conversation',
+          subject: 'General Study',
+          topic: derivedTitle || 'General Inquiry',
+        });
+        if (newConv) {
+          chatId = newConv.id;
+          setConversations((prev) => [newConv, ...prev]);
+          setActiveChatId(chatId);
+        }
+      } catch (err) {
+        console.error('Failed to create new conversation:', err);
+      }
+    }
+
+    const timeStr = new Date().toISOString();
+    const tempId = `temp-${Date.now()}`;
     const userMsg = {
+      id: tempId,
       role: 'user',
-      text,
-      time: timeStr,
+      content: text,
+      created_at: timeStr,
     };
 
-    // Append user message immediately to UI
-    setFollowUpsByChat((prev) => ({
-      ...prev,
-      [activeChatId]: [...(prev[activeChatId] || []), userMsg],
-    }));
+    // Optimistically update UI
+    if (chatId) {
+      setMessagesByChat((prev) => ({
+        ...prev,
+        [chatId]: [...(prev[chatId] || []), userMsg],
+      }));
+    }
 
     setIsThinking(true);
 
-    // Persist user message to Supabase if authenticated and UUID chat
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(activeChatId);
-    if (user?.id && isUuid) {
+    const isUuid = chatId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(chatId);
+
+    // Persist user message to Supabase
+    if (userId && isUuid) {
       await conversationService.saveMessage({
-        conversationId: activeChatId,
-        senderId: user.id,
+        conversationId: chatId,
+        senderId: userId,
         role: 'user',
         content: text,
       });
     }
 
-    // 1. Try sending to the FastAPI microservice
+    // 1. Send request to the Python FastAPI microservice
     try {
       const apiResponse = await chatbotService.sendMessage({
-        conversationId: isUuid ? activeChatId : null,
+        conversationId: isUuid ? chatId : null,
         message: text,
       });
 
       if (apiResponse?.message) {
         const tutorMsg = {
-          role: 'tutor',
-          text: apiResponse.message,
-          time: new Date().toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          }),
+          id: `resp-${Date.now()}`,
+          role: 'assistant',
+          content: apiResponse.message,
+          cards: apiResponse.cards || [],
+          key_insight: apiResponse.key_insight || null,
+          created_at: new Date().toISOString(),
         };
 
-        setFollowUpsByChat((prev) => ({
-          ...prev,
-          [activeChatId]: [...(prev[activeChatId] || []), tutorMsg],
-        }));
-        setIsThinking(false);
-
-        // If UUID chat, save assistant response to Supabase
-        if (user?.id && isUuid) {
-          await conversationService.saveMessage({
-            conversationId: activeChatId,
-            role: 'assistant',
-            content: apiResponse.message,
-          });
+        if (chatId) {
+          setMessagesByChat((prev) => ({
+            ...prev,
+            [chatId]: [...(prev[chatId] || []), tutorMsg],
+          }));
         }
+        setIsThinking(false);
         return;
       }
     } catch (microserviceErr) {
-      console.warn('Microservice unavailable or offline, using fallback Socratic engine:', microserviceErr.message);
+      console.warn('Microservice unavailable or offline:', microserviceErr.message);
     }
 
-    // 2. Intelligent Socratic Fallback (if microservice server is offline or booting)
-    setTimeout(async () => {
-      let replyText;
-      const lower = text.toLowerCase();
+    // 2. Intelligent Socratic Fallback if microservice server is offline
+    const fallbackText =
+      "I'm your AI Tutor. To generate live curriculum-aligned insights, please start the Python AI microservice (`uvicorn app.main:app --port 8000`). In the meantime, I'm ready to discuss any academic topic, formula, or concept you'd like to explore!";
+    const tutorMsg = {
+      id: `resp-${Date.now()}`,
+      role: 'assistant',
+      content: fallbackText,
+      created_at: new Date().toISOString(),
+    };
 
-      if (currentChat?.title?.toLowerCase().includes('stokes') || activeChatId === 'stokes') {
-        if (lower.includes('curl') || lower.includes('boundary')) {
-          replyText =
-            'Excellent insight. The curl ∇ × F measures the infinitesimal rotation at each point on the surface. When you sum these micro-vorticities over the entire surface S, interior cancelations leave only the net boundary flow along C. This is why Stokes’ Theorem can be viewed as an extension of Green’s Theorem to arbitrary 3D manifolds.';
-        } else {
-          replyText =
-            'Let’s test your intuition: If you traverse the boundary curve C according to the right-hand rule with your thumb aligned with the surface normal vector dS, how does the circulation of F relate to the net vortex flux passing through S?';
-        }
-      } else if (currentChat?.title?.toLowerCase().includes('quicksort') || activeChatId === 'quicksort') {
-        if (lower.includes('pivot') || lower.includes('partition')) {
-          replyText =
-            'Precisely. With randomized pivot selection or median-of-three, the probability of selecting an extreme element at every recursion level becomes 1/n!, which is practically negligible. The expected height of the recursion tree remains 2 ln n ≈ 1.39 log₂ n, cementing average-case O(n log n).';
-        } else {
-          replyText =
-            'Consider the recurrence relation T(n) = T(n-1) + O(n). When expanded, this yields n + (n-1) + ... + 1 = n(n+1)/2 = O(n²). How does choosing the median of three elements (first, middle, last) fundamentally disrupt this worst-case degeneration?';
-        }
-      } else if (currentChat?.title?.toLowerCase().includes('bayes') || activeChatId === 'bayes') {
-        if (lower.includes('prior') || lower.includes('false positive')) {
-          replyText =
-            'Spot on. This is the Classic Base Rate Fallacy. Even with a 99% accurate test, if a condition affects 1 in 10,000 people, the raw number of false positives (1% of 9,999 ≈ 100) will still outnumber the true positives (~1). High precision alone is not enough when priors are minuscule.';
-        } else {
-          replyText =
-            'Consider 10,000 individuals tested for a 1% prevalence condition with 95% sensitivity and 95% specificity: 100 actually have it (95 true positives), while 9,900 do not (495 false positives). What fraction of positive tests actually represent true illness?';
-        }
-      } else if (currentChat?.title?.toLowerCase().includes('thermo') || activeChatId === 'thermo') {
-        if (lower.includes('entropy') || lower.includes('reversible')) {
-          replyText =
-            'Exactly. A reversible process keeps the total entropy change of the universe at zero (ΔS_universe = 0), while every spontaneous, irreversible process increases it (ΔS_universe > 0). This is why a drop of ink disperses in water but never spontaneously coalesces back into a droplet.';
-        } else {
-          replyText =
-            'The First Law tells us energy is conserved, meaning a hot cup of coffee cooling down is allowed, but so would be a cool cup spontaneously heating up by absorbing heat from the room. Why does only the Second Law rule out the latter?';
-        }
-      } else {
-        replyText =
-          'That is a great follow-up question. Let’s break it down into fundamental first principles: what is the core assumption being made here, and what happens at the boundary condition?';
-      }
-
-      const tutorMsg = {
-        role: 'tutor',
-        text: replyText,
-        time: new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
-      };
-
-      setFollowUpsByChat((prev) => ({
+    if (chatId) {
+      setMessagesByChat((prev) => ({
         ...prev,
-        [activeChatId]: [...(prev[activeChatId] || []), tutorMsg],
+        [chatId]: [...(prev[chatId] || []), tutorMsg],
       }));
-      setIsThinking(false);
-
-      // Persist assistant message to Supabase
-      if (user?.id && isUuid) {
-        await conversationService.saveMessage({
-          conversationId: activeChatId,
-          role: 'assistant',
-          content: replyText,
-        });
-      }
-    }, 700);
+    }
+    setIsThinking(false);
   };
 
   const handleNewChat = async () => {
-    if (!user?.id) {
-      setActiveChatId(conversations[0]?.id || 'stokes');
-      return;
-    }
+    if (!userId) return;
 
     try {
       const newTitle = `Topic Study #${conversations.length + 1}`;
-      const newConv = await conversationService.createConversation(user.id, {
+      const newConv = await conversationService.createConversation(userId, {
         title: newTitle,
-        subject: 'General Science',
-        topic: 'Fundamental Principles',
+        subject: 'General Study',
+        topic: 'Concept Inquiry',
       });
 
       if (newConv) {
-        const fullNewConv = {
-          ...newConv,
-          userQuery: 'How can I master this concept from first principles?',
-          userTime: 'Just now',
-          introText: 'Welcome! State any equation, theorem, or conceptual difficulty, and I will break it down Socratically with side-by-side formal comparisons.',
-          card1: {
-            title: 'Definition & Core Premise',
-            formula: <span className="font-mono text-sm font-semibold">f(x) : X → Y</span>,
-            description: 'Identifies the domains, constraints, and foundational postulates.',
-          },
-          card2: {
-            title: 'Generalization & Bounds',
-            formula: <span className="font-mono text-sm font-semibold">lim x → ∞ |f(x)|</span>,
-            description: 'Explores boundary conditions and edge-case behavior.',
-          },
-          keyInsight: 'True understanding emerges from connecting formal mathematical rigor to physical and computational intuition.',
-        };
-
-        setConversations((prev) => [fullNewConv, ...prev]);
-        setActiveChatId(fullNewConv.id);
+        setConversations((prev) => [newConv, ...prev]);
+        setActiveChatId(newConv.id);
+        setMessagesByChat((prev) => ({
+          ...prev,
+          [newConv.id]: [],
+        }));
       }
     } catch (err) {
       console.warn('Could not create new chat in database:', err);
-      setActiveChatId(conversations[0]?.id || 'stokes');
     }
   };
 
@@ -293,7 +224,7 @@ export const DashApp = ({ onSignOut }) => {
     );
 
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(currentChat.id);
-    if (user?.id && isUuid) {
+    if (userId && isUuid) {
       await conversationService.toggleBookmark(currentChat.id, currentChat.is_bookmarked);
     }
   };
@@ -341,9 +272,9 @@ export const DashApp = ({ onSignOut }) => {
       <div className="flex-1 flex flex-col h-full bg-white overflow-hidden min-w-0">
         {/* Header */}
         <Header
-          subject={currentChat.subject}
-          topic={currentChat.topic}
-          isBookmarked={currentChat.is_bookmarked}
+          subject={currentChat?.subject || 'AI Tutor'}
+          topic={currentChat?.topic || currentChat?.title || 'Interactive Session'}
+          isBookmarked={currentChat?.is_bookmarked ?? false}
           onToggleBookmark={handleToggleBookmark}
           onOpenMobileMenu={() => setMobileMenuOpen(true)}
           onOpenStudyPlan={() => setStudyPlanOpen(true)}
@@ -352,7 +283,7 @@ export const DashApp = ({ onSignOut }) => {
         {/* Interactive Chat / Workbench Area */}
         <ChatView
           conversation={currentChat}
-          followUpMessages={currentFollowUps}
+          messages={currentMessages}
           isThinking={isThinking}
         />
 
@@ -367,7 +298,7 @@ export const DashApp = ({ onSignOut }) => {
       <StudyPlanModal
         isOpen={studyPlanOpen}
         onClose={() => setStudyPlanOpen(false)}
-        currentTopic={currentChat.topic}
+        currentTopic={currentChat?.topic || 'Curriculum Overview'}
       />
     </div>
   );

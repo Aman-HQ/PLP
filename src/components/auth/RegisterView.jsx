@@ -6,7 +6,6 @@ import Logo from '../Logo';
 export const RegisterView = ({
   onNavigateToLogin,
   onNavigateToHome,
-  onExploreDemo,
   onSuccess,
 }) => {
   const { signUp, signInWithGoogle } = useAuth();
@@ -57,9 +56,15 @@ export const RegisterView = ({
       setIsLoading(true);
       const data = await signUp(email, password, fullName);
 
+      // When user enumeration protection is enabled in Supabase, an existing user returns identities: []
+      if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+        setErrorMessage('An account with this email already exists. If you previously signed up with Google, please click "Sign up with Google" or use Forgot Password to set a password.');
+        return;
+      }
+
       // If Supabase has email confirmation enabled
       if (data?.user && !data?.session) {
-        setSuccessMessage('Registration successful! Please check your email inbox to verify your account.');
+        setSuccessMessage('Registration successful! Please check your email inbox (and spam folder) to verify your account.');
       } else {
         setSuccessMessage('Account created successfully! Redirecting...');
         setTimeout(() => {
@@ -309,19 +314,6 @@ export const RegisterView = ({
                   className="font-bold text-zinc-800 hover:text-black underline underline-offset-2 transition-colors cursor-pointer"
                 >
                   Sign In
-                </button>
-              </div>
-            )}
-
-            {/* Explore Demo Preview */}
-            {onExploreDemo && (
-              <div className="pt-1 text-center">
-                <button
-                  type="button"
-                  onClick={onExploreDemo}
-                  className="font-sans text-xs font-semibold text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer py-1"
-                >
-                  Explore Learning Console Demo →
                 </button>
               </div>
             )}

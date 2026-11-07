@@ -103,12 +103,6 @@ function AppContent() {
   const lenisRef = useRef(null);
   const [route, setRoute] = useState(resolveRoute);
   const { user, loading, signOut } = useAuth();
-  const [demoMode, setDemoMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return new URLSearchParams(window.location.search).get('demo') === 'true';
-    }
-    return false;
-  });
 
   const navigate = (toPath) => {
     window.history.pushState(null, '', toPath);
@@ -119,7 +113,7 @@ function AppContent() {
   // Resolved active page accounting for route guards without cascading renders
   const activePage = (() => {
     if (loading) return route.page;
-    if (route.page === 'app' && !user && !demoMode) return 'login';
+    if (route.page === 'app' && !user) return 'login';
     if (user && (route.page === 'login' || route.page === 'register')) return 'app';
     return route.page;
   })();
@@ -127,13 +121,13 @@ function AppContent() {
   // Synchronize URL history with guarded route
   useEffect(() => {
     if (!loading) {
-      if (route.page === 'app' && !user && !demoMode) {
+      if (route.page === 'app' && !user) {
         window.history.replaceState(null, '', '/login');
       } else if (user && (route.page === 'login' || route.page === 'register')) {
         window.history.replaceState(null, '', '/app');
       }
     }
-  }, [route.page, user, demoMode, loading]);
+  }, [route.page, user, loading]);
 
   // Sync route on browser popstate and hashchange
   useEffect(() => {
@@ -222,7 +216,7 @@ function AppContent() {
         href === '#dashboard'
       ) {
         e.preventDefault();
-        if (!user && !demoMode) {
+        if (!user) {
           navigate('/login');
         } else {
           navigate('/app');
@@ -293,7 +287,7 @@ function AppContent() {
       if (lenis) lenis.destroy();
       lenisRef.current = null;
     };
-  }, [route.page, user, demoMode]);
+  }, [route.page, user]);
 
   return (
     <div className="app-container min-h-screen bg-[#09090B] text-[#FAFAFA]">
@@ -317,10 +311,6 @@ function AppContent() {
           onNavigateToForgotPassword={() => navigate('/forgot-password')}
           onNavigateToHome={() => navigate('/')}
           onSuccess={() => navigate('/app')}
-          onExploreDemo={() => {
-            setDemoMode(true);
-            navigate('/app');
-          }}
         />
       )}
 
@@ -330,10 +320,6 @@ function AppContent() {
           onNavigateToLogin={() => navigate('/login')}
           onNavigateToHome={() => navigate('/')}
           onSuccess={() => navigate('/app')}
-          onExploreDemo={() => {
-            setDemoMode(true);
-            navigate('/app');
-          }}
         />
       )}
 
@@ -342,10 +328,6 @@ function AppContent() {
         <ForgotPasswordView
           onNavigateToLogin={() => navigate('/login')}
           onNavigateToHome={() => navigate('/')}
-          onExploreDemo={() => {
-            setDemoMode(true);
-            navigate('/app');
-          }}
         />
       )}
 
@@ -363,10 +345,9 @@ function AppContent() {
               </div>
             </div>
           </div>
-        ) : (user || demoMode) ? (
+        ) : user ? (
           <DashApp
             onSignOut={async () => {
-              setDemoMode(false);
               if (user && signOut) {
                 try {
                   await signOut();

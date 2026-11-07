@@ -3,7 +3,7 @@ import { useAuth } from './AuthContext';
 import { Lock, EnvelopeSimple, Eye, EyeSlash, CircleNotch, ArrowRight, ArrowLeft, CheckCircle } from '../icons';
 import Logo from '../Logo';
 
-export const ForgotPasswordView = ({ onNavigateToLogin, onNavigateToHome, onExploreDemo }) => {
+export const ForgotPasswordView = ({ onNavigateToLogin, onNavigateToHome }) => {
   const { resetPassword, updatePassword, isPasswordRecovery, setIsPasswordRecovery } = useAuth();
 
   // Mode: 'request' (send link) vs 'update' (set new password via recovery link)
@@ -322,18 +322,6 @@ export const ForgotPasswordView = ({ onNavigateToLogin, onNavigateToHome, onExpl
                     className="font-bold text-zinc-800 hover:text-black underline underline-offset-2 transition-colors cursor-pointer"
                   >
                     Sign In
-                  </button>
-                </div>
-              )}
-
-              {onExploreDemo && (
-                <div className="pt-1 text-center">
-                  <button
-                    type="button"
-                    onClick={onExploreDemo}
-                    className="font-sans text-xs font-semibold text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer py-1"
-                  >
-                    Explore Learning Console Demo →
                   </button>
                 </div>
               )}

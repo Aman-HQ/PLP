@@ -11,11 +11,10 @@ import {
   SignOut,
   X,
 } from '../icons';
-import { CONVERSATIONS } from './conversations';
 
 export const Sidebar = ({
   activeChatId,
-  conversations = CONVERSATIONS,
+  conversations = [],
   onSelectChat,
   onNewChat,
   activeNav = 'home',
@@ -110,38 +109,54 @@ export const Sidebar = ({
             Recent Conversations
           </div>
           <div className="mt-2 space-y-1">
-            {conversations.map((chat) => {
-              const isActive = chat.id === activeChatId;
-              return (
+            {conversations.length === 0 ? (
+              <div className="px-3 py-4 rounded-xl border border-dashed border-zinc-200/90 text-center bg-white/50">
+                <p className="text-[11px] text-zinc-400">No conversations yet</p>
                 <button
-                  key={chat.id}
                   type="button"
                   onClick={() => {
-                    onSelectChat(chat.id);
+                    if (onNewChat) onNewChat();
                     if (onCloseMobile) onCloseMobile();
                   }}
-                  className={`group flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs transition-colors text-left cursor-pointer ${
-                    isActive
-                      ? 'bg-zinc-200/80 font-semibold text-zinc-900 shadow-2xs'
-                      : 'font-normal text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-900'
-                  }`}
+                  className="mt-1.5 text-[11px] font-semibold text-zinc-800 hover:text-black hover:underline cursor-pointer"
                 >
-                  <div className="flex items-center gap-2 overflow-hidden pr-1">
-                    <ChatCircleDots
-                      size={16}
-                      weight={isActive ? 'bold' : 'regular'}
-                      className={isActive ? 'text-zinc-900 shrink-0' : 'text-zinc-400 shrink-0'}
-                    />
-                    <span className="truncate">{chat.title}</span>
-                  </div>
-                  {isActive && (
-                    <span className="text-zinc-600 shrink-0 opacity-80 hover:opacity-100">
-                      <DotsThree size={16} weight="bold" />
-                    </span>
-                  )}
+                  + Start First Chat
                 </button>
-              );
-            })}
+              </div>
+            ) : (
+              conversations.map((chat) => {
+                const isActive = chat.id === activeChatId;
+                return (
+                  <button
+                    key={chat.id}
+                    type="button"
+                    onClick={() => {
+                      onSelectChat(chat.id);
+                      if (onCloseMobile) onCloseMobile();
+                    }}
+                    className={`group flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-xs transition-colors text-left cursor-pointer ${
+                      isActive
+                        ? 'bg-zinc-200/80 font-semibold text-zinc-900 shadow-2xs'
+                        : 'font-normal text-zinc-600 hover:bg-zinc-200/50 hover:text-zinc-900'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 overflow-hidden pr-1">
+                      <ChatCircleDots
+                        size={16}
+                        weight={isActive ? 'bold' : 'regular'}
+                        className={isActive ? 'text-zinc-900 shrink-0' : 'text-zinc-400 shrink-0'}
+                      />
+                      <span className="truncate">{chat.title}</span>
+                    </div>
+                    {isActive && (
+                      <span className="text-zinc-600 shrink-0 opacity-80 hover:opacity-100">
+                        <DotsThree size={16} weight="bold" />
+                      </span>
+                    )}
+                  </button>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

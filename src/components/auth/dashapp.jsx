@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAuth } from './AuthContext';
 import { DashApp } from '../dash-app/DashApp';
 import { LoginView } from './LoginView';
@@ -7,12 +6,6 @@ import Logo from '../Logo';
 
 export const DashboardApp = ({ onNavigateToLogin, onNavigateToRegister, onNavigateToForgotPassword, onNavigateToHome }) => {
   const { user, loading, signOut } = useAuth();
-  const [demoMode, setDemoMode] = React.useState(() => {
-    if (typeof window !== 'undefined') {
-      return new URLSearchParams(window.location.search).get('demo') === 'true';
-    }
-    return false;
-  });
 
   if (loading) {
     return (
@@ -30,14 +23,13 @@ export const DashboardApp = ({ onNavigateToLogin, onNavigateToRegister, onNaviga
     );
   }
 
-  // If user is not authenticated and not exploring demo, show LoginView
-  if (!user && !demoMode) {
+  // If user is not authenticated, show LoginView
+  if (!user) {
     return (
       <LoginView
         onNavigateToRegister={onNavigateToRegister}
         onNavigateToForgotPassword={onNavigateToForgotPassword}
         onNavigateToHome={onNavigateToHome}
-        onExploreDemo={() => setDemoMode(true)}
       />
     );
   }
@@ -46,7 +38,6 @@ export const DashboardApp = ({ onNavigateToLogin, onNavigateToRegister, onNaviga
   return (
     <DashApp
       onSignOut={async () => {
-        setDemoMode(false);
         if (user && signOut) {
           try {
             await signOut();

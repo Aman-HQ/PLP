@@ -4,7 +4,6 @@ import { Lock, EnvelopeSimple, Eye, EyeSlash, CircleNotch, ArrowRight } from '..
 import Logo from '../Logo';
 
 export const LoginView = ({
-  onExploreDemo,
   onNavigateToRegister,
   onNavigateToForgotPassword,
   onNavigateToHome,
@@ -259,20 +258,6 @@ export const LoginView = ({
                 </button>
               </div>
             )}
-
-            {/* Explore Demo Preview */}
-            {onExploreDemo && (
-              <div className="text-center">
-                <button
-                  type="button"
-                  onClick={onExploreDemo}
-                  className="font-sans text-xs font-semibold text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer py-1"
-                >
-                  Explore Learning Console Demo →
-                </button>
-              </div>
-            )}
-
           </form>
         </div>
       </div>
