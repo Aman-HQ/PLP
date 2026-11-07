@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:api": "uvicorn app.main:app --reload --port 8000 --app-dir chatbot-service",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

@@ -14,6 +14,7 @@ dist-ssr
 .chatenv
 .env
 .env.*
+.venv
 AGENTS.md
 .agents
 skills-lock.json
@@ -29,3 +30,14 @@ skills-lock.json
 *.sln
 *.sw?
 .wrangler/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/

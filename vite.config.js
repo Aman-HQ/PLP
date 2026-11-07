@@ -49,6 +49,13 @@ export default defineConfig({
   plugins: [react(), bundleIconsPlugin()],
   server: {
     host: true,
+    proxy: {
+      '/api/v1': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
     warmup: {
       clientFiles: [
         './src/main.jsx',

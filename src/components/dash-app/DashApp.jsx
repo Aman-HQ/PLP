@@ -7,6 +7,7 @@ import { InputBar } from './InputBar';
 import { StudyPlanModal } from './StudyPlanModal';
 import { CONVERSATIONS as DEFAULT_CONVERSATIONS } from './conversations';
 import { conversationService } from '../../services/conversationService';
+import { chatbotService } from '../../services/chatbotService';
 
 export const DashApp = ({ onSignOut }) => {
   const { user, signOut } = useAuth();
@@ -137,7 +138,44 @@ export const DashApp = ({ onSignOut }) => {
       });
     }
 
-    // Generate intelligent Socratic response
+    // 1. Try sending to the FastAPI microservice
+    try {
+      const apiResponse = await chatbotService.sendMessage({
+        conversationId: isUuid ? activeChatId : null,
+        message: text,
+      });
+
+      if (apiResponse?.message) {
+        const tutorMsg = {
+          role: 'tutor',
+          text: apiResponse.message,
+          time: new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+        };
+
+        setFollowUpsByChat((prev) => ({
+          ...prev,
+          [activeChatId]: [...(prev[activeChatId] || []), tutorMsg],
+        }));
+        setIsThinking(false);
+
+        // If UUID chat, save assistant response to Supabase
+        if (user?.id && isUuid) {
+          await conversationService.saveMessage({
+            conversationId: activeChatId,
+            role: 'assistant',
+            content: apiResponse.message,
+          });
+        }
+        return;
+      }
+    } catch (microserviceErr) {
+      console.warn('Microservice unavailable or offline, using fallback Socratic engine:', microserviceErr.message);
+    }
+
+    // 2. Intelligent Socratic Fallback (if microservice server is offline or booting)
     setTimeout(async () => {
       let replyText;
       const lower = text.toLowerCase();
